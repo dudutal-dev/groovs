@@ -595,41 +595,284 @@ body::after{
 .rec-reason{font-size:11px;color:var(--cool);margin-top:6px;line-height:1.5}
 
 /* ════════════════════════════════════════
-   STATS VIEW
+   LIBRARY SCREEN
    ════════════════════════════════════════ */
 
-.stats-header{padding:20px 0 18px}
-.stats-head{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;font-style:italic}
-
-.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.stat-box{
-  background:var(--card);border:1px solid var(--rail);border-radius:14px;
-  padding:18px 14px;text-align:center;
+.lib-hero{
+  padding:20px 0 18px;
+  background:linear-gradient(to bottom,rgba(200,153,74,.04),transparent);
+  border-bottom:1px solid var(--rail);
+  margin-bottom:20px;
 }
-.stat-n{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--gold)}
-.stat-l{font-size:10px;color:var(--fog);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px}
+.lib-hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:34px;font-weight:300;font-style:italic;color:var(--cream);
+  margin-bottom:14px;
+}
+.lib-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.lib-kpi{
+  background:var(--card);border:1px solid var(--rail);
+  border-radius:12px;padding:12px 8px;text-align:center;
+}
+.lib-kpi-n{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:300;color:var(--gold);line-height:1;
+}
+.lib-kpi-l{font-size:9px;color:var(--fog);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
 
-.bar-section{background:var(--card);border:1px solid var(--rail);border-radius:14px;padding:18px;margin-bottom:12px}
-.bar-title{font-size:9px;font-weight:600;color:var(--fog);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
-.bar-item{margin-bottom:10px}
-.bar-labels{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;color:var(--warm)}
-.bar-labels span:last-child{color:var(--fog)}
-.bar-track{height:5px;background:var(--rail);border-radius:3px;overflow:hidden}
-.bar-fill{height:100%;background:linear-gradient(90deg,var(--gold-lo),var(--gold));border-radius:3px;transition:width 1s cubic-bezier(.2,.8,.3,1)}
+/* Section header */
+.lib-sec{
+  display:flex;align-items:center;justify-content:space-between;
+  margin:20px 0 12px;
+}
+.lib-sec-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;font-weight:400;font-style:italic;color:var(--cream);
+}
+.lib-sec-link{font-size:11px;color:var(--gold);cursor:pointer;letter-spacing:.5px}
 
-.log-section{background:var(--card);border:1px solid var(--rail);border-radius:14px;padding:16px}
-.log-item{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.03)}
-.log-item:last-child{border-bottom:none}
-.log-cov{width:40px;height:40px;border-radius:8px;background:var(--slate);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:18px}
-.log-cov img{width:100%;height:100%;object-fit:cover}
-.log-info{flex:1;min-width:0}
-.log-t{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.log-a{font-size:10px;color:var(--gold)}
-.log-d{font-size:10px;color:var(--fog);flex-shrink:0}
+/* Horizontal scroll strip */
+.h-strip{
+  display:flex;gap:10px;overflow-x:auto;
+  padding-bottom:6px;margin-bottom:4px;
+  scrollbar-width:none;
+}
+.h-strip::-webkit-scrollbar{display:none}
+
+/* Album card in strip (portrait) */
+.strip-album{
+  flex-shrink:0;width:100px;cursor:pointer;
+  transition:transform .2s;
+}
+.strip-album:active{transform:scale(.95)}
+.strip-album-cover{
+  width:100px;height:100px;border-radius:11px;overflow:hidden;
+  background:var(--slate);margin-bottom:6px;
+  box-shadow:0 4px 14px rgba(0,0,0,.5);
+  position:relative;
+}
+.strip-album-cover img{width:100%;height:100%;object-fit:cover;display:block}
+.strip-album-cover .cover-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.strip-album-title{font-size:11px;font-weight:500;color:var(--cream);line-height:1.3;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.strip-album-artist{font-size:10px;color:var(--gold);margin-top:2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.strip-album-stars{font-size:9px;color:var(--gold);margin-top:3px}
+
+/* Artist card in strip */
+.strip-artist{
+  flex-shrink:0;width:80px;text-align:center;cursor:pointer;
+  transition:transform .2s;
+}
+.strip-artist:active{transform:scale(.95)}
+.strip-artist-avatar{
+  width:72px;height:72px;border-radius:50%;margin:0 auto 6px;
+  background:var(--slate);border:1px solid var(--rail);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;position:relative;
+}
+.strip-artist-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.strip-artist-avatar .av-icon{font-size:26px}
+.strip-artist-name{font-size:11px;color:var(--cream);font-weight:500;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.strip-artist-count{font-size:9px;color:var(--gold);margin-top:2px}
+
+/* Decade timeline */
+.decade-timeline{
+  display:flex;gap:0;align-items:flex-end;
+  height:80px;padding:0 4px;margin-bottom:4px;
+}
+.decade-bar-wrap{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:flex-end;gap:4px;
+}
+.decade-bar{
+  width:80%;min-height:4px;border-radius:4px 4px 0 0;
+  background:linear-gradient(to top,var(--gold-lo),var(--gold));
+  transition:height 1s cubic-bezier(.2,.8,.3,1);cursor:pointer;
+}
+.decade-bar:hover{background:linear-gradient(to top,var(--gold),var(--gold-hi))}
+.decade-label{font-size:9px;color:var(--fog);letter-spacing:.5px;margin-top:5px}
+.decade-count{font-size:9px;color:var(--cool)}
+
+/* Genre pills cloud */
+.genre-cloud{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:4px}
+.genre-pill{
+  padding:5px 14px;border-radius:20px;font-size:11px;font-weight:500;
+  border:1px solid var(--rail);color:var(--cool);cursor:pointer;
+  transition:all .2s;letter-spacing:.3px;
+}
+.genre-pill:hover,.genre-pill.active{
+  background:rgba(200,153,74,.12);border-color:rgba(200,153,74,.3);color:var(--gold);
+}
+.genre-pill .gp-n{color:var(--dim);font-size:10px;margin-right:4px}
+
+/* Play history feed */
+.play-feed{display:flex;flex-direction:column;gap:0}
+.play-item{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);
+  cursor:pointer;transition:background .15s;
+}
+.play-item:last-child{border-bottom:none}
+.play-item:hover{background:rgba(255,255,255,.02);margin:0 -4px;padding-left:4px;padding-right:4px;border-radius:8px}
+.play-cov{
+  width:44px;height:44px;border-radius:8px;flex-shrink:0;
+  overflow:hidden;background:var(--slate);
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+}
+.play-cov img{width:100%;height:100%;object-fit:cover}
+.play-meta{flex:1;min-width:0}
+.play-title{font-size:13px;font-weight:500;color:var(--cream);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.play-artist{font-size:11px;color:var(--gold);margin-top:1px}
+.play-time{font-size:10px;color:var(--fog);flex-shrink:0}
+
+/* Top rated card */
+.top-rated-item{
+  display:flex;align-items:center;gap:12px;
+  padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);
+  cursor:pointer;
+}
+.top-rated-item:last-child{border-bottom:none}
+.tr-rank{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;color:var(--dim);width:24px;text-align:center;flex-shrink:0;
+}
+.tr-cov{width:48px;height:48px;border-radius:8px;flex-shrink:0;overflow:hidden;background:var(--slate)}
+.tr-cov img{width:100%;height:100%;object-fit:cover}
+.tr-info{flex:1;min-width:0}
+.tr-title{font-size:13px;font-weight:600;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tr-artist{font-size:11px;color:var(--gold)}
+.tr-stars{font-size:12px;color:var(--gold);margin-top:2px}
+
+.lib-card{
+  background:var(--card);border:1px solid var(--rail);
+  border-radius:16px;padding:16px;margin-bottom:12px;
+}
 
 /* ════════════════════════════════════════
-   MANUAL ADD MODAL
+   VALUE SCREEN
    ════════════════════════════════════════ */
+
+.val-hero{
+  padding:22px 0 20px;
+  text-align:center;
+  background:linear-gradient(to bottom,rgba(200,153,74,.05),transparent);
+  border-bottom:1px solid var(--rail);
+  margin-bottom:20px;
+}
+.val-hero-label{font-size:10px;font-weight:600;color:var(--fog);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:8px}
+.val-hero-amount{
+  font-family:'Cormorant Garamond',serif;
+  font-size:52px;font-weight:300;color:var(--gold);
+  line-height:1;text-shadow:0 0 40px rgba(200,153,74,.25);
+}
+.val-hero-range{font-size:13px;color:var(--cool);margin-top:6px}
+.val-hero-currency{
+  display:flex;gap:0;border:1px solid var(--rail);border-radius:10px;
+  overflow:hidden;margin:14px auto 0;width:fit-content;
+}
+.val-curr-btn{
+  padding:7px 18px;border:none;background:none;cursor:pointer;
+  font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;
+  color:var(--cool);transition:all .2s;
+}
+.val-curr-btn.on{background:rgba(200,153,74,.15);color:var(--gold)}
+
+/* Condition badge */
+.cond-badge{
+  display:inline-flex;align-items:center;padding:3px 9px;border-radius:6px;
+  font-size:10px;font-weight:700;letter-spacing:.5px;cursor:pointer;
+  transition:all .15s;border:1px solid transparent;
+}
+.cond-M  {background:rgba(74,158,136,.15);color:#4a9e88;border-color:rgba(74,158,136,.25)}
+.cond-NM {background:rgba(74,158,136,.1);color:#4a9e88;border-color:rgba(74,158,136,.15)}
+.cond-VGP{background:rgba(200,153,74,.12);color:var(--gold);border-color:rgba(200,153,74,.2)}
+.cond-VG {background:rgba(212,131,74,.12);color:var(--amber);border-color:rgba(212,131,74,.2)}
+.cond-G  {background:rgba(201,72,72,.1);color:var(--red);border-color:rgba(201,72,72,.15)}
+
+/* Rarity dot */
+.rarity-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.rare-common  {background:var(--fog)}
+.rare-uncommon{background:var(--gold-lo)}
+.rare-rare    {background:var(--gold)}
+.rare-very_rare{background:var(--amber);box-shadow:0 0 6px rgba(212,131,74,.5)}
+
+/* Value item */
+.val-item{
+  display:flex;align-items:center;gap:11px;
+  padding:11px 0;border-bottom:1px solid rgba(255,255,255,.04);
+  cursor:pointer;transition:background .15s;
+}
+.val-item:last-child{border-bottom:none}
+.val-item:active{background:rgba(255,255,255,.02)}
+.val-rank{font-family:'DM Mono',monospace;font-size:11px;color:var(--dim);width:18px;text-align:center;flex-shrink:0}
+.val-cov{width:46px;height:46px;border-radius:8px;flex-shrink:0;overflow:hidden;background:var(--slate)}
+.val-cov img{width:100%;height:100%;object-fit:cover}
+.val-meta{flex:1;min-width:0}
+.val-title{font-size:12px;font-weight:600;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.val-artist{font-size:10px;color:var(--gold);margin-top:1px}
+.val-badges{display:flex;align-items:center;gap:5px;margin-top:5px}
+.val-price{text-align:right;flex-shrink:0}
+.val-price-main{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold);font-weight:400}
+.val-price-range{font-size:9px;color:var(--fog);margin-top:1px}
+.val-price-na{font-size:12px;color:var(--dim)}
+
+/* Evaluate button */
+.val-eval-btn{
+  width:100%;padding:15px;border-radius:14px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--gold-lo),var(--gold));
+  color:var(--ink);font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;
+  letter-spacing:.5px;transition:all .2s;
+  box-shadow:0 4px 20px rgba(200,153,74,.28);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.val-eval-btn:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(200,153,74,.45)}
+.val-eval-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* Top value card */
+.val-top-card{
+  background:linear-gradient(135deg,rgba(200,153,74,.08),rgba(200,153,74,.02));
+  border:1px solid rgba(200,153,74,.2);border-radius:18px;
+  padding:18px;margin-bottom:16px;
+  display:flex;gap:14px;align-items:flex-start;
+  cursor:pointer;transition:all .2s;
+}
+.val-top-card:hover{border-color:rgba(200,153,74,.4)}
+.val-top-cover{width:72px;height:72px;border-radius:12px;flex-shrink:0;overflow:hidden;background:var(--slate);box-shadow:0 4px 16px rgba(0,0,0,.4)}
+.val-top-cover img{width:100%;height:100%;object-fit:cover}
+.val-top-label{font-size:9px;font-weight:600;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
+.val-top-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--cream);line-height:1.2}
+.val-top-artist{font-size:12px;color:var(--gold);margin-top:3px}
+.val-top-price{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);margin-top:8px}
+.val-top-note{font-size:11px;color:var(--cool);margin-top:4px;line-height:1.5}
+
+/* Condition picker popup */
+.cond-picker{
+  position:fixed;bottom:0;left:0;right:0;z-index:600;
+  background:var(--rich);border-top:1px solid var(--rail);
+  border-top-left-radius:20px;border-top-right-radius:20px;
+  padding:16px 20px 36px;
+  animation:slideup .25s cubic-bezier(.2,.8,.3,1) both;
+}
+.cond-title{font-size:13px;font-weight:600;color:var(--cream);margin-bottom:14px}
+.cond-options{display:flex;flex-direction:column;gap:8px}
+.cond-opt{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 14px;border-radius:12px;border:1px solid var(--rail);
+  cursor:pointer;transition:all .2s;background:none;width:100%;
+  font-family:'Outfit',sans-serif;
+}
+.cond-opt:hover,.cond-opt.selected{background:rgba(200,153,74,.08);border-color:rgba(200,153,74,.25)}
+.cond-opt-left{display:flex;align-items:center;gap:10px}
+.cond-opt-code{font-size:14px;font-weight:700;color:var(--gold);width:32px}
+.cond-opt-desc{font-size:12px;color:var(--warm);text-align:right}
+.cond-opt-mult{font-size:11px;color:var(--fog)}
+
+/* Section card */
+.val-section{background:var(--card);border:1px solid var(--rail);border-radius:16px;padding:16px;margin-bottom:12px}
+.val-sec-title{font-size:9px;font-weight:600;color:var(--fog);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
 
 #manual-modal{
   position:fixed;inset:0;z-index:500;
@@ -1208,12 +1451,14 @@ body::after{
   </div>
 </div>
 
-<!-- ── STATS ── -->
+<!-- ── LIBRARY (was stats) ── -->
 <div class="view" id="v-stats">
-  <div class="stats-header">
-    <div class="stats-head">האוסף שלי</div>
-  </div>
-  <div id="stats-body"></div>
+  <div id="library-body"></div>
+</div>
+
+<!-- ── VALUE ── -->
+<div class="view" id="v-value">
+  <div id="value-body"></div>
 </div>
 
 <!-- ── SETTINGS ── -->
@@ -1380,9 +1625,13 @@ body::after{
     <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
     גלה
   </button>
+  <button class="tab" id="t-value" onclick="nav('value')">
+    <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    שווי
+  </button>
   <button class="tab" id="t-stats" onclick="nav('stats')">
-    <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-    סטטס
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    ספרייה
   </button>
 </nav>
 
@@ -1476,24 +1725,23 @@ function load(){
     const d=JSON.parse(localStorage.getItem(SK)||'{}');
     S.collection=d.c||[];
     S.log=d.l||[];
+    if(d.val) Object.assign(valState, d.val);
   }catch(e){ console.warn('Load failed',e); }
 }
 
 function save(){
   try{
-    // Strip base64 camera images before saving — use artworkUrl instead
     const clean=S.collection.map(a=>({
       ...a,
-      coverImage: a.coverImage?.startsWith('data:') ? '' : a.coverImage
+      coverImage: (a.coverImage && a.coverImage.length < 270000) ? a.coverImage : ''
     }));
-    const log=S.log.map(({albumId,title,artist,date})=>({albumId,title,artist,date})); // no img blobs
-    localStorage.setItem(SK, JSON.stringify({c:clean, l:log}));
+    const log=S.log.map(({albumId,title,artist,date})=>({albumId,title,artist,date}));
+    localStorage.setItem(SK, JSON.stringify({c:clean, l:log, val:{valuations:valState.valuations,evaluated:valState.evaluated,currency:valState.currency}}));
   }catch(e){
-    console.warn('Save failed (storage full?)',e);
-    // Try saving without cover images at all
+    console.warn('Save failed',e);
     try{
-      const minimal=S.collection.map(({id,title,artist,year,genre,label,rating,notes,tracks,facts,addedAt,aiAnalysis,artistBio,artworkUrl})=>
-        ({id,title,artist,year,genre,label,rating,notes,tracks,facts,addedAt,aiAnalysis,artistBio,artworkUrl}));
+      const minimal=S.collection.map(({id,title,artist,year,genre,label,rating,notes,tracks,facts,addedAt,aiAnalysis,artistBio,artworkUrl,condition})=>
+        ({id,title,artist,year,genre,label,rating,notes,tracks,facts,addedAt,aiAnalysis,artistBio,artworkUrl,condition}));
       const log=S.log.map(({albumId,title,artist,date})=>({albumId,title,artist,date}));
       localStorage.setItem(SK, JSON.stringify({c:minimal, l:log}));
     }catch(e2){ toast('⚠️ שגיאה בשמירה — אחסון מלא','err'); }
@@ -1656,40 +1904,99 @@ async function searchLastFm(title, artist){
 }
 
 // ── Main: get best single URL (for auto-pick) ──
+// ── Compress camera image to ~150KB using canvas ──
+async function compressImage(base64, maxDim=400, quality=0.82){
+  return new Promise((resolve)=>{
+    const img=new Image();
+    img.onload=()=>{
+      const ratio=Math.min(maxDim/img.width, maxDim/img.height, 1);
+      const w=Math.round(img.width*ratio), h=Math.round(img.height*ratio);
+      const c=document.createElement('canvas');
+      c.width=w; c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      resolve(c.toDataURL('image/jpeg', quality));
+    };
+    img.onerror=()=>resolve(base64);
+    img.src=base64;
+  });
+}
+
+// ── Source 5: Wikipedia (most accurate for iconic album covers) ──
+async function searchWikipedia(title, artist){
+  try{
+    const q=encodeURIComponent(`${title} ${artist} album`);
+    const searchRes=await fetch(
+      `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${q}&format=json&origin=*&srlimit=8`,
+      {signal:AbortSignal.timeout(7000)}
+    );
+    if(!searchRes.ok) return [];
+    const searchData=await searchRes.json();
+    const pages=searchData?.query?.search||[];
+
+    const scored=pages.map(p=>({
+      p, score:titleScore(p.title,title)*2+artistScore(p.title,artist)
+    })).filter(x=>x.score>=40).sort((a,b)=>b.score-a.score);
+
+    if(!scored.length) return [];
+
+    const ids=scored.slice(0,3).map(x=>x.p.pageid).join('|');
+    const imgRes=await fetch(
+      `https://en.wikipedia.org/w/api.php?action=query&pageids=${ids}&prop=pageimages&format=json&origin=*&pithumbsize=800`,
+      {signal:AbortSignal.timeout(7000)}
+    );
+    if(!imgRes.ok) return [];
+    const imgData=await imgRes.json();
+
+    const results=[];
+    for(const px of scored.slice(0,3)){
+      const page=imgData?.query?.pages?.[px.p.pageid];
+      const thumb=page?.thumbnail?.source;
+      if(!thumb) continue;
+      results.push({
+        source:'Wikipedia',sourceIcon:'📖',
+        title:page.title||px.p.title,artist,year:'',
+        url:   thumb.replace(/\/\d+px-/,'/800px-'),
+        thumb: thumb.replace(/\/\d+px-/,'/150px-'),
+        score: px.score
+      });
+    }
+    return results.sort((a,b)=>b.score-a.score);
+  }catch(e){ console.warn('[Wikipedia]',e.message); return []; }
+}
+
 async function fetchArtwork(title, artist){
-  // Run iTunes + Deezer in parallel (fastest sources)
-  const [itunesResults, deezerResults] = await Promise.all([
-    searchITunes(title, artist, 8),
-    searchDeezer(title, artist, 8)
+  // Wikipedia + iTunes + Deezer in parallel
+  const [wikiR, itunesR, deezerR] = await Promise.all([
+    searchWikipedia(title, artist),
+    searchITunes(title, artist, 10),
+    searchDeezer(title, artist, 10)
   ]);
 
-  // Prefer highest-scored result across both
-  const combined=[...itunesResults, ...deezerResults].sort((a,b)=>b.score-a.score);
-  if(combined.length && combined[0].score>=80) return combined[0].url;
+  // Wikipedia with high confidence = most accurate
+  if(wikiR.length && wikiR[0].score>=120) return wikiR[0].url;
 
-  // If no confident match, try MusicBrainz
-  const mbResults=await searchMusicBrainz(title, artist, 3);
-  if(mbResults.length) return mbResults[0].url;
+  const combined=[...itunesR,...deezerR].sort((a,b)=>b.score-a.score);
+  if(combined.length && combined[0].score>=120) return combined[0].url;
 
-  // Last resort: lower threshold from iTunes/Deezer
-  if(combined.length) return combined[0].url;
+  // MusicBrainz tiebreaker
+  const mbR=await searchMusicBrainz(title,artist,3);
+  const all=[...wikiR,...combined,...mbR].sort((a,b)=>b.score-a.score);
+  if(all.length && all[0].score>=100) return all[0].url;
+
   return null;
 }
 
-// ── Fetch ALL options for the picker UI ──
+// ── Fetch ALL options for the picker UI (5 sources) ──
 async function fetchAllArtworkOptions(title, artist){
-  // Run all sources in parallel
-  const [itunes, deezer, mb, lastfm] = await Promise.allSettled([
-    searchITunes(title, artist, 15),
-    searchDeezer(title, artist, 15),
-    searchMusicBrainz(title, artist, 5),
-    searchLastFm(title, artist)
+  const [itunes,deezer,mb,lastfm,wiki]=await Promise.allSettled([
+    searchITunes(title,artist,15),
+    searchDeezer(title,artist,15),
+    searchMusicBrainz(title,artist,5),
+    searchLastFm(title,artist),
+    searchWikipedia(title,artist)
   ]);
-
   const get=r=>r.status==='fulfilled'?r.value:[];
-  const all=[...get(itunes),...get(deezer),...get(mb),...get(lastfm)];
-
-  // Deduplicate by URL domain+path similarity
+  const all=[...get(wiki),...get(itunes),...get(deezer),...get(mb),...get(lastfm)];
   const seen=new Set();
   return all.filter(r=>{
     if(!r.url) return false;
@@ -1731,6 +2038,7 @@ function nav(v){
   if(v==='collection') renderColl();
   if(v==='stats') renderStats();
   if(v==='settings') renderSettingsStatus();
+  if(v==='value') nav_value_init();
   window.scrollTo(0,0);
 }
 function goBack(){nav(S.prev==='album'||S.prev==='artist'?'collection':S.prev)}
@@ -1880,15 +2188,27 @@ If uncertain, set identified:false but fill in what's visible. Always return val
 }
 
 async function showResult(data){
-  // Fetch official artwork immediately for preview
   showLoad('מחפש תמונה רשמית...', `${data.title} · ${data.artist}`);
   const artworkUrl = await fetchArtwork(data.title, data.artist);
   hideLoad();
-  data.artworkUrl = artworkUrl || '';
+
+  // Compress camera photo for session use (not stored in localStorage unless chosen)
+  let cameraThumb = '';
+  if(pendingB64){
+    cameraThumb = await compressImage(pendingB64, 400, 0.82);
+  }
+
+  // Decide what to display:
+  // 1. Official artwork (high confidence) → show it
+  // 2. No official → show camera photo with option to search more
+  const hasOfficial = !!artworkUrl;
+  const displayCover = artworkUrl || cameraThumb || '';
+  data.artworkUrl   = artworkUrl || '';
+  data._cameraThumb = cameraThumb;  // keep for picker
 
   const conf=data.confidence==='high'?'conf-high':data.confidence==='medium'?'conf-med':'conf-low';
   const confLabel=data.confidence==='high'?'✓ זוהה בביטחון גבוה':data.confidence==='medium'?'~ זוהה בביטחון בינוני':'? זיהוי חלקי';
-  const displayCover = artworkUrl || data.coverImage || '';
+
   const wrap=document.getElementById('result-wrap');
   wrap.style.display='block';
   wrap.innerHTML=`
@@ -1904,15 +2224,19 @@ async function showResult(data){
           <div class="result-artist">${esc(data.artist||'?')}</div>
           <div class="result-detail">${data.year||''}${data.year&&data.label?' · ':''}${data.label||''}<br>${data.genre||''}</div>
           <div class="confidence ${conf}">${confLabel}</div>
-          ${artworkUrl
-            ?`<div style="font-size:10px;color:var(--teal);margin-top:6px;display:flex;align-items:center;gap:4px">
-                <span>✓ תמונה רשמית</span>
-                <button onclick="swapArtwork(event,'${esc(data.title)}','${esc(data.artist)}')"
-                  style="font-size:10px;padding:2px 7px;border-radius:6px;border:1px solid rgba(74,158,136,.3);background:none;color:var(--teal);cursor:pointer;margin-right:4px">
-                  החלף
-                </button>
-              </div>`
-            :`<div style="font-size:10px;color:var(--fog);margin-top:6px">תמונה לא נמצאה</div>`}
+          <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:5px;align-items:center">
+            ${hasOfficial
+              ?`<span style="font-size:10px;color:var(--teal);display:flex;align-items:center;gap:3px">✓ תמונה רשמית</span>`
+              :`<span style="font-size:10px;color:var(--amber);display:flex;align-items:center;gap:3px">📷 תמונת הצילום שלך</span>`}
+            <button onclick="swapArtwork(event,'${esc(data.title)}','${esc(data.artist)}')"
+              style="font-size:10px;padding:3px 9px;border-radius:6px;
+                     border:1px solid var(--rail);background:none;color:var(--cool);
+                     cursor:pointer;transition:all .2s"
+              onmouseover="this.style.borderColor='var(--gold-lo)';this.style.color='var(--gold)'"
+              onmouseout="this.style.borderColor='var(--rail)';this.style.color='var(--cool)'">
+              ${hasOfficial?'החלף תמונה':'חפש תמונה רשמית'}
+            </button>
+          </div>
         </div>
       </div>
       ${data.brief_description?`
@@ -1931,14 +2255,21 @@ async function showResult(data){
         <div class="tracklist">${data.tracks.map((t,i)=>`<div class="track"><span class="track-n">${i+1}</span><span class="track-name">${esc(t)}</span></div>`).join('')}</div>
       </div>`:''}
       <div class="result-btns">
-        <button class="btn-save" onclick='saveResult(${JSON.stringify(data).replace(/'/g,"&#39;")})'>+ הוסף לאוסף</button>
+        <button class="btn-save" onclick='saveResult(${JSON.stringify({
+          title:data.title,artist:data.artist,year:data.year,genre:data.genre,
+          label:data.label,country:data.country,tracks:data.tracks||[],
+          facts:data.facts||[],brief_description:data.brief_description||''
+        }).replace(/'/g,"&#39;")})'>+ הוסף לאוסף</button>
         <button class="btn-cancel" onclick="clearScan()">ביטול</button>
       </div>
     </div>`;
+
+  // Store for saveResult to access
+  window._scanData = data;
 }
 
 // ── Unified artwork picker modal ──
-async function openArtworkPicker(title, artist, onSelect){
+async function openArtworkPicker(title, artist, onSelect, cameraThumb=''){
   showLoad('מחפש תמונות מכל המקורות...', 'iTunes · Deezer · MusicBrainz · Last.fm');
   const options = await fetchAllArtworkOptions(title, artist);
   hideLoad();
@@ -1946,7 +2277,6 @@ async function openArtworkPicker(title, artist, onSelect){
   const m=document.createElement('div');
   m.className='modal-bg'; m.style.zIndex='600';
 
-  // Group by source for display
   const sources=['Apple Music','Deezer','MusicBrainz','Last.fm'];
   const bySource=sources.map(s=>({
     name:s,
@@ -1956,15 +2286,42 @@ async function openArtworkPicker(title, artist, onSelect){
 
   const totalFound=options.length;
 
+  // Build camera option html if we have a camera photo
+  const cameraSection = cameraThumb ? `
+    <div style="margin-bottom:20px">
+      <div style="font-size:10px;color:var(--fog);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px">
+        <span>📷</span><span>הצילום שלי</span>
+        <span style="color:var(--dim)">— מהמצלמה</span>
+      </div>
+      <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none">
+        <div onclick="(function(url){${onSelect}})(this.dataset.url)" data-url="${esc(cameraThumb)}"
+          style="flex-shrink:0;width:90px;height:90px;border-radius:10px;overflow:hidden;
+                 border:2px solid rgba(212,131,74,.4);cursor:pointer;transition:all .2s;position:relative"
+          onmouseover="this.style.borderColor='var(--amber)';this.style.transform='scale(1.05)'"
+          onmouseout="this.style.borderColor='rgba(212,131,74,.4)';this.style.transform='scale(1)'">
+          <img src="${cameraThumb}" alt="הצילום שלי"
+            style="width:100%;height:100%;object-fit:cover;display:block">
+          <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.65);
+                      font-size:9px;color:var(--amber);padding:3px 4px;text-align:center;letter-spacing:.3px">
+            הצילום שלי
+          </div>
+        </div>
+      </div>
+    </div>` : '';
+
   m.innerHTML=`
     <div class="modal-sheet" style="max-height:92vh">
       <div class="modal-handle"></div>
       <div style="padding:0 18px 30px">
         <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--cream);margin-bottom:4px">בחר עטיפה</div>
         <div style="font-size:12px;color:var(--cool);margin-bottom:4px">${esc(title)} · ${esc(artist)}</div>
-        <div style="font-size:11px;color:var(--fog);margin-bottom:16px">${totalFound} תמונות נמצאו מ-${bySource.length} מקורות</div>
+        <div style="font-size:11px;color:var(--fog);margin-bottom:16px">
+          ${cameraThumb?'📷 הצילום שלך + ':''}${totalFound} תמונות מ-${bySource.length} מקורות
+        </div>
 
-        ${!totalFound ? `
+        ${cameraSection}
+
+        ${!totalFound && !cameraThumb ? `
           <div style="text-align:center;padding:30px 0;color:var(--cool);font-size:13px">
             לא נמצאו תמונות — נסה לשנות את שם האלבום
           </div>` : bySource.map(group=>`
@@ -1988,12 +2345,26 @@ async function openArtworkPicker(title, artist, onSelect){
             </div>
           </div>`).join('')}
 
-        <button onclick="this.closest('.modal-bg').remove()"
-          style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--rail);
-                 background:none;color:var(--cool);font-size:13px;cursor:pointer;
-                 font-family:'Outfit',sans-serif;margin-top:8px;transition:all .2s"
-          onmouseover="this.style.borderColor='var(--gold-lo)';this.style.color='var(--gold)'"
-          onmouseout="this.style.borderColor='var(--rail)';this.style.color='var(--cool)'">ביטול</button>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button onclick="this.closest('.modal-bg').remove()"
+            style="flex:1;padding:12px;border-radius:12px;border:1px solid var(--rail);
+                   background:none;color:var(--cool);font-size:13px;cursor:pointer;
+                   font-family:'Outfit',sans-serif;transition:all .2s"
+            onmouseover="this.style.borderColor='var(--gold-lo)';this.style.color='var(--gold)'"
+            onmouseout="this.style.borderColor='var(--rail)';this.style.color='var(--cool)'">ביטול</button>
+          <label style="flex:1;padding:12px;border-radius:12px;border:1px solid var(--rail);
+                   background:none;color:var(--cool);font-size:13px;cursor:pointer;
+                   font-family:'Outfit',sans-serif;transition:all .2s;text-align:center;
+                   display:flex;align-items:center;justify-content:center;gap:5px"
+            for="picker-upload-input"
+            onmouseover="this.style.borderColor='var(--amber)';this.style.color='var(--amber)'"
+            onmouseout="this.style.borderColor='var(--rail)';this.style.color='var(--cool)'">
+            📷 העלה תמונה
+          </label>
+        </div>
+        <input type="file" id="picker-upload-input" accept="image/*"
+          style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden"
+          onchange="handlePickerUpload(event,'${esc(onSelect)}',this.closest('.modal-bg'))">
       </div>
     </div>`;
   document.body.appendChild(m);
@@ -2003,13 +2374,14 @@ async function openArtworkPicker(title, artist, onSelect){
 // Called from scan result — updates preview
 async function swapArtwork(e, title, artist){
   e.stopPropagation();
+  const scanData = window._scanData || {};
+  const cameraThumb = scanData._cameraThumb || '';
   await openArtworkPicker(title, artist, `
     document.getElementById('rc-cover').innerHTML='<img src="'+url+'" alt="" style="width:100%;height:100%;object-fit:cover">';
     var w=document.getElementById('result-wrap');
     if(w) w.dataset.selectedArtwork=url;
     this.closest('.modal-bg').remove();
-    window.top.dispatchEvent(new CustomEvent('artworkSelected',{detail:url}));
-  `);
+  `, cameraThumb);
 }
 
 function selectArtwork(url){
@@ -2020,20 +2392,32 @@ function selectArtwork(url){
   toast('✓ תמונה עודכנה','ok');
 }
 
-async function saveResult(data){
-  // Use manually picked artwork if user swapped it
-  const wrap=document.getElementById('result-wrap');
-  if(wrap?.dataset?.selectedArtwork) data.artworkUrl=wrap.dataset.selectedArtwork;
+async function saveResult(baseData){
+  const data = window._scanData || baseData;
+
+  // Determine final artwork: manual pick > official > compressed camera
+  const wrap = document.getElementById('result-wrap');
+  const picked = wrap?.dataset?.selectedArtwork;
+  let artworkUrl = picked || data.artworkUrl || '';
+  let coverImage = '';
+
+  // If no official artwork and no pick → use compressed camera photo
+  if(!artworkUrl && data._cameraThumb){
+    // Store as coverImage (small enough after compression)
+    coverImage = data._cameraThumb;
+  }
 
   const a = mkAlbum({
-    ...data,
-    artworkUrl: data.artworkUrl || '',
-    coverImage: ''   // never store base64
+    ...data, artworkUrl, coverImage
   });
   S.collection.push(a);
   save();
   clearScan();
-  toast('✓ אלבום נוסף לאוסף!', 'ok');
+  window._scanData = null;
+
+  const label = artworkUrl ? '✓ נוסף עם תמונה רשמית!' :
+                coverImage ? '✓ נוסף עם תמונת הצילום!' : '✓ אלבום נוסף!';
+  toast(label,'ok');
   nav('collection');
   updateFAB();
 }
@@ -2552,63 +2936,497 @@ Recommend 5 albums. Return JSON array:
 //   STATS
 // ════════════════════════════════════════
 
-function renderStats(){
-  const el=document.getElementById('stats-body');
+function renderStats(){  // kept name for nav() call
+  const el=document.getElementById('library-body');
   const col=S.collection;
-  if(!col.length){el.innerHTML='<div class="empty"><div class="empty-disc"></div><div class="empty-t">אין נתונים עדיין</div></div>';return}
-  const artists=new Set(col.map(a=>a.artist)).size;
+
+  if(!col.length){
+    el.innerHTML=`
+      <div class="empty" style="padding:60px 0">
+        <div class="empty-disc"></div>
+        <div class="empty-t">האוסף ריק</div>
+        <div class="empty-s">הוסף אלבומים כדי לראות את הספרייה שלך</div>
+      </div>`;
+    return;
+  }
+
+  // ── Compute data ──
+  const artistMap={};
+  col.forEach(a=>{
+    if(!artistMap[a.artist]) artistMap[a.artist]={name:a.artist,count:0,cover:'',albums:[]};
+    artistMap[a.artist].count++;
+    artistMap[a.artist].albums.push(a);
+    if(!artistMap[a.artist].cover && getCover(a)) artistMap[a.artist].cover=getCover(a);
+  });
+  const artists=Object.values(artistMap).sort((a,b)=>b.count-a.count);
+
+  const recentAdded=[...col].sort((a,b)=>new Date(b.addedAt)-new Date(a.addedAt)).slice(0,12);
+  const topRated=[...col].filter(a=>a.rating>0).sort((a,b)=>b.rating-a.rating||new Date(b.addedAt)-new Date(a.addedAt)).slice(0,5);
+  const recentLog=[...S.log].reverse().slice(0,8);
+
+  const decades={};
+  col.forEach(a=>{if(a.year){const d=Math.floor(+a.year/10)*10;decades[d]=(decades[d]||0)+1}});
+  const maxDec=Math.max(...Object.values(decades),1);
+  const decadeList=Object.entries(decades).sort((a,b)=>+a[0]-+b[0]);
+
+  const genres={};
+  col.forEach(a=>{if(a.genre) genres[a.genre]=(genres[a.genre]||0)+1});
+  const genreList=Object.entries(genres).sort((a,b)=>b[1]-a[1]);
+
   const rated=col.filter(a=>a.rating>0);
   const avgR=rated.length?(rated.reduce((s,a)=>s+a.rating,0)/rated.length).toFixed(1):'—';
-  const genres=col.reduce((acc,a)=>{if(a.genre)acc[a.genre]=(acc[a.genre]||0)+1;return acc},{});
-  const decades=col.reduce((acc,a)=>{if(a.year){const d=Math.floor(+a.year/10)*10;acc[d+'s']=(acc[d+'s']||0)+1}return acc},{});
-  const maxG=Math.max(...Object.values(genres),1);
-  const maxD=Math.max(...Object.values(decades),1);
-  const recentLog=S.log.slice(-5).reverse();
+  const years=col.map(a=>+a.year).filter(Boolean);
+  const yearSpan=years.length?`${Math.min(...years)}–${Math.max(...years)}`:'—';
 
   el.innerHTML=`
-    <div class="stats-row">
-      <div class="stat-box"><div class="stat-n">${col.length}</div><div class="stat-l">אלבומים</div></div>
-      <div class="stat-box"><div class="stat-n">${artists}</div><div class="stat-l">אמנים</div></div>
-      <div class="stat-box"><div class="stat-n">${S.log.length}</div><div class="stat-l">האזנות</div></div>
-      <div class="stat-box"><div class="stat-n">${avgR}</div><div class="stat-l">דירוג ממוצע</div></div>
+    <!-- Hero KPIs -->
+    <div class="lib-hero">
+      <div class="lib-hero-title">הספרייה שלי</div>
+      <div class="lib-kpis">
+        <div class="lib-kpi"><div class="lib-kpi-n">${col.length}</div><div class="lib-kpi-l">אלבומים</div></div>
+        <div class="lib-kpi"><div class="lib-kpi-n">${artists.length}</div><div class="lib-kpi-l">אמנים</div></div>
+        <div class="lib-kpi"><div class="lib-kpi-n">${avgR}</div><div class="lib-kpi-l">דירוג ממוצע</div></div>
+        <div class="lib-kpi"><div class="lib-kpi-n" style="font-size:16px">${yearSpan}</div><div class="lib-kpi-l">תקופה</div></div>
+      </div>
     </div>
-    ${Object.keys(genres).length?`
-    <div class="bar-section">
-      <div class="bar-title">ז׳אנרים</div>
-      ${Object.entries(genres).sort((a,b)=>b[1]-a[1]).map(([g,n])=>`
-        <div class="bar-item">
-          <div class="bar-labels"><span>${esc(g)}</span><span>${n}</span></div>
-          <div class="bar-track"><div class="bar-fill" style="width:${(n/maxG*100).toFixed(0)}%"></div></div>
-        </div>`).join('')}
-    </div>`:''}
-    ${Object.keys(decades).length?`
-    <div class="bar-section">
-      <div class="bar-title">עשורים</div>
-      ${Object.entries(decades).sort((a,b)=>a[0].localeCompare(b[0])).map(([d,n])=>`
-        <div class="bar-item">
-          <div class="bar-labels"><span>${d}</span><span>${n}</span></div>
-          <div class="bar-track"><div class="bar-fill" style="width:${(n/maxD*100).toFixed(0)}%"></div></div>
-        </div>`).join('')}
-    </div>`:''}
-    ${recentLog.length?`
-    <div class="log-section">
-      <div class="bar-title" style="margin-bottom:12px">האזנות אחרונות</div>
-      ${recentLog.map(l=>{
-        const album=S.collection.find(a=>a.id===l.albumId);
-        const cover=album?getCover(album):'';
-        return `
-        <div class="log-item">
-          <div class="log-cov">${cover?`<img src="${cover}" alt="">`:' 💿'}</div>
-          <div class="log-info">
-            <div class="log-t">${esc(l.title||'?')}</div>
-            <div class="log-a">${esc(l.artist||'')}</div>
+
+    <!-- Recently Added -->
+    <div class="lib-sec">
+      <div class="lib-sec-title">נוספו לאחרונה</div>
+      <div class="lib-sec-link" onclick="nav('collection')">הכל ←</div>
+    </div>
+    <div class="h-strip">
+      ${recentAdded.map(a=>`
+        <div class="strip-album" onclick="openAlbum('${a.id}')">
+          <div class="strip-album-cover">
+            ${getCover(a)
+              ?`<img src="${getCover(a)}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'cover-ph\\'><div class=\\'cover-ph-disc\\'></div></div>'">`
+              :`<div class="cover-ph"><div class="cover-ph-disc" style="width:55%"></div></div>`}
           </div>
-          <div class="log-d">${fmtDate(l.date)}</div>
-        </div>`;}).join('')}
+          <div class="strip-album-title">${esc(a.title)}</div>
+          <div class="strip-album-artist">${esc(a.artist)}</div>
+          ${a.rating?`<div class="strip-album-stars">${'★'.repeat(a.rating)}${'☆'.repeat(5-a.rating)}</div>`:''}
+        </div>`).join('')}
+    </div>
+
+    <!-- Artists -->
+    ${artists.length?`
+    <div class="lib-sec" style="margin-top:8px">
+      <div class="lib-sec-title">אמנים שאני אוסף</div>
+      <div class="lib-sec-link">${artists.length} אמנים</div>
+    </div>
+    <div class="h-strip">
+      ${artists.slice(0,15).map(ar=>`
+        <div class="strip-artist" onclick="openArtist('${esc(ar.name)}')">
+          <div class="strip-artist-avatar">
+            ${ar.cover
+              ?`<img src="${ar.cover}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<span class=\\'av-icon\\'>🎸</span>'">`
+              :`<span class="av-icon">🎸</span>`}
+          </div>
+          <div class="strip-artist-name">${esc(ar.name)}</div>
+          <div class="strip-artist-count">${ar.count} אלבומ${ar.count>1?'ים':''}</div>
+        </div>`).join('')}
     </div>`:''}
+
+    <!-- Top Rated -->
+    ${topRated.length?`
+    <div class="lib-sec" style="margin-top:8px">
+      <div class="lib-sec-title">המדורגים הגבוה ביותר</div>
+    </div>
+    <div class="lib-card">
+      <div class="play-feed">
+        ${topRated.map((a,i)=>`
+          <div class="top-rated-item" onclick="openAlbum('${a.id}')">
+            <div class="tr-rank">${i+1}</div>
+            <div class="tr-cov">
+              ${getCover(a)?`<img src="${getCover(a)}" alt="" loading="lazy">`:'💿'}
+            </div>
+            <div class="tr-info">
+              <div class="tr-title">${esc(a.title)}</div>
+              <div class="tr-artist">${esc(a.artist)}${a.year?' · '+a.year:''}</div>
+              <div class="tr-stars">${'★'.repeat(a.rating)}${'☆'.repeat(5-a.rating)}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`:''}
+
+    <!-- Decade Timeline -->
+    ${decadeList.length?`
+    <div class="lib-sec" style="margin-top:8px">
+      <div class="lib-sec-title">ציר זמן עשורים</div>
+    </div>
+    <div class="lib-card">
+      <div class="decade-timeline" id="decade-tl">
+        ${decadeList.map(([d,n])=>`
+          <div class="decade-bar-wrap" onclick="filterGenreOrDecade(${d})">
+            <div class="decade-count">${n}</div>
+            <div class="decade-bar" style="height:0" data-h="${Math.max(8,Math.round(n/maxDec*60))}px"></div>
+            <div class="decade-label">${d}s</div>
+          </div>`).join('')}
+      </div>
+    </div>`:''}
+
+    <!-- Genre Cloud -->
+    ${genreList.length?`
+    <div class="lib-sec" style="margin-top:8px">
+      <div class="lib-sec-title">ז׳אנרים</div>
+    </div>
+    <div class="genre-cloud">
+      ${genreList.map(([g,n])=>`
+        <div class="genre-pill" onclick="goToGenre('${esc(g)}')">
+          <span class="gp-n">${n}</span>${esc(g)}
+        </div>`).join('')}
+    </div>`:''}
+
+    <!-- Play History -->
+    ${recentLog.length?`
+    <div class="lib-sec" style="margin-top:8px">
+      <div class="lib-sec-title">האזנות אחרונות</div>
+    </div>
+    <div class="lib-card">
+      <div class="play-feed">
+        ${recentLog.map(l=>{
+          const album=col.find(a=>a.id===l.albumId);
+          const cover=album?getCover(album):'';
+          return `
+          <div class="play-item" onclick="${album?`openAlbum('${l.albumId}')`:''}" >
+            <div class="play-cov">${cover?`<img src="${cover}" alt="">`:' 💿'}</div>
+            <div class="play-meta">
+              <div class="play-title">${esc(l.title||'?')}</div>
+              <div class="play-artist">${esc(l.artist||'')}</div>
+            </div>
+            <div class="play-time">${fmtDate(l.date)}</div>
+          </div>`;}).join('')}
+      </div>
+    </div>`:''}
+
+    <div style="height:10px"></div>
   `;
-  // animate bars
-  setTimeout(()=>{document.querySelectorAll('.bar-fill').forEach(b=>{const w=b.style.width;b.style.width='0';setTimeout(()=>b.style.width=w,50)})},100);
+
+  // Animate decade bars
+  requestAnimationFrame(()=>{
+    document.querySelectorAll('.decade-bar').forEach(b=>{
+      const h=b.dataset.h;
+      setTimeout(()=>b.style.height=h, 80);
+    });
+  });
+}
+
+// ════════════════════════════════════════
+//   VALUE SCREEN
+// ════════════════════════════════════════
+
+const COND_LABELS = {
+  'M':   {label:'Mint',         desc:'חדש לגמרי, לא נוגן',          mult:1.4},
+  'NM':  {label:'Near Mint',    desc:'כמעט חדש, מצב מושלם',         mult:1.0},
+  'VG+': {label:'Very Good+',   desc:'נוגן מעט, שריטות קלות מאוד',  mult:0.65},
+  'VG':  {label:'Very Good',    desc:'שריטות קלות, נשמע טוב',       mult:0.40},
+  'G':   {label:'Good',         desc:'שחוק, קשה להאזנה',            mult:0.15},
+};
+const COND_ORDER = ['M','NM','VG+','VG','G'];
+
+let valState = {
+  currency: 'USD',
+  valuations: {},   // albumId → {low, high, avg, rarity, notes}
+  evaluated: false,
+};
+const USD_ILS = 3.7;
+
+function navToValue(){ nav('value'); }
+
+function nav_value_init(){
+  if(!valState.evaluated) renderValueEmpty();
+  else renderValueFull();
+}
+
+function renderValueEmpty(){
+  const el=document.getElementById('value-body');
+  const col=S.collection;
+  if(!col.length){
+    el.innerHTML=`<div class="empty" style="padding:60px 0">
+      <div class="empty-disc"></div>
+      <div class="empty-t">אין אלבומים</div>
+      <div class="empty-s">הוסף תקליטים לאוסף כדי להעריך שווי</div>
+    </div>`;
+    return;
+  }
+  el.innerHTML=`
+    <div style="padding-top:22px">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;font-style:italic;color:var(--cream);margin-bottom:6px">שווי האוסף</div>
+      <div style="font-size:13px;color:var(--cool);margin-bottom:24px">הערכת שוק לפי Discogs · מצב הדיסק · נדירות</div>
+
+      <div style="background:linear-gradient(135deg,rgba(200,153,74,.07),rgba(200,153,74,.02));border:1px solid rgba(200,153,74,.15);border-radius:20px;padding:24px;margin-bottom:20px;text-align:center">
+        <div style="font-size:48px;margin-bottom:14px">💎</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream);margin-bottom:8px">${col.length} תקליטים מחכים להערכה</div>
+        <div style="font-size:13px;color:var(--cool);margin-bottom:20px;line-height:1.6">AI ינתח כל תקליט בנפרד לפי:<br>מחיר שוק Discogs · נדירות הלחיצה · מצב שמירה</div>
+        <button class="val-eval-btn" onclick="evaluateCollection()">
+          <span>✦</span> הערך את האוסף עם AI
+        </button>
+      </div>
+
+      <!-- Condition guide -->
+      <div class="val-section">
+        <div class="val-sec-title">מדריך מצב תקליטים (Grading)</div>
+        ${COND_ORDER.map(c=>`
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+            <span class="cond-badge cond-${c.replace('+','P')}">${c}</span>
+            <div>
+              <div style="font-size:12px;color:var(--cream);font-weight:500">${COND_LABELS[c].label}</div>
+              <div style="font-size:11px;color:var(--cool);margin-top:1px">${COND_LABELS[c].desc}</div>
+            </div>
+            <div style="margin-right:auto;font-size:11px;color:var(--fog)">${Math.round(COND_LABELS[c].mult*100)}% מ-NM</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+async function evaluateCollection(){
+  const col=S.collection;
+  if(!col.length){toast('אין אלבומים להערכה','err');return}
+
+  showLoad('מעריך שווי האוסף...','AI מנתח מחירי Discogs ונדירות');
+
+  // Build list for AI
+  const albumList=col.map((a,i)=>`${i+1}. "${a.title}" by ${a.artist} (${a.year||'?'})`).join('\n');
+
+  try{
+    const d=await claude({
+      max_tokens:1000,
+      system:`You are a vinyl record market expert with deep knowledge of Discogs pricing. Return ONLY valid JSON array, no markdown.`,
+      messages:[{role:'user',content:`Estimate Discogs market values for these vinyl records in NM (Near Mint) condition. Return a JSON array with one object per album in the SAME ORDER:
+
+${albumList}
+
+For each album return:
+{
+  "low": number (USD, lowest realistic price),
+  "high": number (USD, highest realistic price),
+  "avg": number (USD, typical sale price),
+  "rarity": "common" | "uncommon" | "rare" | "very_rare",
+  "pressing_note": "brief Hebrew note about pressing or collectibility, max 60 chars"
+}
+
+Consider original pressings vs reissues, classic albums that hold value, etc.`}]
+    });
+
+    hideLoad();
+    const raw=d.content[0].text.replace(/```json|```/g,'').trim();
+    const vals=JSON.parse(raw);
+
+    // Map valuations back to album IDs
+    col.forEach((a,i)=>{
+      if(vals[i]){
+        valState.valuations[a.id]={...vals[i]};
+        // Apply condition multiplier
+        const cond=a.condition||'VG+';
+        const mult=COND_LABELS[cond]?.mult||0.65;
+        valState.valuations[a.id].condMult=mult;
+      }
+    });
+
+    valState.evaluated=true;
+    save();
+    renderValueFull();
+    toast('✓ הערכה הושלמה!','ok');
+  }catch(e){
+    hideLoad();
+    if(e.message!=='No API key') toast('שגיאה בהערכה','err');
+  }
+}
+
+function renderValueFull(){
+  const el=document.getElementById('value-body');
+  const col=S.collection;
+  const curr=valState.currency;
+  const rate=curr==='ILS'?USD_ILS:1;
+  const sym=curr==='ILS'?'₪':'$';
+
+  // Compute values with condition
+  const items=col.map(a=>{
+    const v=valState.valuations[a.id];
+    const cond=a.condition||'NM';
+    const mult=COND_LABELS[cond]?.mult||1.0;
+    return {
+      a,v,cond,
+      adjAvg:  v ? Math.round(v.avg * mult * rate) : null,
+      adjLow:  v ? Math.round(v.low * mult * rate) : null,
+      adjHigh: v ? Math.round(v.high * mult * rate) : null,
+    };
+  }).sort((x,y)=>(y.adjAvg||0)-(x.adjAvg||0));
+
+  const valued=items.filter(x=>x.adjAvg);
+  const totalLow=  valued.reduce((s,x)=>s+x.adjLow,0);
+  const totalHigh= valued.reduce((s,x)=>s+x.adjHigh,0);
+  const totalAvg=  valued.reduce((s,x)=>s+x.adjAvg,0);
+
+  const fmt=n=>n>=1000?`${(n/1000).toFixed(1)}k`:String(n);
+  const topItem=items[0];
+
+  el.innerHTML=`
+    <!-- Hero -->
+    <div class="val-hero">
+      <div class="val-hero-label">שווי שוק משוער</div>
+      <div class="val-hero-amount">${sym}${fmt(totalAvg)}</div>
+      <div class="val-hero-range">טווח: ${sym}${fmt(totalLow)} – ${sym}${fmt(totalHigh)}</div>
+      <div style="font-size:11px;color:var(--fog);margin-top:4px">${valued.length} מתוך ${col.length} תקליטים הוערכו</div>
+      <div class="val-hero-currency">
+        <button class="val-curr-btn${curr==='USD'?' on':''}" onclick="setCurrency('USD')">USD $</button>
+        <button class="val-curr-btn${curr==='ILS'?' on':''}" onclick="setCurrency('ILS')">ILS ₪</button>
+      </div>
+      <button onclick="evaluateCollection()" style="margin-top:14px;padding:8px 18px;border-radius:10px;border:1px solid rgba(200,153,74,.2);background:none;color:var(--gold);font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif">↻ עדכן הערכה</button>
+    </div>
+
+    <!-- Top value gem -->
+    ${topItem?.adjAvg ? `
+    <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--cream);margin-bottom:10px">הפנינה של האוסף</div>
+    <div class="val-top-card" onclick="openAlbum('${topItem.a.id}')">
+      <div class="val-top-cover">
+        ${getCover(topItem.a)?`<img src="${getCover(topItem.a)}" alt="">`:'💿'}
+      </div>
+      <div>
+        <div class="val-top-label">🏆 הכי יקר באוסף</div>
+        <div class="val-top-title">${esc(topItem.a.title)}</div>
+        <div class="val-top-artist">${esc(topItem.a.artist)} · ${topItem.a.year||''}</div>
+        <div class="val-top-price">${sym}${fmt(topItem.adjAvg)}</div>
+        ${topItem.v?.pressing_note?`<div class="val-top-note">${esc(topItem.v.pressing_note)}</div>`:''}
+      </div>
+    </div>` : ''}
+
+    <!-- Full list -->
+    <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--cream);margin-bottom:10px">כל האוסף</div>
+    <div class="val-section">
+      ${items.map((x,i)=>`
+        <div class="val-item" onclick="openAlbum('${x.a.id}')">
+          <div class="val-rank">${i+1}</div>
+          <div class="val-cov">${getCover(x.a)?`<img src="${getCover(x.a)}" alt="" loading="lazy">`:'💿'}</div>
+          <div class="val-meta">
+            <div class="val-title">${esc(x.a.title)}</div>
+            <div class="val-artist">${esc(x.a.artist)} ${x.a.year?'· '+x.a.year:''}</div>
+            <div class="val-badges">
+              <span class="cond-badge cond-${(x.a.condition||'NM').replace('+','P')}"
+                onclick="event.stopPropagation();openCondPicker('${x.a.id}')">
+                ${x.a.condition||'NM'} ▾
+              </span>
+              ${x.v?.rarity?`<div class="rarity-dot rare-${x.v.rarity}" title="${x.v.rarity}"></div>`:''}
+              ${x.v?.pressing_note?`<span style="font-size:9px;color:var(--fog);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100px">${esc(x.v.pressing_note)}</span>`:''}
+            </div>
+          </div>
+          <div class="val-price">
+            ${x.adjAvg
+              ?`<div class="val-price-main">${sym}${fmt(x.adjAvg)}</div>
+                <div class="val-price-range">${sym}${fmt(x.adjLow)}–${sym}${fmt(x.adjHigh)}</div>`
+              :`<div class="val-price-na">—</div>`}
+          </div>
+        </div>`).join('')}
+    </div>
+
+    <!-- Rarity breakdown -->
+    <div class="val-section" style="margin-bottom:20px">
+      <div class="val-sec-title">פירוט נדירות</div>
+      ${['very_rare','rare','uncommon','common'].map(r=>{
+        const cnt=items.filter(x=>x.v?.rarity===r).length;
+        if(!cnt) return '';
+        const labels={'very_rare':'נדיר מאוד','rare':'נדיר','uncommon':'לא שכיח','common':'נפוץ'};
+        return `<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+          <div class="rarity-dot rare-${r}"></div>
+          <div style="font-size:13px;color:var(--warm)">${labels[r]}</div>
+          <div style="margin-right:auto;font-family:'DM Mono',monospace;font-size:12px;color:var(--gold)">${cnt}</div>
+        </div>`;
+      }).join('')}
+    </div>
+  `;
+}
+
+function setCurrency(c){
+  valState.currency=c;
+  renderValueFull();
+}
+
+function openCondPicker(albumId){
+  const a=S.collection.find(x=>x.id===albumId);
+  if(!a) return;
+
+  // Remove existing picker if any
+  document.getElementById('cond-picker-overlay')?.remove();
+
+  const overlay=document.createElement('div');
+  overlay.id='cond-picker-overlay';
+  overlay.style.cssText='position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.6)';
+  overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove()});
+
+  const cur=a.condition||'NM';
+  overlay.innerHTML=`
+    <div class="cond-picker" style="position:absolute;bottom:0;left:0;right:0">
+      <div class="cond-title">מצב התקליט — ${esc(a.title)}</div>
+      <div class="cond-options">
+        ${COND_ORDER.map(c=>`
+          <button class="cond-opt${c===cur?' selected':''}" onclick="setCondition('${albumId}','${c}');document.getElementById('cond-picker-overlay').remove()">
+            <div class="cond-opt-left">
+              <span class="cond-badge cond-${c.replace('+','P')}">${c}</span>
+              <div style="text-align:right">
+                <div style="font-size:13px;color:var(--cream);font-weight:600">${COND_LABELS[c].label}</div>
+                <div style="font-size:11px;color:var(--cool);margin-top:2px">${COND_LABELS[c].desc}</div>
+              </div>
+            </div>
+            <span class="cond-opt-mult">${Math.round(COND_LABELS[c].mult*100)}%</span>
+          </button>`).join('')}
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+}
+
+function setCondition(albumId, cond){
+  const a=S.collection.find(x=>x.id===albumId);
+  if(!a) return;
+  a.condition=cond;
+  save();
+  renderValueFull();
+  toast(`✓ מצב עודכן: ${cond}`,'ok');
+}
+
+function goToGenre(genre){
+  S.filterGenre=genre;
+  nav('collection');
+}
+
+function filterGenreOrDecade(decade){
+  // Filter collection by decade
+  S.search='';
+  S.filterGenre='all';
+  const grid=document.getElementById('album-grid');
+  if(!grid) return;
+  nav('collection');
+  // After nav, filter by decade
+  requestAnimationFrame(()=>{
+    const filtered=[...S.collection].filter(a=>a.year&&Math.floor(+a.year/10)*10===decade).reverse();
+    if(!filtered.length) return;
+    const empty=document.getElementById('coll-empty');
+    if(empty) empty.style.display='none';
+    const g=document.getElementById('album-grid');
+    if(g){
+      g.style.display='grid';
+      g.innerHTML=filtered.map(a=>`
+        <div class="album-card" onclick="openAlbum('${a.id}')">
+          <div class="vinyl-peek"></div>
+          <div class="card-inner">
+            <div class="cover-wrap">
+              ${getCover(a)
+                ?`<img src="${getCover(a)}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'cover-ph\\'><div class=\\'cover-ph-disc\\'></div></div>'">`
+                :`<div class="cover-ph"><div class="cover-ph-disc"></div></div>`}
+              <div class="rating-overlay">
+                ${[1,2,3,4,5].map(i=>`<span class="s${a.rating>=i?' on':''}" onclick="event.stopPropagation();rate('${a.id}',${i})">★</span>`).join('')}
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-title">${esc(a.title)}</div>
+              <div class="card-artist">${esc(a.artist)}</div>
+              <div class="card-meta">${a.year||''}${a.year&&a.genre?' · ':''}${a.genre||''}</div>
+            </div>
+          </div>
+        </div>`).join('');
+      document.getElementById('coll-title').textContent=`שנות ה-${decade}`;
+    }
+  });
 }
 
 // ════════════════════════════════════════
@@ -2631,17 +3449,40 @@ async function swapAlbumArtwork(id){
   const a=S.collection.find(x=>x.id===id); if(!a) return;
   await openArtworkPicker(a.title, a.artist, `
     var a=S.collection.find(x=>x.id==='${id}');
-    if(a){ a.artworkUrl=url; a.coverImage=''; save(); renderAlbum(a); renderColl(); }
+    if(a){
+      if(url.startsWith('data:')){a.artworkUrl='';a.coverImage=url;}
+      else{a.artworkUrl=url;a.coverImage='';}
+      save(); renderAlbum(a); renderColl();
+    }
     this.closest('.modal-bg').remove();
-    window.top.dispatchEvent(new CustomEvent('artworkSelected',{detail:url}));
-  `);
+    window.grooves_toast('✓ תמונה עודכנה!','ok');
+  `, a.coverImage||'');
 }
+
+// expose toast globally for inline onclick handlers
+window.grooves_toast = toast;
 
 function applyAlbumArtwork(id, url){
   const a=S.collection.find(x=>x.id===id); if(!a) return;
-  a.artworkUrl=url; a.coverImage='';
+  if(url.startsWith('data:')){a.artworkUrl='';a.coverImage=url;}
+  else{a.artworkUrl=url;a.coverImage='';}
   save(); renderAlbum(a); renderColl();
   toast('✓ תמונה עודכנה!','ok');
+}
+
+// Handle photo upload from inside picker
+function handlePickerUpload(event, onSelectCode, modal){
+  const f=event.target.files[0]; if(!f) return;
+  event.target.value='';
+  const r=new FileReader();
+  r.onload=async ev=>{
+    const compressed=await compressImage(ev.target.result, 500, 0.85);
+    const url=compressed;
+    // Execute the onSelect code with the compressed image URL
+    try{ new Function('url', onSelectCode)(url); }catch(e){ console.warn(e); }
+    if(modal) modal.remove();
+  };
+  r.readAsDataURL(f);
 }
 function delAlbum(id){
   if(!confirm('למחוק את האלבום מהאוסף?')) return;
