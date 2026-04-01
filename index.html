@@ -1713,117 +1713,186 @@ function save(){
 //   Sources: iTunes · Deezer · MusicBrainz/CAA · Discogs
 // ══════════════════════════════════════════════════════
 
+// ══════════════════════════════════════════
+//   ARTWORK ENGINE v3 — Improved Matching
+// ══════════════════════════════════════════
+
+// ── String normalization ──
+const STOP_WORDS = new Set(['the','a','an','and','or','of','in','on','at','to','for','de','le','la','les','el','los','das','die','der']);
+
 function normStr(s){
   return String(s||'')
     .toLowerCase()
-    .replace(/[\u2018\u2019\u201c\u201d]/g,"'")
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')  // strip accents: é→e
+    .replace(/[\u2018\u2019\u201c\u201d\u2013\u2014]/g,' ')
     .replace(/[^a-z0-9\u05d0-\u05ea\s]/g,' ')
     .replace(/\s+/g,' ').trim();
 }
 
-function titleScore(candidate, target){
-  const c=normStr(candidate), t=normStr(target);
-  if(!c||!t) return 0;
-  if(c===t) return 100;
-  if(c.startsWith(t)||t.startsWith(c)) return 80;
-  if(c.includes(t)||t.includes(c)) return 60;
-  const cw=new Set(c.split(' ')), tw=t.split(' ');
-  const overlap=tw.filter(w=>w.length>2&&cw.has(w)).length;
-  return overlap>0 ? Math.round(40*overlap/tw.length) : 0;
-}
-function artistScore(candidate, target){
-  const c=normStr(candidate), t=normStr(target);
-  if(!c||!t) return 0;
-  if(c===t) return 100;
-  if(c.includes(t)||t.includes(c)) return 70;
-  const cw=new Set(c.split(' ')), tw=t.split(' ');
-  return tw.filter(w=>w.length>2&&cw.has(w)).length>0 ? 40 : 0;
+function normWords(s){
+  // Remove stop words and return meaningful word set
+  return normStr(s).split(' ').filter(w=>w.length>1&&!STOP_WORDS.has(w));
 }
 
-// ── Source 1: iTunes / Apple Music ──
+// Simple Levenshtein distance (capped at word length for speed)
+function levenshtein(a, b){
+  if(a===b) return 0;
+  if(!a.length) return b.length;
+  if(!b.length) return a.length;
+  const max=Math.max(a.length,b.length);
+  if(max>20) return max; // skip expensive calc for long strings
+  const dp=Array.from({length:b.length+1},(_,i)=>i);
+  for(let i=1;i<=a.length;i++){
+    let prev=i;
+    for(let j=1;j<=b.length;j++){
+      const cur=a[i-1]===b[j-1]?dp[j-1]:1+Math.min(dp[j-1],dp[j],prev);
+      dp[j-1]=prev; prev=cur;
+    }
+    dp[b.length]=prev;
+  }
+  return dp[b.length];
+}
+
+function fuzzyWordMatch(a, b){
+  // Returns 0-1 similarity between two words
+  const la=levenshtein(a,b);
+  return 1 - la/Math.max(a.length,b.length,1);
+}
+
+// ── Core: score a candidate (title, artist) against target ──
+// Returns 0-100 for each field, then combines with geometric mean
+// → BOTH must be good; neither can fully compensate for the other
+function scoreCandidate(cTitle, cArtist, tTitle, tArtist){
+  const ts = scoreField(cTitle, tTitle);
+  const as = scoreField(cArtist, tArtist);
+  if(ts===0 || as===0) return Math.max(ts,as)*0.3; // heavily penalize single-field match
+  return Math.round(Math.sqrt(ts * as));            // geometric mean: both must shine
+}
+
+function scoreField(candidate, target){
+  const c=normStr(candidate), t=normStr(target);
+  if(!c||!t) return 0;
+  if(c===t) return 100;
+  if(c.startsWith(t)||t.startsWith(c)) return 90;
+  if(c.includes(t)||t.includes(c)) return 75;
+
+  // Word-level matching (ignoring stop words)
+  const cw=normWords(candidate), tw=normWords(target);
+  if(!cw.length||!tw.length) return 0;
+
+  // Exact word overlap
+  const cwSet=new Set(cw);
+  const exactOverlap=tw.filter(w=>cwSet.has(w)).length;
+  if(exactOverlap===tw.length) return 70; // all target words found
+  if(exactOverlap>0) {
+    const ratio=exactOverlap/Math.max(cw.length,tw.length);
+    if(ratio>=0.7) return 60;
+    if(ratio>=0.5) return 45;
+  }
+
+  // Fuzzy word matching
+  let fuzzyScore=0;
+  for(const tw_word of tw){
+    const best=Math.max(...cw.map(cw_word=>fuzzyWordMatch(cw_word,tw_word)));
+    fuzzyScore+=best;
+  }
+  const fuzzyRatio=fuzzyScore/tw.length;
+  if(fuzzyRatio>=0.9) return 40;
+  if(fuzzyRatio>=0.75) return 25;
+  return 0;
+}
+
+// Quick check: does candidate PLAUSIBLY match? (fast reject for bad results)
+function plausibleMatch(cTitle, cArtist, tTitle, tArtist){
+  return scoreField(cTitle,tTitle)>=20 || scoreField(cArtist,tArtist)>=20;
+}
+
+// ── Source 1: iTunes / Apple Music — dual query ──
 async function searchITunes(title, artist, limit=12){
   try{
-    const q=encodeURIComponent(`${artist} ${title}`);
-    const res=await fetch(
-      `https://itunes.apple.com/search?term=${q}&entity=album&limit=${limit}&country=US`,
-      {signal:AbortSignal.timeout(7000)}
-    );
-    if(!res.ok) return [];
-    const data=await res.json();
-    return (data.results||[])
-      .filter(r=>r.artworkUrl100)
+    // Two searches: artist+album together, and just album name
+    const q1=encodeURIComponent(`${artist} ${title}`);
+    const q2=encodeURIComponent(title);
+    const [r1,r2]=await Promise.all([
+      fetch(`https://itunes.apple.com/search?term=${q1}&entity=album&limit=${limit}&country=US`,{signal:AbortSignal.timeout(7000)}),
+      fetch(`https://itunes.apple.com/search?term=${q2}&entity=album&limit=${limit}&country=US&attribute=albumTerm`,{signal:AbortSignal.timeout(7000)})
+    ]);
+    const [d1,d2]=await Promise.all([r1.ok?r1.json():Promise.resolve({results:[]}),r2.ok?r2.json():Promise.resolve({results:[]})]);
+    const raw=[...(d1.results||[]),...(d2.results||[])];
+
+    const seen=new Set();
+    return raw
+      .filter(r=>r.artworkUrl100 && r.collectionId && !seen.has(r.collectionId) && seen.add(r.collectionId))
       .map(r=>({
-        source:'Apple Music',
-        sourceIcon:'🍎',
-        title:   r.collectionName||'',
-        artist:  r.artistName||'',
-        year:    r.releaseDate?.slice(0,4)||'',
-        url:     r.artworkUrl100.replace(/\d+x\d+bb/,'1200x1200bb'),
-        thumb:   r.artworkUrl100.replace(/\d+x\d+bb/,'150x150bb'),
-        score:   titleScore(r.collectionName,title)*2 + artistScore(r.artistName,artist)
+        source:'Apple Music', sourceIcon:'🍎',
+        title: r.collectionName||'', artist: r.artistName||'',
+        year:  r.releaseDate?.slice(0,4)||'',
+        url:   r.artworkUrl100.replace(/\d+x\d+bb/,'1200x1200bb'),
+        thumb: r.artworkUrl100.replace(/\d+x\d+bb/,'150x150bb'),
+        score: scoreCandidate(r.collectionName,r.artistName,title,artist)
       }))
-      .filter(r=>r.score>=40)
-      .sort((a,b)=>b.score-a.score);
+      .filter(r=>r.score>=30)
+      .sort((a,b)=>b.score-a.score)
+      .slice(0,limit);
   }catch(e){ console.warn('[iTunes]',e.message); return []; }
 }
 
-// ── Source 2: Deezer (free, no key, 1000×1000) ──
+// ── Source 2: Deezer ──
 async function searchDeezer(title, artist, limit=12){
   try{
-    const q=encodeURIComponent(`${artist} ${title}`);
-    const res=await fetch(
-      `https://api.deezer.com/search/album?q=${q}&limit=${limit}&output=json`,
-      {signal:AbortSignal.timeout(7000)}
-    );
-    if(!res.ok) return [];
-    const data=await res.json();
-    return (data.data||[])
-      .filter(r=>r.cover_xl||r.cover_big||r.cover_medium)
+    // Two queries: strict and loose
+    const q1=encodeURIComponent(`artist:"${artist}" album:"${title}"`);
+    const q2=encodeURIComponent(`${artist} ${title}`);
+    const [r1,r2]=await Promise.all([
+      fetch(`https://api.deezer.com/search/album?q=${q1}&limit=${limit}`,{signal:AbortSignal.timeout(7000)}),
+      fetch(`https://api.deezer.com/search/album?q=${q2}&limit=${limit}`,{signal:AbortSignal.timeout(7000)})
+    ]);
+    const [d1,d2]=await Promise.all([r1.ok?r1.json():Promise.resolve({data:[]}),r2.ok?r2.json():Promise.resolve({data:[]})]);
+    const raw=[...(d1.data||[]),...(d2.data||[])];
+    const seen=new Set();
+    return raw
+      .filter(r=>(r.cover_xl||r.cover_big) && !seen.has(r.id) && seen.add(r.id))
       .map(r=>({
-        source:'Deezer',
-        sourceIcon:'🎵',
-        title:   r.title||'',
-        artist:  r.artist?.name||'',
-        year:    '',
-        url:     (r.cover_xl||r.cover_big||r.cover_medium||'').replace('?size=xl','')+'?size=1000',
-        thumb:   (r.cover_medium||r.cover_xl||'')+'?size=150',
-        score:   titleScore(r.title,title)*2 + artistScore(r.artist?.name,artist)
+        source:'Deezer', sourceIcon:'🎵',
+        title: r.title||'', artist: r.artist?.name||'', year:'',
+        url:   (r.cover_xl||r.cover_big).split('?')[0]+'?size=1000',
+        thumb: (r.cover_medium||r.cover_big||'').split('?')[0]+'?size=150',
+        score: scoreCandidate(r.title,r.artist?.name,title,artist)
       }))
-      .filter(r=>r.score>=40)
-      .sort((a,b)=>b.score-a.score);
+      .filter(r=>r.score>=30)
+      .sort((a,b)=>b.score-a.score)
+      .slice(0,limit);
   }catch(e){ console.warn('[Deezer]',e.message); return []; }
 }
 
 // ── Source 3: MusicBrainz + Cover Art Archive ──
 async function searchMusicBrainz(title, artist, limit=5){
   try{
-    const q=encodeURIComponent(`release:"${title}" AND artist:"${artist}"`);
+    // Lucene query with both title and artist
+    const q=encodeURIComponent(`releasegroup:"${title}" AND artist:"${artist}"`);
     const mbRes=await fetch(
       `https://musicbrainz.org/ws/2/release-group/?query=${q}&limit=${limit}&fmt=json`,
       {headers:{'User-Agent':'Grooves/2.0 (vinyl-app)'},signal:AbortSignal.timeout(9000)}
     );
     if(!mbRes.ok) return [];
     const mbData=await mbRes.json();
-    const groups=(mbData['release-groups']||[])
-      .filter(g=>titleScore(g.title,title)>=40);
+    const groups=(mbData['release-groups']||[]);
 
     const results=[];
     for(const g of groups.slice(0,3)){
+      const sc=scoreCandidate(g.title,g['artist-credit']?.[0]?.artist?.name,title,artist);
+      if(sc<25) continue;
       try{
-        // Try front image from Cover Art Archive
         const caUrl=`https://coverartarchive.org/release-group/${g.id}/front`;
         const chk=await fetch(caUrl,{method:'HEAD',redirect:'follow',signal:AbortSignal.timeout(5000)});
         if(chk.ok){
-          const finalUrl=chk.url||caUrl;
           results.push({
-            source:'MusicBrainz',
-            sourceIcon:'🎶',
-            title:   g.title||'',
-            artist:  g['artist-credit']?.[0]?.artist?.name||artist,
-            year:    g['first-release-date']?.slice(0,4)||'',
-            url:     finalUrl,
-            thumb:   `https://coverartarchive.org/release-group/${g.id}/front-250`,
-            score:   titleScore(g.title,title)*2 + artistScore(g['artist-credit']?.[0]?.artist?.name,artist)
+            source:'MusicBrainz', sourceIcon:'🎶',
+            title: g.title||'', artist: g['artist-credit']?.[0]?.artist?.name||artist,
+            year:  g['first-release-date']?.slice(0,4)||'',
+            url:   chk.url||caUrl,
+            thumb: `https://coverartarchive.org/release-group/${g.id}/front-250`,
+            score: sc
           });
         }
       }catch{}
@@ -1832,38 +1901,159 @@ async function searchMusicBrainz(title, artist, limit=5){
   }catch(e){ console.warn('[MusicBrainz]',e.message); return []; }
 }
 
-// ── Source 4: Last.fm (free, no key needed for image scrape via embed) ──
-// Uses Last.fm's open image API via Spotify's embed proxy (no auth)
+// ── Source 4: Last.fm ──
 async function searchLastFm(title, artist){
   try{
-    const q=encodeURIComponent(`${title} ${artist}`);
-    // Last.fm has a public music API that returns album art
     const res=await fetch(
-      `https://ws.audioscrobbler.com/2.0/?method=album.search&album=${encodeURIComponent(title)}&api_key=3c7a2f3a5def1fbe6e4a3b2c8d9e0f12&format=json&limit=5`,
+      `https://ws.audioscrobbler.com/2.0/?method=album.search&album=${encodeURIComponent(title)}&api_key=3c7a2f3a5def1fbe6e4a3b2c8d9e0f12&format=json&limit=8`,
       {signal:AbortSignal.timeout(6000)}
     );
-    // Note: using a placeholder key — will degrade gracefully if no result
     if(!res.ok) return [];
     const data=await res.json();
-    const albums=(data?.results?.albummatches?.album||[]);
-    return albums
-      .filter(a=>a.image?.find(i=>i.size==='extralarge')?.['#text'])
+    const BLANK='2a96cbd8b46e442fc41c2b86b821562f';
+    return (data?.results?.albummatches?.album||[])
+      .filter(a=>{const url=a.image?.find(i=>i.size==='extralarge')?.['#text']||'';return url&&!url.includes(BLANK)})
       .map(a=>({
-        source:'Last.fm',
-        sourceIcon:'📻',
-        title:   a.name||'',
-        artist:  a.artist||'',
-        year:    '',
-        url:     a.image.find(i=>i.size==='extralarge')?.['#text']||'',
-        thumb:   a.image.find(i=>i.size==='medium')?.['#text']||'',
-        score:   titleScore(a.name,title)*2 + artistScore(a.artist,artist)
+        source:'Last.fm', sourceIcon:'📻',
+        title: a.name||'', artist: a.artist||'', year:'',
+        url:   a.image.find(i=>i.size==='extralarge')?.['#text']||'',
+        thumb: a.image.find(i=>i.size==='medium')?.['#text']||'',
+        score: scoreCandidate(a.name,a.artist,title,artist)
       }))
-      .filter(r=>r.score>=40 && r.url && !r.url.includes('2a96cbd8b46e442fc41c2b86b821562f'))
+      .filter(r=>r.score>=30)
       .sort((a,b)=>b.score-a.score);
   }catch(e){ console.warn('[Last.fm]',e.message); return []; }
 }
 
-// ── Main: get best single URL (for auto-pick) ──
+// ── Source 5: Wikipedia ──
+async function searchWikipedia(title, artist){
+  try{
+    // More specific query
+    const q=encodeURIComponent(`"${title}" ${artist} album`);
+    const searchRes=await fetch(
+      `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${q}&format=json&origin=*&srlimit=8`,
+      {signal:AbortSignal.timeout(7000)}
+    );
+    if(!searchRes.ok) return [];
+    const searchData=await searchRes.json();
+    const pages=searchData?.query?.search||[];
+
+    // Score: Wikipedia title includes album title AND artist name
+    const scored=pages.map(p=>{
+      const ts=scoreField(p.title,title);
+      const as=scoreField(p.title,artist); // artist often in Wikipedia title
+      return {p, score: ts>50&&as>20 ? Math.round((ts+as)/1.5) : ts*0.4};
+    }).filter(x=>x.score>=30).sort((a,b)=>b.score-a.score);
+
+    if(!scored.length) return [];
+
+    const ids=scored.slice(0,3).map(x=>x.p.pageid).join('|');
+    const imgRes=await fetch(
+      `https://en.wikipedia.org/w/api.php?action=query&pageids=${ids}&prop=pageimages&format=json&origin=*&pithumbsize=800`,
+      {signal:AbortSignal.timeout(7000)}
+    );
+    if(!imgRes.ok) return [];
+    const imgData=await imgRes.json();
+
+    return scored.slice(0,3).map(px=>{
+      const page=imgData?.query?.pages?.[px.p.pageid];
+      const thumb=page?.thumbnail?.source;
+      if(!thumb) return null;
+      return {
+        source:'Wikipedia', sourceIcon:'📖',
+        title: page.title||px.p.title, artist, year:'',
+        url:   thumb.replace(/\/\d+px-/,'/800px-'),
+        thumb: thumb.replace(/\/\d+px-/,'/150px-'),
+        score: px.score
+      };
+    }).filter(Boolean).sort((a,b)=>b.score-a.score);
+  }catch(e){ console.warn('[Wikipedia]',e.message); return []; }
+}
+
+// ── Auto-pick best artwork URL ──
+async function fetchArtwork(title, artist){
+  // Phase 1: fast parallel search
+  const [wikiR,itunesR,deezerR]=await Promise.all([
+    searchWikipedia(title,artist),
+    searchITunes(title,artist,10),
+    searchDeezer(title,artist,10)
+  ]);
+
+  const phase1=[...wikiR,...itunesR,...deezerR].sort((a,b)=>b.score-a.score);
+  // High confidence: score ≥ 70 (geometric mean is strict)
+  if(phase1.length && phase1[0].score>=70) return phase1[0].url;
+
+  // Phase 2: add MusicBrainz (slower)
+  const mbR=await searchMusicBrainz(title,artist,3);
+  const phase2=[...phase1,...mbR].sort((a,b)=>b.score-a.score);
+  if(phase2.length && phase2[0].score>=55) return phase2[0].url;
+
+  // No confident match
+  return null;
+}
+
+// ── All options for picker UI ──
+async function fetchAllArtworkOptions(title, artist){
+  const [wiki,itunes,deezer,mb,lastfm]=await Promise.allSettled([
+    searchWikipedia(title,artist),
+    searchITunes(title,artist,15),
+    searchDeezer(title,artist,15),
+    searchMusicBrainz(title,artist,5),
+    searchLastFm(title,artist)
+  ]);
+  const get=r=>r.status==='fulfilled'?r.value:[];
+  const all=[...get(wiki),...get(itunes),...get(deezer),...get(mb),...get(lastfm)];
+  const seen=new Set();
+  return all.filter(r=>{
+    if(!r.url) return false;
+    const key=r.url.replace(/[?#].*/,'').replace(/\d+x\d+/g,'NxN').replace(/\d{4,}/g,'X');
+    if(seen.has(key)) return false;
+    seen.add(key); return true;
+  }).sort((a,b)=>b.score-a.score);
+}
+
+// ══════════════════════════════════════════
+//   TEXT SEARCH ENGINE v2 — Fuzzy Ranked
+// ══════════════════════════════════════════
+
+function collectionSearchScore(album, query){
+  const terms=normStr(query).split(' ').filter(t=>t.length>1);
+  if(!terms.length) return 0;
+
+  const fields=[
+    {text: album.title,              weight:5},
+    {text: album.artist,             weight:4},
+    {text: album.year,               weight:1},
+    {text: album.genre,              weight:1.5},
+    {text: album.label,              weight:0.8},
+    {text:(album.tracks||[]).join(' '),weight:0.5},
+  ];
+
+  let totalScore=0;
+  for(const term of terms){
+    let bestForTerm=0;
+    for(const {text,weight} of fields){
+      const t=normStr(text); if(!t) continue;
+      let s=0;
+      if(t===term)              s=100;
+      else if(t.startsWith(term)) s=85;
+      else if(t.includes(term)) s=65;
+      else{
+        // Fuzzy: best word match
+        const words=t.split(' ');
+        const best=Math.max(0,...words.map(w=>fuzzyWordMatch(w,term)));
+        if(best>=0.85) s=50;
+        else if(best>=0.7) s=30;
+      }
+      bestForTerm=Math.max(bestForTerm, s*weight);
+    }
+    totalScore+=bestForTerm;
+    // If any term has NO match at all → penalize heavily (AND logic)
+    if(bestForTerm===0) totalScore-=200;
+  }
+  return totalScore;
+}
+
 // ── Compress camera image to ~150KB using canvas ──
 async function compressImage(base64, maxDim=400, quality=0.82){
   return new Promise((resolve)=>{
@@ -2015,8 +2205,11 @@ function renderColl(){
 
   let list=[...S.collection].reverse();
   if(S.search){
-    const q=S.search.toLowerCase();
-    list=list.filter(a=>a.title.toLowerCase().includes(q)||a.artist.toLowerCase().includes(q)||(a.genre&&a.genre.toLowerCase().includes(q)));
+    const scored=list
+      .map(a=>({a, sc:collectionSearchScore(a,S.search)}))
+      .filter(x=>x.sc>0)
+      .sort((x,y)=>y.sc-x.sc);
+    list=scored.map(x=>x.a);
   }
   if(S.filterGenre!=='all') list=list.filter(a=>a.genre&&a.genre.toLowerCase().includes(S.filterGenre.toLowerCase()));
 
