@@ -2,1264 +2,1721 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no,maximum-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="דר קלוד">
-<meta name="theme-color" content="#0a0f1e">
-<meta name="description" content="רופא משפחה דיגיטלי - ד'ר קלוד">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23111827'/><text y='.9em' font-size='72' x='50%' text-anchor='middle'>🩺</text></svg>">
-<title>ד"ר קלוד</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script>if(typeof pdfjsLib!=='undefined')pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+<meta name="theme-color" content="#060504">
+<title>Grooves — האוסף שלי</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
+
+/* ═══════════════════════════════════════════════
+   GROOVES — Luxury Vinyl Collection
+   Design: Dark Editorial · Analogue Warmth
+   ═══════════════════════════════════════════════ */
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+
 :root{
-  --bg:#0a0f1e;--card:#111827;--card2:#1a2540;--card3:#1e2d4a;
-  --border:rgba(99,179,237,.14);--borderH:rgba(99,179,237,.32);
-  --sky:#60a5fa;--skyd:#3b82f6;--skyDeep:#1d4ed8;
-  --green:#34d399;--greenD:#059669;
-  --amber:#fbbf24;--amberD:#d97706;
-  --rose:#f87171;--roseD:#dc2626;
-  --purple:#c084fc;--gold:#e2b96a;
-  --text:#f1f5f9;--text2:#cbd5e1;--sub:#94a3b8;--muted:#475569;
-  --sbot:env(safe-area-inset-bottom,0px);--stom:env(safe-area-inset-top,0px);
+  --ink:     #060504;
+  --rich:    #0e0c0a;
+  --slate:   #171310;
+  --card:    #1a1714;
+  --lift:    #221e1a;
+  --rail:    #2c2722;
+  --mist:    #3a342d;
+  --gold:    #c8994a;
+  --gold-hi: #e8bb6e;
+  --gold-lo: #7a5e2a;
+  --amber:   #d4834a;
+  --cream:   #f0e6d3;
+  --warm:    #c8bfb2;
+  --cool:    #8a8078;
+  --fog:     #5a524a;
+  --dim:     #3a3430;
+  --teal:    #4a9e88;
+  --red:     #c94848;
+  --r: 200; --g: 153; --b: 74; /* gold RGB for rgba() */
 }
-html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rubik',sans-serif;direction:rtl;font-size:16px;overflow:hidden;-webkit-font-smoothing:antialiased}
-#app{display:flex;flex-direction:column;height:100dvh;max-width:540px;margin:0 auto;background:var(--bg)}
-.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(70px + var(--sbot))}
-::-webkit-scrollbar{display:none}
-input,textarea,select{font-family:'Rubik',sans-serif;font-size:16px;-webkit-appearance:none;appearance:none}
-input[type=date]{color-scheme:dark}
-.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:1rem 1.1rem;position:relative;overflow:hidden}
-.card.sky{border-right:4px solid var(--sky)}.card.gold{border-right:4px solid var(--gold)}
-.card.green{border-right:4px solid var(--green)}.card.amber{border-right:4px solid var(--amber)}
-.card.rose{border-right:4px solid var(--rose)}.card.purple{border-right:4px solid var(--purple)}
-.pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:30px;font-size:12px;font-weight:600;gap:4px}
-/* BUTTONS */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:13px;padding:13px 18px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;min-height:50px;border:1.5px solid transparent;transition:opacity .12s,transform .1s;width:100%;background:transparent;letter-spacing:.1px}
-.btn:active{opacity:.72;transform:scale(.98)}.btn:disabled{opacity:.38;cursor:not-allowed;transform:none}
-.p{background:linear-gradient(135deg,var(--skyd),var(--skyDeep));color:#fff;border-color:transparent;box-shadow:0 4px 16px rgba(59,130,246,.3)}
-.g{color:var(--sub);border-color:var(--border)}.s{background:rgba(52,211,153,.16);color:var(--green);border-color:rgba(52,211,153,.38)}
-.d{background:rgba(248,113,113,.14);color:var(--rose);border-color:rgba(248,113,113,.28)}.k{background:rgba(96,165,250,.16);color:var(--sky);border-color:rgba(96,165,250,.38)}
-.go{background:rgba(226,185,106,.14);color:var(--gold);border-color:rgba(226,185,106,.38)}
-/* FIELDS */
-.fld{display:flex;flex-direction:column;gap:5px}
-.fld label{font-size:13px;color:var(--sub);font-weight:500}
-.fld input,.fld textarea,.fld select{width:100%;background:var(--card2);border:1.5px solid var(--border);border-radius:13px;padding:14px 15px;color:var(--text);font-size:15px;direction:rtl;outline:none;font-family:inherit;transition:border-color .15s}
-.fld input:focus,.fld textarea:focus,.fld select:focus{border-color:var(--sky)}
-.fld textarea{resize:vertical;line-height:1.6}
-/* ANIMATIONS */
-.fade{animation:fd .22s ease}@keyframes fd{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.pop{animation:pp .18s ease}@keyframes pp{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
-.dots span{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--sky);animation:dp 1.4s ease-in-out infinite}
-.dots span:nth-child(2){animation-delay:.18s}.dots span:nth-child(3){animation-delay:.36s}
-@keyframes dp{0%,80%,100%{opacity:.2;transform:scale(.75)}40%{opacity:1;transform:scale(1)}}
-.pulse{animation:pls 2s infinite}@keyframes pls{0%,100%{opacity:1}50%{opacity:.45}}
-/* NAV */
-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:540px;z-index:300;background:rgba(17,24,39,.95);border-top:1px solid var(--border);display:flex;padding-bottom:max(8px,var(--sbot));backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;border:none;cursor:pointer;padding:8px 0;min-height:58px;position:relative;font-family:inherit;transition:opacity .12s}
-nav button:active{opacity:.6}
-.ndot{position:absolute;top:0;left:50%;transform:translateX(-50%);width:24px;height:3px;background:var(--sky);border-radius:0 0 4px 4px}
-/* CHAT */
-.mw{display:flex;gap:10px;align-items:flex-start}
-.mw.u{flex-direction:row}.mw.a{flex-direction:row-reverse}
-.av{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.3)}
-.av.u{background:var(--card2)}.av.a{background:linear-gradient(135deg,#2563eb,#1e40af)}
-.bub{max-width:82%;padding:12px 14px;border:1px solid var(--border);font-size:15px;line-height:1.8;white-space:pre-wrap;word-break:break-word}
-.bub.u{background:var(--card2);border-radius:16px 16px 4px 16px}
-.bub.a{background:var(--card);border-radius:16px 16px 16px 4px;border-right:3px solid var(--sky)}
-.bub.em{color:var(--rose);border-color:rgba(248,113,113,.3)}
-.mt{font-size:11px;color:var(--muted);margin-top:5px;text-align:left}
-.chip{padding:8px 16px;border-radius:24px;border:1.5px solid var(--border);background:var(--card2);color:var(--sub);font-size:14px;cursor:pointer;font-family:inherit;transition:all .15s}
-.chip:active{background:var(--card3);border-color:var(--sky);color:var(--sky)}
-/* INPUT */
-.ibar{padding:.65rem 1rem .75rem;background:rgba(17,24,39,.97);border-top:1px solid var(--border);flex-shrink:0;backdrop-filter:blur(20px)}
-.iwrap{display:flex;gap:8px;align-items:flex-end;background:var(--card2);border-radius:16px;border:1.5px solid var(--border);padding:8px 8px 8px 14px;transition:border-color .15s}
-.iwrap:focus-within{border-color:rgba(96,165,250,.4)}
-.iwrap textarea{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:15px;line-height:1.6;resize:none;max-height:110px;overflow-y:auto;direction:rtl;padding:4px 0;font-family:inherit}
-.iico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;flex-shrink:0;border:1.5px solid transparent;background:transparent;transition:all .15s}
-.iico:active{transform:scale(.9)}
-.iico.at{background:rgba(96,165,250,.14);border-color:rgba(96,165,250,.28)}
-.iico.sn{background:linear-gradient(135deg,#2563eb,#1e40af);border-color:transparent;box-shadow:0 3px 12px rgba(59,130,246,.35)}
-.iico.sn:disabled{background:var(--card3);border-color:var(--border);box-shadow:none}
-.dis{font-size:11px;color:var(--muted);text-align:center;margin-top:5px}
-/* INNER TABS */
-.tb{display:flex;background:var(--card2);border-radius:14px;padding:4px;margin-bottom:14px;gap:3px}
-.tb button{flex:1;padding:10px 2px;border-radius:11px;border:none;font-family:inherit;cursor:pointer;font-size:12.5px;transition:all .18s;font-weight:400;color:var(--muted)}
-.tb button.act{background:var(--card);color:var(--sky);font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.3)}
-/* TRACKER */
-.trd{display:flex;gap:4px}
-.trdb{flex:1;height:44px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:1.5px solid var(--border);background:var(--card2);font-family:inherit;transition:all .15s}
-.trdb:active{transform:scale(.9)}.trdb.tk{background:rgba(52,211,153,.2);border-color:var(--green)}
-/* TOAST */
-#toast{position:fixed;bottom:calc(80px + var(--sbot));left:50%;transform:translateX(-50%) translateY(20px);background:rgba(30,45,74,.95);border:1px solid var(--border);color:var(--text);padding:10px 20px;border-radius:30px;font-size:14px;font-weight:500;z-index:999;opacity:0;transition:all .3s;white-space:nowrap;backdrop-filter:blur(20px)}
+
+html,body{
+  background:var(--ink);
+  color:var(--cream);
+  font-family:'Outfit',sans-serif;
+  font-size:14px;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* Grain overlay */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity:.7;mix-blend-mode:overlay;
+}
+
+/* ── Layout ── */
+#app{display:flex;flex-direction:column;min-height:100vh;position:relative;z-index:1}
+
+/* ── Top Bar ── */
+#topbar{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:54px;padding:0 18px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(6,5,4,0.88);
+  backdrop-filter:blur(24px) saturate(160%);
+  -webkit-backdrop-filter:blur(24px) saturate(160%);
+  border-bottom:1px solid rgba(200,153,74,0.08);
+}
+
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;font-weight:600;letter-spacing:3px;
+  color:var(--gold);text-transform:uppercase;cursor:pointer;
+  text-shadow:0 0 30px rgba(200,153,74,0.3);
+}
+
+.topbar-right{display:flex;gap:4px;align-items:center}
+
+.icon-btn{
+  width:38px;height:38px;border-radius:10px;border:none;
+  background:none;cursor:pointer;font-size:17px;
+  color:var(--cool);display:flex;align-items:center;justify-content:center;
+  transition:color .2s,background .2s;
+}
+.icon-btn:hover,.icon-btn:active{color:var(--gold);background:rgba(200,153,74,0.08)}
+
+/* ── Main ── */
+#main{
+  flex:1;padding:70px 0 70px;
+  max-width:440px;margin:0 auto;width:100%;
+}
+
+/* ── Bottom Nav ── */
+#botnav{
+  position:fixed;bottom:0;left:0;right:0;z-index:200;
+  height:62px;display:flex;
+  background:rgba(6,5,4,0.94);
+  backdrop-filter:blur(24px) saturate(160%);
+  -webkit-backdrop-filter:blur(24px) saturate(160%);
+  border-top:1px solid rgba(200,153,74,0.08);
+}
+
+.tab{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:3px;border:none;background:none;
+  cursor:pointer;color:var(--fog);font-family:'Outfit',sans-serif;
+  font-size:10px;font-weight:500;letter-spacing:.5px;
+  transition:color .25s;
+}
+.tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:all .25s}
+.tab.on{color:var(--gold)}
+.tab.on svg{filter:drop-shadow(0 0 5px rgba(200,153,74,.5))}
+
+/* ── Views ── */
+.view{display:none;padding:0 16px}
+.view.on{display:block;animation:rise .3s cubic-bezier(.2,.8,.3,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ════════════════════════════════════════
+   COLLECTION VIEW
+   ════════════════════════════════════════ */
+
+.collection-header{
+  padding:20px 0 16px;
+  display:flex;align-items:flex-end;justify-content:space-between;
+}
+.coll-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:32px;font-weight:300;font-style:italic;
+  color:var(--cream);line-height:1;
+}
+.coll-count{
+  font-size:12px;color:var(--cool);letter-spacing:1px;
+  font-weight:500;text-transform:uppercase;
+  align-self:center;
+}
+
+/* Search */
+.search-wrap{position:relative;margin-bottom:14px}
+.search-wrap input{
+  width:100%;padding:11px 40px 11px 14px;
+  background:var(--card);border:1px solid var(--rail);
+  border-radius:12px;color:var(--cream);
+  font-family:'Outfit',sans-serif;font-size:13px;
+  outline:none;transition:border-color .2s;
+}
+.search-wrap input:focus{border-color:var(--gold-lo)}
+.search-wrap input::placeholder{color:var(--fog)}
+.search-icon{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--fog);font-size:15px}
+
+/* Filter chips */
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;margin-bottom:16px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex-shrink:0;padding:5px 14px;border-radius:20px;
+  border:1px solid var(--rail);background:none;
+  font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;
+  color:var(--cool);cursor:pointer;letter-spacing:.5px;
+  transition:all .2s;white-space:nowrap;
+}
+.chip.on,.chip:active{
+  background:rgba(200,153,74,.1);border-color:rgba(200,153,74,.35);color:var(--gold)
+}
+
+/* Album grid */
+.album-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-bottom:4px}
+
+/* Album Card — vinyl peek effect */
+.album-card{
+  border-radius:14px;overflow:visible;cursor:pointer;position:relative;
+  transition:transform .25s cubic-bezier(.2,.8,.3,1);
+}
+.album-card:active{transform:scale(0.96)}
+
+/* Vinyl peek behind cover */
+.vinyl-peek{
+  position:absolute;top:4px;right:-8px;bottom:4px;
+  width:calc(100% - 4px);border-radius:50%;
+  background:radial-gradient(circle at 50%,
+    #0a0a0a 0%,#0a0a0a 10%,
+    #181818 10%,#181818 16%,#0e0e0e 16%,#0e0e0e 24%,
+    #181818 24%,#181818 30%,#0e0e0e 30%,#0e0e0e 38%,
+    #181818 38%,#181818 44%,#0e0e0e 44%,#0e0e0e 52%,
+    #181818 52%
+  );
+  z-index:0;
+  box-shadow:2px 0 12px rgba(0,0,0,.6);
+  transition:right .3s cubic-bezier(.2,.8,.3,1);
+}
+.album-card:hover .vinyl-peek,.album-card:active .vinyl-peek{right:-18px}
+
+.card-inner{
+  position:relative;z-index:1;
+  background:var(--card);border:1px solid var(--rail);
+  border-radius:14px;overflow:hidden;
+}
+
+.cover-wrap{
+  width:100%;aspect-ratio:1;background:var(--slate);
+  position:relative;overflow:hidden;
+}
+.cover-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* Placeholder vinyl art */
+.cover-ph{
+  width:100%;height:100%;
+  background:linear-gradient(135deg,var(--slate),var(--rich));
+  display:flex;align-items:center;justify-content:center;
+}
+.cover-ph-disc{
+  width:62%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 50%,
+    #0a0a0a 0%,#0a0a0a 12%,
+    rgba(200,153,74,.6) 12%,rgba(200,153,74,.6) 14%,
+    #111 14%,#111 22%,#151515 22%,#151515 32%,
+    #111 32%,#111 42%,#151515 42%,#151515 52%,
+    #111 52%
+  );
+  box-shadow:0 4px 24px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.03);
+}
+
+/* Rating overlay */
+.rating-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:20px 10px 8px;
+  background:linear-gradient(to top,rgba(6,5,4,.9),transparent);
+  display:flex;justify-content:flex-end;gap:1px;
+}
+.s{font-size:12px;color:rgba(200,153,74,.3);cursor:pointer;transition:color .1s}
+.s.on{color:var(--gold)}
+
+.card-info{padding:10px 12px 13px}
+.card-title{font-size:13px;font-weight:600;color:var(--cream);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-artist{font-size:11px;color:var(--gold);margin-top:2px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-meta{font-size:10px;color:var(--fog);margin-top:4px;letter-spacing:.3px}
+
+/* ════════════════════════════════════════
+   SCAN VIEW
+   ════════════════════════════════════════ */
+
+.scan-header{padding:20px 0 22px;text-align:center}
+.scan-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;font-style:italic;color:var(--cream)}
+.scan-sub{font-size:12px;color:var(--cool);margin-top:5px;letter-spacing:.5px}
+
+/* Drop zone */
+.dropzone{
+  border:1px dashed rgba(200,153,74,.25);
+  border-radius:22px;background:var(--card);
+  padding:44px 20px;text-align:center;
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.dropzone.drag{border-color:var(--gold);background:rgba(200,153,74,.04)}
+.dropzone::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 110%,rgba(200,153,74,.05),transparent 70%);
+  pointer-events:none;
+}
+
+.dropzone-ring{
+  width:90px;height:90px;border-radius:50%;margin:0 auto 22px;
+  border:1px solid rgba(200,153,74,.2);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.dropzone-ring::before{
+  content:'';position:absolute;inset:-6px;border-radius:50%;
+  border:1px dashed rgba(200,153,74,.1);
+  animation:rotate 12s linear infinite;
+}
+@keyframes rotate{to{transform:rotate(360deg)}}
+
+.dropzone-icon{font-size:38px;line-height:1}
+.dropzone-label{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;font-style:italic;color:var(--warm);margin-bottom:8px}
+.dropzone-hint{font-size:12px;color:var(--cool);line-height:1.6;margin-bottom:24px}
+
+/* Camera buttons — FIXED: using <label> for direct input trigger */
+.scan-btns{display:flex;gap:10px;justify-content:center}
+
+/* The actual file inputs — accessible but visually hidden */
+#cam-input,#file-input{
+  position:absolute;width:1px;height:1px;opacity:0;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;
+  pointer-events:none;
+}
+
+/* Labels styled as buttons — most reliable cross-browser camera trigger */
+.btn-cam,.btn-file{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  padding:13px 22px;border-radius:13px;font-family:'Outfit',sans-serif;
+  font-size:14px;font-weight:500;cursor:pointer;
+  transition:all .2s;letter-spacing:.3px;
+}
+.btn-cam{
+  background:var(--gold);color:var(--ink);
+  box-shadow:0 4px 20px rgba(200,153,74,.25);
+}
+.btn-cam:hover,.btn-cam:active{background:var(--gold-hi);box-shadow:0 6px 28px rgba(200,153,74,.4)}
+.btn-file{
+  background:var(--lift);color:var(--warm);
+  border:1px solid var(--rail);
+}
+.btn-file:hover,.btn-file:active{border-color:var(--gold-lo);color:var(--gold)}
+
+/* Preview */
+#scan-preview{display:none;margin-bottom:16px}
+.preview-img-wrap{
+  width:100%;border-radius:18px;overflow:hidden;
+  aspect-ratio:1;margin-bottom:14px;position:relative;
+  background:var(--slate);
+}
+.preview-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.preview-actions{display:flex;gap:10px}
+.btn-identify{
+  flex:1;padding:14px;border-radius:13px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--gold-lo),var(--gold));
+  color:var(--ink);font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;
+  letter-spacing:.5px;transition:all .2s;
+  box-shadow:0 4px 20px rgba(200,153,74,.3);
+}
+.btn-identify:hover{box-shadow:0 6px 30px rgba(200,153,74,.5);transform:translateY(-1px)}
+.btn-clear{
+  padding:14px 18px;border-radius:13px;border:1px solid var(--rail);
+  background:none;color:var(--cool);cursor:pointer;font-size:13px;
+  transition:all .2s;
+}
+.btn-clear:hover{border-color:var(--red);color:var(--red)}
+
+/* Manual add */
+.manual-section{margin-top:20px}
+.section-label{
+  font-size:10px;font-weight:600;color:var(--fog);letter-spacing:2px;
+  text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;
+}
+.section-label::before,.section-label::after{content:'';flex:1;height:1px;background:var(--rail)}
+
+.field{margin-bottom:11px}
+.field label{display:block;font-size:10px;color:var(--cool);font-weight:500;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.field input,.field select,.field textarea{
+  width:100%;padding:11px 13px;
+  background:var(--card);border:1px solid var(--rail);border-radius:10px;
+  color:var(--cream);font-family:'Outfit',sans-serif;font-size:13px;
+  outline:none;transition:border-color .2s;resize:vertical;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:rgba(200,153,74,.4)}
+.field input::placeholder,.field textarea::placeholder{color:var(--dim)}
+.field select option{background:var(--card)}
+
+.btn-add-manual{
+  width:100%;padding:13px;border-radius:12px;border:none;cursor:pointer;
+  background:var(--lift);border:1px solid var(--rail);
+  color:var(--warm);font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;
+  transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.btn-add-manual:hover{border-color:var(--gold-lo);color:var(--gold)}
+
+/* ════════════════════════════════════════
+   SCAN RESULT
+   ════════════════════════════════════════ */
+
+.result-wrap{margin-top:18px}
+
+.result-card{
+  background:var(--card);border:1px solid var(--rail);border-radius:20px;
+  overflow:hidden;animation:rise .35s cubic-bezier(.2,.8,.3,1) both;
+}
+
+.result-top{
+  display:flex;gap:16px;padding:20px;
+  border-bottom:1px solid var(--rail);
+  background:linear-gradient(135deg,rgba(200,153,74,.04),transparent);
+}
+.result-cover{
+  width:84px;height:84px;border-radius:12px;flex-shrink:0;
+  background:var(--slate);overflow:hidden;
+  box-shadow:0 4px 20px rgba(0,0,0,.5);
+}
+.result-cover img{width:100%;height:100%;object-fit:cover}
+.result-cover-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:32px;background:var(--slate)}
+
+.result-info{}
+.result-album{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--cream);line-height:1.2}
+.result-artist{font-size:13px;color:var(--gold);margin-top:4px;font-weight:400}
+.result-detail{font-size:11px;color:var(--cool);margin-top:5px;line-height:1.5}
+.confidence{
+  display:inline-flex;align-items:center;gap:4px;margin-top:8px;
+  padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:.5px;
+}
+.conf-high{background:rgba(74,158,136,.12);border:1px solid rgba(74,158,136,.25);color:var(--teal)}
+.conf-med{background:rgba(200,153,74,.1);border:1px solid rgba(200,153,74,.2);color:var(--gold)}
+.conf-low{background:rgba(201,72,72,.1);border:1px solid rgba(201,72,72,.2);color:var(--red)}
+
+.result-section{padding:16px 20px;border-bottom:1px solid var(--rail)}
+.result-section:last-child{border-bottom:none}
+.sec-title{font-size:9px;font-weight:600;color:var(--fog);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.sec-body{font-size:13px;color:var(--warm);line-height:1.75}
+
+.facts-ul{list-style:none}
+.facts-ul li{
+  font-size:12px;color:var(--warm);line-height:1.55;
+  padding:5px 0;border-bottom:1px solid rgba(255,255,255,.03);
+  display:flex;gap:8px;align-items:flex-start;
+}
+.facts-ul li::before{content:'◆';color:var(--gold);font-size:7px;margin-top:5px;flex-shrink:0}
+
+.tracklist{display:flex;flex-direction:column;gap:0}
+.track{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 6px;border-radius:8px;cursor:pointer;
+  transition:background .15s;
+}
+.track:hover{background:rgba(255,255,255,.04)}
+.track-n{font-family:'DM Mono',monospace;font-size:11px;color:var(--fog);width:22px;text-align:center;flex-shrink:0}
+.track-name{font-size:12px;color:var(--warm);flex:1}
+.track-play{font-size:13px;color:var(--fog)}
+
+.result-btns{display:flex;gap:8px;padding:18px 20px}
+.btn-save{
+  flex:1;padding:13px;border-radius:12px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--gold-lo),var(--gold));
+  color:var(--ink);font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;
+  letter-spacing:.3px;transition:all .2s;
+  box-shadow:0 4px 16px rgba(200,153,74,.25);
+}
+.btn-save:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(200,153,74,.4)}
+.btn-cancel{
+  padding:13px 18px;border-radius:12px;border:1px solid var(--rail);
+  background:none;color:var(--cool);cursor:pointer;font-size:13px;
+  transition:all .2s;
+}
+.btn-cancel:hover{border-color:var(--red);color:var(--red)}
+
+/* ════════════════════════════════════════
+   ALBUM DETAIL VIEW
+   ════════════════════════════════════════ */
+
+.back{
+  display:flex;align-items:center;gap:7px;padding:16px 0 0;
+  background:none;border:none;cursor:pointer;
+  color:var(--cool);font-family:'Outfit',sans-serif;font-size:13px;
+  transition:color .2s;margin-bottom:16px;
+}
+.back:hover{color:var(--gold)}
+
+.album-hero{
+  border-radius:20px;overflow:hidden;position:relative;margin-bottom:16px;
+  background:var(--card);border:1px solid var(--rail);
+}
+.hero-cover{
+  width:100%;aspect-ratio:1;max-height:280px;overflow:hidden;
+  background:var(--slate);position:relative;
+}
+.hero-cover img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-gradient{
+  position:absolute;bottom:0;left:0;right:0;height:60%;
+  background:linear-gradient(to top,rgba(26,23,20,1),transparent);
+}
+.hero-info{padding:20px}
+.hero-album{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--cream);line-height:1.15}
+.hero-artist{
+  font-size:15px;color:var(--gold);margin-top:6px;cursor:pointer;
+  display:inline-flex;align-items:center;gap:4px;
+}
+.hero-artist:hover{color:var(--gold-hi)}
+.hero-meta{font-size:12px;color:var(--cool);margin-top:8px;line-height:1.6}
+.hero-rating{display:flex;gap:4px;margin-top:12px}
+.hs{font-size:18px;color:var(--dim);cursor:pointer;transition:color .1s}
+.hs.on{color:var(--gold)}
+
+.detail-actions{
+  display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;
+  padding-bottom:2px;scrollbar-width:none;
+}
+.detail-actions::-webkit-scrollbar{display:none}
+.act-btn{
+  flex-shrink:0;padding:10px 16px;border-radius:11px;border:none;cursor:pointer;
+  font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;letter-spacing:.3px;
+  display:flex;align-items:center;gap:5px;transition:all .2s;
+}
+.act-primary{background:rgba(200,153,74,.15);color:var(--gold);border:1px solid rgba(200,153,74,.2)}
+.act-primary:hover{background:rgba(200,153,74,.22)}
+.act-sec{background:var(--card);color:var(--warm);border:1px solid var(--rail)}
+.act-sec:hover{border-color:var(--gold-lo);color:var(--gold)}
+.act-danger{background:none;color:var(--fog);border:1px solid var(--rail)}
+.act-danger:hover{border-color:var(--red);color:var(--red)}
+
+.detail-section{
+  background:var(--card);border:1px solid var(--rail);
+  border-radius:16px;padding:18px;margin-bottom:12px;
+}
+.detail-section-title{font-size:9px;font-weight:600;color:var(--fog);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+
+.ai-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:.5px;
+  background:rgba(200,153,74,.08);border:1px solid rgba(200,153,74,.15);color:var(--gold);
+  margin-bottom:10px;
+}
+
+.stream-text{font-size:13px;color:var(--warm);line-height:1.8;white-space:pre-wrap}
+.cursor{display:inline-block;width:2px;height:13px;background:var(--gold);vertical-align:middle;animation:blink .75s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+.notes-ta{
+  width:100%;min-height:80px;padding:11px 13px;resize:none;outline:none;
+  background:var(--lift);border:1px solid var(--rail);border-radius:10px;
+  color:var(--cream);font-family:'Outfit',sans-serif;font-size:13px;line-height:1.6;
+  transition:border-color .2s;
+}
+.notes-ta:focus{border-color:rgba(200,153,74,.35)}
+
+/* ════════════════════════════════════════
+   ARTIST PAGE
+   ════════════════════════════════════════ */
+
+.artist-hero{
+  text-align:center;padding:24px 16px 20px;
+  background:linear-gradient(to bottom,rgba(200,153,74,.04),transparent);
+  border:1px solid var(--rail);border-radius:20px;margin-bottom:16px;
+}
+.artist-avatar{
+  width:72px;height:72px;border-radius:50%;margin:0 auto 14px;
+  background:var(--slate);border:1px solid var(--rail);
+  display:flex;align-items:center;justify-content:center;font-size:28px;
+}
+.artist-name{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;font-style:italic}
+.artist-sub{font-size:12px;color:var(--gold);margin-top:5px;letter-spacing:.5px}
+
+.tabs{display:flex;border-bottom:1px solid var(--rail);margin-bottom:18px}
+.tab-btn{
+  flex:1;padding:12px 6px;background:none;border:none;cursor:pointer;
+  font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;letter-spacing:.5px;
+  color:var(--fog);border-bottom:2px solid transparent;margin-bottom:-1px;
+  text-transform:uppercase;transition:all .2s;
+}
+.tab-btn.on{color:var(--gold);border-bottom-color:var(--gold)}
+
+.bio-text{font-size:13px;color:var(--warm);line-height:1.85}
+
+.timeline{position:relative;padding-right:24px}
+.timeline::before{content:'';position:absolute;right:9px;top:4px;bottom:4px;width:1px;background:var(--rail)}
+.tl-item{position:relative;padding:0 26px 22px 0}
+.tl-dot{position:absolute;right:0;top:4px;width:19px;height:19px;border-radius:50%;background:var(--gold);border:3px solid var(--ink);box-shadow:0 0 10px rgba(200,153,74,.4)}
+.tl-year{font-size:10px;color:var(--gold);font-weight:600;letter-spacing:1px;margin-bottom:3px}
+.tl-event{font-size:13px;color:var(--warm);line-height:1.5}
+
+/* ════════════════════════════════════════
+   DISCOVER VIEW
+   ════════════════════════════════════════ */
+
+.discover-hero{
+  padding:22px 0 18px;
+  display:flex;gap:16px;align-items:center;
+}
+.disc-art{
+  width:72px;height:72px;border-radius:50%;flex-shrink:0;
+  background:radial-gradient(circle at 50%,
+    #0a0a0a 0%,#0a0a0a 12%,rgba(200,153,74,.5) 12%,rgba(200,153,74,.5) 14%,
+    #111 14%,#111 24%,#181818 24%,#181818 34%,#111 34%,#111 44%,#181818 44%
+  );
+  animation:spin 10s linear infinite;
+  box-shadow:0 0 30px rgba(200,153,74,.15);
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.disc-info{}
+.disc-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;font-style:italic;color:var(--cream)}
+.disc-sub{font-size:12px;color:var(--cool);margin-top:4px;line-height:1.5}
+
+.random-card{
+  background:var(--card);border:1px solid rgba(200,153,74,.15);border-radius:16px;
+  padding:18px 20px;margin-bottom:18px;cursor:pointer;
+  display:flex;align-items:center;gap:14px;transition:all .2s;
+  background:linear-gradient(135deg,rgba(200,153,74,.06),var(--card));
+}
+.random-card:hover{border-color:rgba(200,153,74,.3);transform:translateY(-1px)}
+.random-icon{font-size:28px}
+.random-info .rt{font-size:14px;font-weight:500;color:var(--cream)}
+.random-info .rs{font-size:12px;color:var(--cool);margin-top:3px}
+
+.rec-card{
+  background:var(--card);border:1px solid var(--rail);border-radius:14px;
+  padding:15px;margin-bottom:9px;display:flex;gap:13px;align-items:flex-start;
+  cursor:pointer;transition:all .2s;
+}
+.rec-card:hover{border-color:var(--gold-lo);transform:translateY(-1px)}
+.rec-icon{
+  width:44px;height:44px;border-radius:10px;background:var(--slate);
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;
+}
+.rec-title{font-size:13px;font-weight:600;color:var(--cream)}
+.rec-artist{font-size:11px;color:var(--gold);margin-top:2px}
+.rec-reason{font-size:11px;color:var(--cool);margin-top:6px;line-height:1.5}
+
+/* ════════════════════════════════════════
+   STATS VIEW
+   ════════════════════════════════════════ */
+
+.stats-header{padding:20px 0 18px}
+.stats-head{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;font-style:italic}
+
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.stat-box{
+  background:var(--card);border:1px solid var(--rail);border-radius:14px;
+  padding:18px 14px;text-align:center;
+}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--gold)}
+.stat-l{font-size:10px;color:var(--fog);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px}
+
+.bar-section{background:var(--card);border:1px solid var(--rail);border-radius:14px;padding:18px;margin-bottom:12px}
+.bar-title{font-size:9px;font-weight:600;color:var(--fog);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.bar-item{margin-bottom:10px}
+.bar-labels{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;color:var(--warm)}
+.bar-labels span:last-child{color:var(--fog)}
+.bar-track{height:5px;background:var(--rail);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--gold-lo),var(--gold));border-radius:3px;transition:width 1s cubic-bezier(.2,.8,.3,1)}
+
+.log-section{background:var(--card);border:1px solid var(--rail);border-radius:14px;padding:16px}
+.log-item{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.03)}
+.log-item:last-child{border-bottom:none}
+.log-cov{width:40px;height:40px;border-radius:8px;background:var(--slate);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:18px}
+.log-cov img{width:100%;height:100%;object-fit:cover}
+.log-info{flex:1;min-width:0}
+.log-t{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.log-a{font-size:10px;color:var(--gold)}
+.log-d{font-size:10px;color:var(--fog);flex-shrink:0}
+
+/* ════════════════════════════════════════
+   SONG ANALYSIS MODAL
+   ════════════════════════════════════════ */
+
+.modal-bg{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.7);backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  display:flex;align-items:flex-end;
+  animation:fadein .2s ease both;
+}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+
+.modal-sheet{
+  width:100%;max-height:88vh;overflow-y:auto;
+  background:var(--rich);border-top-left-radius:24px;border-top-right-radius:24px;
+  border-top:1px solid var(--rail);
+  animation:slideup .3s cubic-bezier(.2,.8,.3,1) both;
+}
+@keyframes slideup{from{transform:translateY(100%)}to{transform:translateY(0)}}
+
+.modal-handle{width:36px;height:4px;background:var(--mist);border-radius:2px;margin:14px auto 0}
+.modal-pad{padding:20px 20px 40px}
+.modal-track{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--cream)}
+.modal-artist{font-size:13px;color:var(--gold);margin-top:4px;margin-bottom:18px}
+.modal-close{
+  float:left;padding:4px 10px;border-radius:8px;border:1px solid var(--rail);
+  background:none;color:var(--cool);font-size:12px;cursor:pointer;margin-top:24px;
+  font-family:'Outfit',sans-serif;transition:all .2s;
+}
+.modal-close:hover{border-color:var(--red);color:var(--red)}
+
+/* ════════════════════════════════════════
+   NOW PLAYING BAR
+   ════════════════════════════════════════ */
+
+#npbar{
+  position:fixed;bottom:62px;left:0;right:0;z-index:190;
+  display:none;align-items:center;gap:12px;padding:8px 16px;
+  background:rgba(14,12,10,0.96);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid rgba(200,153,74,.1);cursor:pointer;
+  animation:npslide .3s cubic-bezier(.2,.8,.3,1) both;
+}
+@keyframes npslide{from{transform:translateY(100%)}to{transform:translateY(0)}}
+
+.np-disc{
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  background:radial-gradient(circle at 50%,#0a0a0a 0%,#0a0a0a 14%,#1a1a1a 14%,#1a1a1a 28%,#0f0f0f 28%,#0f0f0f 44%,#1a1a1a 44%);
+  animation:spin 4s linear infinite;overflow:hidden;
+}
+.np-disc img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.np-meta{flex:1;min-width:0}
+.np-t{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.np-a{font-size:10px;color:var(--gold);margin-top:1px}
+.np-wave{display:flex;align-items:center;gap:2px}
+.np-wave span{display:block;width:3px;background:var(--gold);border-radius:1.5px;animation:wave .7s ease-in-out infinite}
+.np-wave span:nth-child(1){height:7px;animation-delay:0s}
+.np-wave span:nth-child(2){height:14px;animation-delay:.12s}
+.np-wave span:nth-child(3){height:9px;animation-delay:.24s}
+.np-wave span:nth-child(4){height:12px;animation-delay:.36s}
+@keyframes wave{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+
+/* ════════════════════════════════════════
+   LOADING
+   ════════════════════════════════════════ */
+
+#loading{
+  position:fixed;inset:0;z-index:600;
+  background:rgba(6,5,4,.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+}
+.load-disc{
+  width:80px;height:80px;border-radius:50%;
+  background:radial-gradient(circle at 50%,
+    #0a0a0a 0%,#0a0a0a 12%,rgba(200,153,74,.5) 12%,rgba(200,153,74,.5) 14%,
+    #111 14%,#111 24%,#181818 24%,#181818 34%,#111 34%,#111 44%,#181818 44%,#181818 54%,#111 54%
+  );
+  animation:spin 2s linear infinite;
+  box-shadow:0 0 40px rgba(200,153,74,.2);
+}
+.load-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;font-style:italic;color:var(--cream)}
+.load-sub{font-size:12px;color:var(--cool);letter-spacing:.5px}
+
+/* ════════════════════════════════════════
+   EMPTY STATE
+   ════════════════════════════════════════ */
+
+.empty{text-align:center;padding:50px 20px}
+.empty-disc{
+  width:90px;height:90px;border-radius:50%;margin:0 auto 20px;
+  background:radial-gradient(circle at 50%,var(--rail) 0%,var(--rail) 14%,var(--mist) 14%,var(--mist) 26%,var(--rail) 26%,var(--rail) 38%,var(--mist) 38%,var(--mist) 50%,var(--rail) 50%);
+  opacity:.4;
+}
+.empty-t{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;font-style:italic;color:var(--warm);margin-bottom:8px}
+.empty-s{font-size:12px;color:var(--cool);line-height:1.7}
+
+/* ════════════════════════════════════════
+   TOAST
+   ════════════════════════════════════════ */
+
+#toast{
+  position:fixed;top:62px;left:50%;z-index:700;
+  transform:translateX(-50%) translateY(-8px);
+  opacity:0;transition:all .3s cubic-bezier(.2,.8,.3,1);pointer-events:none;
+  background:var(--card);border:1px solid var(--rail);border-radius:10px;
+  padding:9px 18px;font-size:12px;font-weight:500;white-space:nowrap;
+  box-shadow:0 8px 30px rgba(0,0,0,.5);
+}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-/* MODAL */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;display:flex;align-items:flex-end;padding:0;backdrop-filter:blur(8px)}
-.modal{background:var(--card);border-radius:24px 24px 0 0;width:100%;max-width:540px;margin:0 auto;padding:1.5rem 1.2rem calc(1.5rem + var(--sbot));max-height:85dvh;overflow-y:auto}
-.modal-handle{width:40px;height:4px;background:var(--border);border-radius:4px;margin:0 auto 1.2rem;display:block}
-/* SECTION HEADER */
-.sh{display:flex;align-items:center;gap:8px;margin-bottom:.9rem}
-.sh-bar{width:4px;height:20px;border-radius:4px}
-.sh h3{font-size:16px;font-weight:600;color:var(--text)}
-/* DOCUMENTS */
-.doc-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color .15s}
-.doc-thumb{width:100%;height:160px;background:var(--card2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;cursor:pointer}
-.doc-thumb canvas{width:100%;height:100%;object-fit:contain}
-.doc-thumb img{width:100%;height:100%;object-fit:cover;cursor:zoom-in}
-.doc-thumb .pdf-icon{font-size:48px;opacity:.5}
-.doc-category{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
-.doc-actions{display:flex;gap:6px;padding:.75rem}
-/* INSTALL BANNER *//* INSTALL BANNER */
-.install-banner{background:linear-gradient(135deg,rgba(59,130,246,.15),rgba(29,78,216,.1));border:1px solid rgba(96,165,250,.3);border-radius:16px;padding:1rem 1.1rem;margin-bottom:1.2rem;cursor:pointer;display:flex;align-items:center;gap:12px}
+#toast.ok{border-color:rgba(74,158,136,.3);color:var(--teal)}
+#toast.err{border-color:rgba(201,72,72,.3);color:var(--red)}
+
+/* ════════════════════════════════════════
+   MISC
+   ════════════════════════════════════════ */
+
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--rail);border-radius:2px}
+
+.divider{height:1px;background:var(--rail);margin:16px 0}
+
+/* FAB */
+.fab{
+  position:fixed;bottom:70px;left:16px;z-index:180;
+  width:42px;height:42px;border-radius:50%;border:1px solid var(--rail);
+  background:var(--card);cursor:pointer;font-size:16px;
+  display:none;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(0,0,0,.4);transition:all .2s;
+  color:var(--cool);
+}
+.fab:hover{border-color:var(--gold-lo);color:var(--gold);transform:scale(1.08)}
 </style>
 </head>
 <body>
-<div id="app"><div class="scroll" id="main"></div><nav id="nav"></nav></div>
+<div id="app">
+
+<!-- TOP BAR -->
+<header id="topbar">
+  <div class="logo" onclick="nav('collection')">GROOVES</div>
+  <div class="topbar-right">
+    <button class="icon-btn" onclick="toggleSearch()" title="חיפוש">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+    <button class="icon-btn" onclick="randomPick()" title="הפתעה">
+      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M8 8h.01M12 12h.01M16 16h.01M16 8l-8 8"/></svg>
+    </button>
+    <button class="icon-btn" onclick="exportCol()" title="ייצא" id="fab-export" style="display:none">
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- LOADING -->
+<div id="loading">
+  <div class="load-disc"></div>
+  <div class="load-title" id="load-title">מזהה תקליט...</div>
+  <div class="load-sub" id="load-sub">AI מנתח את העטיפה</div>
+</div>
+
+<!-- TOAST -->
 <div id="toast"></div>
 
+<!-- NOW PLAYING -->
+<div id="npbar" onclick="openNP()">
+  <div class="np-disc" id="np-disc"></div>
+  <div class="np-meta">
+    <div class="np-t" id="np-t">—</div>
+    <div class="np-a" id="np-a">—</div>
+  </div>
+  <div class="np-wave"><span></span><span></span><span></span><span></span></div>
+</div>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main id="main">
+
+<!-- FILE INPUTS — accessible, camera-ready (label triggers = most reliable on iOS) -->
+<input type="file" id="cam-input"  accept="image/*" capture="environment" onchange="onFile(event)">
+<input type="file" id="file-input" accept="image/*"                       onchange="onFile(event)">
+
+<!-- ── COLLECTION ── -->
+<div class="view on" id="v-collection">
+  <div id="search-bar" style="display:none;padding-top:8px">
+    <div class="search-wrap">
+      <input type="text" placeholder="חפש אמן, אלבום, ז׳אנר..." oninput="onSearch(this.value)">
+      <span class="search-icon">⌕</span>
+    </div>
+  </div>
+  <div class="collection-header">
+    <h1 class="coll-title" id="coll-title">האוסף שלי</h1>
+    <span class="coll-count" id="coll-count"></span>
+  </div>
+  <div class="chips" id="genre-chips"></div>
+  <div class="album-grid" id="album-grid"></div>
+  <div class="empty" id="coll-empty" style="display:none">
+    <div class="empty-disc"></div>
+    <div class="empty-t">האוסף ריק עדיין</div>
+    <div class="empty-s">לחץ "סרוק" · צלם עטיפת תקליט<br>ו-AI יזהה הכל אוטומטית</div>
+  </div>
+</div>
+
+<!-- ── SCAN ── -->
+<div class="view" id="v-scan">
+  <div class="scan-header">
+    <div class="scan-title">סרוק תקליט</div>
+    <div class="scan-sub">AI מזהה אמן · אלבום · שירים · ועוד</div>
+  </div>
+
+  <!-- Preview (shown after image selected) -->
+  <div id="scan-preview">
+    <div class="preview-img-wrap">
+      <img id="preview-img" src="" alt="">
+    </div>
+    <div class="preview-actions">
+      <button class="btn-identify" onclick="identify()">✦ זהה עם AI</button>
+      <button class="btn-clear" onclick="clearScan()">✕</button>
+    </div>
+  </div>
+
+  <!-- Drop zone (shown before image selected) -->
+  <div id="scan-zone">
+    <div class="dropzone" id="dropzone"
+         ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+      <div class="dropzone-ring">
+        <span class="dropzone-icon">💿</span>
+      </div>
+      <div class="dropzone-label">צלם עטיפת תקליט</div>
+      <div class="dropzone-hint">
+        צלם או גרור תמונה — AI יזהה אמן,<br>
+        אלבום, שנה, שירים ועוד
+      </div>
+      <div class="scan-btns">
+        <!-- FIXED: label elements directly trigger file inputs — works on all iOS versions -->
+        <label for="cam-input"  class="btn-cam">📷 &nbsp;מצלמה</label>
+        <label for="file-input" class="btn-file">🖼 &nbsp;גלריה</label>
+      </div>
+    </div>
+
+    <!-- Manual add -->
+    <div class="manual-section">
+      <div class="section-label">הוספה ידנית</div>
+      <div class="field"><label>שם האלבום *</label><input id="m-album" placeholder="The Dark Side of the Moon" dir="auto" autocomplete="off"></div>
+      <div class="field"><label>אמן / להקה *</label><input id="m-artist" placeholder="Pink Floyd" dir="auto" autocomplete="off"></div>
+      <div class="field"><label>שנה</label><input id="m-year" type="number" placeholder="1973" min="1900" max="2030"></div>
+      <div class="field"><label>ז׳אנר</label><input id="m-genre" placeholder="Progressive Rock" dir="auto" autocomplete="off"></div>
+      <button class="btn-add-manual" onclick="addManual()">+ הוסף לאוסף</button>
+    </div>
+  </div>
+
+  <!-- AI Result -->
+  <div class="result-wrap" id="result-wrap" style="display:none"></div>
+</div>
+
+<!-- ── ALBUM DETAIL ── -->
+<div class="view" id="v-album">
+  <button class="back" onclick="goBack()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    חזרה
+  </button>
+  <div id="album-detail"></div>
+</div>
+
+<!-- ── ARTIST ── -->
+<div class="view" id="v-artist">
+  <button class="back" onclick="goBack()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    חזרה
+  </button>
+  <div id="artist-detail"></div>
+</div>
+
+<!-- ── DISCOVER ── -->
+<div class="view" id="v-discover">
+  <div class="discover-hero">
+    <div class="disc-art"></div>
+    <div class="disc-info">
+      <div class="disc-title">גלה מוזיקה</div>
+      <div class="disc-sub">המלצות AI מותאמות לאוסף שלך<br>והפתעות יומיות</div>
+    </div>
+  </div>
+  <div class="random-card" onclick="randomPick()">
+    <span class="random-icon">🎲</span>
+    <div class="random-info">
+      <div class="rt">הפתעה מהאוסף</div>
+      <div class="rs">בחר אלבום אקראי להאזנה</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;font-style:italic;color:var(--cream)">המלצות AI</div>
+    <button onclick="genRecs()" style="padding:7px 14px;border-radius:10px;border:1px solid var(--rail);background:none;color:var(--cool);font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;letter-spacing:.5px;transition:all .2s" onmouseover="this.style.borderColor='var(--gold-lo)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--rail)';this.style.color='var(--cool)'">✦ רענן</button>
+  </div>
+  <div id="recs-list">
+    <div class="empty" style="padding:30px 0"><div class="empty-s">לחץ רענן לקבלת המלצות מותאמות</div></div>
+  </div>
+</div>
+
+<!-- ── STATS ── -->
+<div class="view" id="v-stats">
+  <div class="stats-header">
+    <div class="stats-head">האוסף שלי</div>
+  </div>
+  <div id="stats-body"></div>
+</div>
+
+</main>
+
+<!-- BOTTOM NAV -->
+<nav id="botnav">
+  <button class="tab on" id="t-collection" onclick="nav('collection')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="21"/></svg>
+    אוסף
+  </button>
+  <button class="tab" id="t-scan" onclick="nav('scan')">
+    <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+    סרוק
+  </button>
+  <button class="tab" id="t-discover" onclick="nav('discover')">
+    <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    גלה
+  </button>
+  <button class="tab" id="t-stats" onclick="nav('stats')">
+    <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    סטטס
+  </button>
+</nav>
+
+</div><!-- #app -->
+
 <script>
-// ── CONFIG ──
-const KEY="drc_v2",API="https://api.anthropic.com/v1/messages";
-const EMRG=["כאב חזה","קוצר נשימה","שבץ","עילפון","דימום חמור","אוטם לב"];
-const CHIPS=["כאב ראש","חום","שיעול","כאב גרון","כאב בטן","חולשה","סחרחורת","בחילה","פריחה","כאב גב","קוצר נשימה","כאב שרירים","נדודי שינה","כאב אוזניים"];
-const MODEL="claude-haiku-4-5-20251001";
+// ═══════════════════════════════════════════════
+//   GROOVES — App Logic
+// ═══════════════════════════════════════════════
 
-const SYS=`אתה ד"ר קלוד — רופא משפחה דיגיטלי בעל ניסיון של 25 שנה וידע קליני מקיף מספרות הרפואה המערבית: Harrison's Principles of Internal Medicine, DSM-5-TR, Nelson's Pediatrics, Fitzpatrick's Dermatology, Schwartz's Surgery, Goodman & Gilman's Pharmacology, Sabiston Surgery, Williams Obstetrics, UpToDate.
+const SK = 'grooves_v2';
+let S = { collection:[], log:[], view:'collection', prev:'collection', filterGenre:'all', search:'', npId:null };
 
-כישורים:
-• אבחנה מבדלת מסודרת לפי תסמינים, גיל, מין ורקע רפואי
-• ניתוח תמונות רפואיות: עור, גרון, עין, פריחה, פצע, תוצאות בדיקות מעבדה והדמיה
-• הבנת פרמקולוגיה ואינטראקציות תרופתיות
-• רפואה פנימית, ילדים, נשים, נוירולוגיה, אורתופדיה, עור
+// ── Storage ──
+function load(){try{const d=JSON.parse(localStorage.getItem(SK)||'{}');S.collection=d.c||[];S.log=d.l||[]}catch(e){}}
+function save(){try{localStorage.setItem(SK,JSON.stringify({c:S.collection,l:S.log}))}catch(e){}}
+setInterval(save, 20000);
+window.addEventListener('beforeunload', save);
 
-כלל עבודה:
-1. אסוף 3-5 שאלות ממוקדות לפני כל אבחנה
-2. שאל על גיל, מין, מחלות רקע בפגישה ראשונה
-3. הצג אבחנה מבדלת מהסבירה לפחות סבירה
-
-פורמט אבחנה קליני:
-━━━━━━━━━━━━━━━━━━━━━━
-🩺 סיכום קליני — ד"ר קלוד
-━━━━━━━━━━━━━━━━━━━━━━
-📌 תלונה עיקרית: [תיאור]
-🔬 הערכה קלינית:
-  ⭐ [אבחנה ראשית] — [הסבר בשפה פשוטה]
-  • [אבחנה 2] — [סיבה]
-  • [אבחנה 3] — [סיבה]
-💊 המלצות טיפול: [ביתי / תרופות / שינויים]
-📝 בדיקות מומלצות: [רשימה]
-🚦 דחיפות: 🟢 לא דחוף / 🟡 תוך 2-3 ימים / 🔴 דחוף
-━━━━━━━━━━━━━━━━━━━━━━
-⚠️ הערכה ראשונית בלבד — אינה מחליפה ביקור אצל רופא מוסמך
-
-כשמנתח תמונת בדיקה (מעבדה/הדמיה):
-📊 ניתוח תוצאות:
-  • [פרמטר]: [ערך] — [משמעות קלינית]
-📌 ממצא עיקרי: [הסבר]
-💡 המלצה: [פעולה מומלצת]
-
-לחירום: 🚨 זהו מצב חירום! התקשר מיד ל-101 (מד"א). אל תחכה!
-תמיד בעברית. חם ואמפתי.`;
-
-const SYS_SUM=`צור סיכום רפואי מקצועי ומקיף בעברית על סמך המידע שסופק:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 סיכום תיק רפואי — ד"ר קלוד
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-👤 מטופל: [שם, גיל, מין, סוג דם, עישון]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🏥 מחלות רקע פעילות:
-  [רשימה מסודרת עם פירוט]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💊 טיפול תרופתי נוכחי:
-  [תרופה — מינון — מטרה]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⚠️ אלרגיות ורגישויות: [רשימה]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🧪 בדיקות אחרונות — ממצאים עיקריים:
-  [ניתוח תמונות בדיקות שהועלו + פירוש ערכים]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔍 נקודות תשומת לב קלינית:
-  [אינטראקציות תרופות, סיכונים, ממצאים חריגים]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📅 המלצות מעקב:
-  [בדיקות שחסרות, מומחים לפנות, תדירות ביקורות]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⚠️ סיכום זה אינו מחליף הערכה רפואית מקצועית`;
-
-// ── STATE ──
-let S={
-  view:"home", consults:[], profile:{}, activeId:null,
-  hSel:null, hTab:"dx",
-  ci:"", cf:[], cp:[], cld:false,
-  ft:"profile", gl:false,
-  sk:localStorage.getItem("dr_apikey")||"",
-  ss:null, sld:false, sShow:false,
-  nt:{name:"",date:"",notes:""},
-  nm:{name:"",dose:"",freq:"",duration:""},
-  ntst:{name:"",date:"",notes:""},
-  nf:{date:"",note:""},
-  dx:{diagnosis:"",notes:""},
-  modal:null,
-};
-
-// ── PERSISTENCE ──
-function loadS(){try{const r=localStorage.getItem(KEY);if(r){const d=JSON.parse(r);S.consults=d.c||[];S.profile=d.p||{};S.activeId=d.a||null;}}catch{}}
-function saveS(){try{localStorage.setItem(KEY,JSON.stringify({c:S.consults,p:S.profile,a:S.activeId}));}catch{}}
-setInterval(saveS,12000);
-window.addEventListener("beforeunload",saveS);
-window.addEventListener("visibilitychange",()=>{if(document.hidden)saveS();});
-
-// ── UTILS ──
-const uid=()=>Math.random().toString(36).slice(2,10);
-const fD=d=>new Date(d).toLocaleDateString("he-IL",{day:"2-digit",month:"2-digit",year:"numeric"});
-const fT=d=>new Date(d).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});
-const d7=()=>{const a=[];for(let i=6;i>=0;i--){const x=new Date();x.setDate(x.getDate()-i);a.push(x.toISOString().slice(0,10));}return a;};
-const esc=s=>String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
-
-function toast(msg,dur=2400){
-  const t=document.getElementById("toast");
-  t.textContent=msg;t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),dur);
-}
-
-function copyText(txt){
-  if(navigator.clipboard){navigator.clipboard.writeText(txt).then(()=>toast("✅ הועתק ללוח!")).catch(()=>legacyCopy(txt));}
-  else legacyCopy(txt);
-}
-function legacyCopy(txt){
-  const ta=document.createElement("textarea");ta.value=txt;ta.style.cssText="position:fixed;opacity:0";
-  document.body.appendChild(ta);ta.select();try{document.execCommand("copy");toast("✅ הועתק!");}catch{}document.body.removeChild(ta);
-}
-
-function shareOrCopy(title,text){
-  if(navigator.share){navigator.share({title,text}).catch(()=>copyText(text));}
-  else copyText(text);
-}
-
-// ── API ──
-async function ai(msgs,sys=SYS){
-  const key=localStorage.getItem("dr_apikey")||"";
-  if(!key)throw new Error("NO_KEY");
-  const am=msgs.map(m=>{
-    if(m.role==="user"&&m.files?.length){
-      const ct=[];
-      m.files.forEach(f=>{
-        if(f.type?.startsWith("image/"))
-          ct.push({type:"image",source:{type:"base64",media_type:f.type,data:f.data}});
-        else if(f.type==="application/pdf")
-          ct.push({type:"document",source:{type:"base64",media_type:"application/pdf",data:f.data}});
-      });
-      ct.push({type:"text",text:m.content||"קרא ונתח את המסמכים המצורפים בעברית"});
-      return{role:"user",content:ct};
-    }
-    return{role:m.role,content:m.content};
-  });
-  const r=await fetch(API,{
-    method:"POST",
-    headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
-    body:JSON.stringify({model:MODEL,max_tokens:1500,system:sys,messages:am})
-  });
-  const raw=await r.text();
-  let d;try{d=JSON.parse(raw);}catch{throw new Error("תגובה לא תקינה מהשרת ("+r.status+")");}
-  if(!r.ok||d.error)throw new Error(d.error?.message||"שגיאת API "+r.status);
-  return d.content?.[0]?.text||"תשובה ריקה";
-}
-
-// ── NAVIGATION ──
-function go(v){
-  if(v==="consult"&&!S.consults.find(c=>c.id===S.activeId)){newC();return;}
-  S.view=v;R();
-}
-function newC(){
-  const id=uid();
-  S.consults.unshift({id,title:"ייעוץ רפואי",status:"active",createdAt:Date.now(),
-    messages:[],aiDiagnosis:null,doctorDiagnosis:null,medications:[],tests:[],followUps:[]});
-  S.activeId=id;S.view="consult";S.ci="";S.cf=[];S.cp=[];
-  saveS();R();
-}
-window.go=go;window.newC=newC;
-
-// ── RENDER ──
-function R(){
-  rNav();
-  const m=document.getElementById("main");
-  const v={home:rHome,consult:rConsult,file:rFile,history:rHist,settings:rSet};
-  m.innerHTML=(v[S.view]||rHome)();
-  if(S.view!=="consult")m.scrollTop=0;
-  else setTimeout(()=>document.getElementById("ce")?.scrollIntoView({block:"end"}),80);
-  if(S.modal)showModal();
-  bind();
-}
-
-function rNav(){
-  const tabs=[
-    {id:"home",e:"🏠",l:"ראשי"},
-    {id:"consult",e:"🩺",l:"ייעוץ"},
-    {id:"file",e:"📁",l:"תיק"},
-    {id:"history",e:"📋",l:"היסטוריה"},
-    {id:"settings",e:"⚙️",l:"הגדרות"},
-  ];
-  document.getElementById("nav").innerHTML=tabs.map(t=>`
-    <button onclick="go('${t.id}')" style="color:${S.view===t.id?"var(--sky)":"var(--muted)"}">
-      ${S.view===t.id?'<div class="ndot"></div>':""}
-      <span style="font-size:22px">${t.e}</span>
-      <span style="font-size:11px;font-weight:${S.view===t.id?600:400}">${t.l}</span>
-      ${t.id==="history"&&S.consults.length>0?`<span style="position:absolute;top:5px;right:16%;width:17px;height:17px;background:var(--sky);border-radius:50%;font-size:9px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center">${Math.min(S.consults.length,99)}</span>`:""}
-    </button>
-  `).join("");
-}
-
-// ── HOME ──
-function rHome(){
-  const ac=S.consults.find(c=>c.status==="active"||c.status==="diagnosed");
-  const meds=S.consults.reduce((s,c)=>s+(c.medications||[]).filter(m=>m.active).length,0);
-  const alerts=S.consults.reduce((s,c)=>
-    s+(c.tests||[]).filter(t=>t.status==="pending").length+
-    (c.followUps||[]).filter(f=>!f.done&&new Date(f.date)>=new Date()).length,0);
-  const hk=!!localStorage.getItem("dr_apikey");
-  const isInstalled=window.navigator.standalone||window.matchMedia("(display-mode:standalone)").matches;
-
-  return`<div class="fade" style="padding:1.8rem 1.1rem 1.2rem">
-    ${!hk?`<div class="card rose" style="margin-bottom:1.2rem;background:rgba(248,113,113,.07);cursor:pointer" onclick="go('settings')">
-      <div style="display:flex;align-items:center;gap:10px">
-        <span style="font-size:22px">🔑</span>
-        <div><p style="font-size:14px;color:var(--rose);font-weight:600">נדרש מפתח API</p>
-        <p style="font-size:12px;color:var(--sub)">לחץ להגדרה ← הגדרות ⚙️</p></div>
-      </div>
-    </div>`:""}
-    ${!isInstalled?`<div class="install-banner" onclick="showInstallHelp()">
-      <span style="font-size:26px">📲</span>
-      <div style="flex:1"><p style="font-size:14px;color:var(--sky);font-weight:600">הוסף למסך הבית</p>
-      <p style="font-size:12px;color:var(--sub)">לחץ לקבלת הוראות התקנה</p></div>
-      <span style="font-size:18px;color:var(--muted)">›</span>
-    </div>`:""}
-
-    <div style="display:flex;align-items:center;gap:14px;margin-bottom:1.8rem">
-      <div style="width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,#2563eb,#1e40af);display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 20px rgba(59,130,246,.45);flex-shrink:0">🩺</div>
-      <div>
-        <h1 style="font-size:26px;font-weight:700;color:var(--text);line-height:1.1">ד"ר קלוד</h1>
-        <p style="font-size:13px;color:var(--sub);margin-top:2px">רופא משפחה דיגיטלי · 24/7</p>
-      </div>
-    </div>
-
-    ${S.profile?.name?`<div class="card sky" style="margin-bottom:1.3rem;padding:1rem 1.2rem">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div style="width:44px;height:44px;border-radius:14px;background:rgba(96,165,250,.18);display:flex;align-items:center;justify-content:center;font-size:22px">👋</div>
-        <div>
-          <p style="font-size:17px;color:var(--text);font-weight:600">שלום, ${esc(S.profile.name)}</p>
-          <p style="font-size:13px;color:var(--sub)">${[S.profile.age?`גיל ${S.profile.age}`:"",S.profile.bloodType||""].filter(Boolean).join(" · ")||"לחץ לעריכת פרופיל"}</p>
-        </div>
-      </div>
-    </div>`:""}
-
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.3rem">
-      ${[["💬","ייעוצים",S.consults.length,"var(--sky)"],["💊","תרופות",meds,"var(--green)"],["🔔","תזכורות",alerts,"var(--amber)"]].map(([e,l,v,c])=>`
-      <div class="card" style="text-align:center;padding:.9rem .5rem;cursor:pointer" onclick="go(${l==="ייעוצים"?"'history'":l==="תרופות"?"'history'":"'history'"})">
-        <div style="font-size:24px;margin-bottom:3px">${e}</div>
-        <div style="font-size:28px;font-weight:700;color:${c};line-height:1">${v}</div>
-        <div style="font-size:12px;color:var(--sub);margin-top:3px">${l}</div>
-      </div>`).join("")}
-    </div>
-
-    ${ac?`<div class="card" style="margin-bottom:1.1rem;border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.06)">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <p style="font-size:11px;color:var(--amber);margin-bottom:3px;font-weight:600;letter-spacing:.3px">⚡ ייעוץ פעיל</p>
-          <p style="font-size:16px;color:var(--text);font-weight:600">${esc(ac.title||"ייעוץ רפואי")}</p>
-          <p style="font-size:12px;color:var(--sub)">${fD(ac.createdAt)}</p>
-        </div>
-        <button class="btn p" style="width:auto;padding:11px 20px;font-size:15px;min-height:44px" onclick="go('consult')">המשך ›</button>
-      </div>
-    </div>`:`<div class="card" style="margin-bottom:1.1rem;border-color:rgba(96,165,250,.28);cursor:pointer;background:rgba(96,165,250,.04)" onclick="newC()">
-      <div style="text-align:center;padding:1.4rem .5rem">
-        <div style="font-size:38px;margin-bottom:10px">🩺</div>
-        <h3 style="font-size:18px;color:var(--text);margin-bottom:6px">התחל ייעוץ חדש</h3>
-        <p style="font-size:14px;color:var(--sub);line-height:1.65">תאר תסמינים, שלח תמונה, וקבל הערכה קלינית</p>
-      </div>
-    </div>`}
-
-    <div class="card" style="cursor:pointer;border-color:rgba(226,185,106,.28);background:rgba(226,185,106,.05)" onclick="go('file')">
-      <div style="display:flex;align-items:center;gap:14px">
-        <div style="width:46px;height:46px;border-radius:14px;background:rgba(226,185,106,.15);display:flex;align-items:center;justify-content:center;font-size:22px">📁</div>
-        <div style="flex:1">
-          <p style="font-size:16px;color:var(--text);font-weight:600">התיק הרפואי שלי</p>
-          <p style="font-size:13px;color:var(--sub)">${S.profile.name?"פרופיל, בדיקות, תרופות וסיכום AI":"הגדר פרופיל רפואי"}</p>
-        </div>
-        <span style="font-size:22px;color:var(--muted)">›</span>
-      </div>
-    </div>
-  </div>`;
-}
-
-window.showInstallHelp=()=>{
-  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
-  const isAndroid=/Android/.test(navigator.userAgent);
-  let txt="";
-  if(isIOS)txt=`<p style="font-size:15px;color:var(--text);line-height:1.75">
-    1️⃣ לחץ על כפתור השיתוף <span style="font-size:18px">⬆️</span> בתחתית Safari<br>
-    2️⃣ גלול למטה ולחץ <strong style="color:var(--sky)">"הוסף למסך הבית"</strong><br>
-    3️⃣ לחץ <strong>הוסף</strong> — האפליקציה תופיע על המסך הראשי!<br><br>
-    <span style="font-size:13px;color:var(--sub)">⚠️ פתח קובץ זה ב-Safari (לא Chrome/Firefox)</span>
-  </p>`;
-  else if(isAndroid)txt=`<p style="font-size:15px;color:var(--text);line-height:1.75">1️⃣ פתח בתפריט Chrome (⋮)<br>2️⃣ לחץ <strong style="color:var(--sky)">"הוסף למסך הבית"</strong><br>3️⃣ לחץ הוסף — האפליקציה תופיע!</p>`;
-  else txt=`<p style="font-size:15px;color:var(--text);line-height:1.75">🍎 <strong>iOS Safari:</strong> לחץ ⬆️ ← "הוסף למסך הבית"<br>🤖 <strong>Android Chrome:</strong> לחץ ⋮ ← "הוסף למסך הבית"</p>`;
-  S.modal={title:"📲 הוסף למסך הבית",content:txt};R();
-};
-
-// ── CONSULT ──
-function rConsult(){
-  const c=S.consults.find(x=>x.id===S.activeId);
-  if(!c)return`<div class="fade" style="padding:3rem 1.5rem;text-align:center">
-    <div style="font-size:52px;margin-bottom:16px">🩺</div>
-    <h2 style="font-size:22px;color:var(--text);margin-bottom:10px">ייעוץ חדש</h2>
-    <p style="font-size:14px;color:var(--sub);margin-bottom:28px;line-height:1.6">תאר את התסמינים שלך וד"ר קלוד ידריך אותך</p>
-    <button class="btn p" style="max-width:220px;margin:0 auto" onclick="newC()">🩺 התחל ייעוץ</button>
-  </div>`;
-  const msgs=c.messages||[];
-  return`<div class="fade" style="display:flex;flex-direction:column;min-height:100%">
-    <div style="padding:.8rem 1.1rem;background:rgba(17,24,39,.95);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10;backdrop-filter:blur(20px)">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <p style="font-size:16px;font-weight:600;color:var(--text)">${esc(c.title||"ייעוץ רפואי")}</p>
-          <p style="font-size:11px;color:var(--sub)">${fD(c.createdAt)} · ${msgs.length} הודעות</p>
-        </div>
-        <div style="display:flex;gap:8px">
-          ${c.aiDiagnosis?`<button class="btn s" style="width:auto;padding:9px 14px;font-size:13px;min-height:40px" onclick="go('history')">📋 אבחנה</button>`:""}
-          <button class="btn g" style="width:auto;padding:9px 14px;font-size:13px;min-height:40px" onclick="newC()">+ חדש</button>
-        </div>
-      </div>
-    </div>
-
-    <div style="flex:1;padding:1rem;display:flex;flex-direction:column;gap:13px">
-      ${msgs.length===0?`<div style="text-align:center;padding:1.8rem .5rem">
-        <div style="width:72px;height:72px;border-radius:24px;margin:0 auto 16px;background:linear-gradient(135deg,#2563eb,#1e40af);display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 6px 28px rgba(59,130,246,.45)">🩺</div>
-        <h3 style="font-size:21px;color:var(--text);margin-bottom:8px">שלום! אני ד"ר קלוד</h3>
-        <p style="font-size:15px;color:var(--sub);line-height:1.72;margin-bottom:22px">ספר לי מה מציק לך — אשאל כמה שאלות<br>ונגיע יחד להערכה קלינית.</p>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center">${CHIPS.map(s=>`<button class="chip" onclick="setChip('${esc(s)}')">${esc(s)}</button>`).join("")}</div>
-        <p style="font-size:13px;color:var(--muted);margin-top:20px">📎 תוכל גם לשלוח תמונה לניתוח</p>
-      </div>`:""}
-
-      ${msgs.map(m=>`<div class="mw ${m.role==="user"?"u":"a"} pop">
-        <div class="av ${m.role==="user"?"u":"a"}">${m.role==="user"?"👤":"🩺"}</div>
-        <div class="bub ${m.role==="user"?"u":"a"} ${EMRG.some(k=>m.content.includes(k))?"em":""}">
-          ${(m.files||[]).filter(f=>f.type?.startsWith("image/")).map(f=>`<img src="data:${f.type};base64,${f.data}" style="max-width:100%;border-radius:10px;margin-bottom:8px;max-height:200px;object-fit:cover;display:block">`).join("")}
-          ${(m.files||[]).filter(f=>f.type==="application/pdf").map(f=>`<div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(96,165,250,.12);border-radius:10px;margin-bottom:8px;border:1px solid rgba(96,165,250,.3)"><span style="font-size:22px">📄</span><div><p style="font-size:13px;color:var(--sky);font-weight:500">${esc(f.name)}</p><p style="font-size:11px;color:var(--sub)">מסמך PDF</p></div></div>`).join("")}
-          ${esc(m.content).replace(/\n/g,"<br>")}
-          <div class="mt">${fT(m.ts)}</div>
-        </div>
-      </div>`).join("")}
-
-      ${S.cld?`<div class="mw a"><div class="av a">🩺</div>
-        <div class="bub a"><div class="dots" style="display:flex;gap:6px;align-items:center">
-          <span></span><span></span><span></span>
-          <span style="font-size:13px;color:var(--sub);margin-right:4px;display:inline-block">ד"ר קלוד חושב...</span>
-        </div></div>
-      </div>`:""}
-      <div id="ce"></div>
-    </div>
-
-    ${S.cp.length>0?`<div style="padding:0 1rem .5rem;display:flex;gap:8px;overflow-x:auto">
-      ${S.cp.map((p,i)=>`<div style="position:relative;flex-shrink:0">
-        ${p?`<img src="${p}" style="width:64px;height:64px;object-fit:cover;border-radius:12px;border:2px solid var(--sky)">`
-          :`<div style="width:64px;height:64px;border-radius:12px;border:2px solid var(--sky);background:var(--card2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span style="font-size:22px">📄</span><span style="font-size:8px;color:var(--sky);font-weight:600">PDF</span></div>`}
-        <button onclick="rmPrev(${i})" style="position:absolute;top:-7px;left:-7px;width:22px;height:22px;border-radius:50%;background:var(--rose);border:none;color:#fff;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1">✕</button>
-      </div>`).join("")}
-    </div>`:""}
-
-    <div class="ibar">
-      <div class="iwrap">
-        <textarea id="cta" placeholder="תאר את התסמינים שלך..." rows="1" oninput="aR(this)">${esc(S.ci)}</textarea>
-        <input type="file" id="cfl" accept="image/*,application/pdf,.pdf" multiple style="display:none" onchange="pickF(event)">
-        <button class="iico at" onclick="document.getElementById('cfl').click()" title="צרף תמונה">📎</button>
-        <button class="iico sn" id="csn" onclick="sendC()" ${S.cld?"disabled":""} title="שלח">➤</button>
-      </div>
-      <div class="dis">⚠️ הערכה ראשונית — אינה מחליפה ביקור אצל רופא מוסמך</div>
-    </div>
-  </div>`;
-}
-
-// ── FILE ──
-function rFile(){
-  const tests=S.profile.uploadedTests||[];
-  return`<div class="fade" style="padding:1.6rem 1.1rem 1.2rem">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.3rem">
-      <div style="width:46px;height:46px;border-radius:15px;background:rgba(226,185,106,.15);display:flex;align-items:center;justify-content:center;font-size:22px">📁</div>
-      <div><h2 style="font-size:22px;font-weight:700;color:var(--text)">התיק הרפואי שלי</h2><p style="font-size:13px;color:var(--sub)">מידע רפואי אישי</p></div>
-    </div>
-    <div class="tb">
-      ${[["profile","👤 פרופיל"],["docs","📄 מסמכים"],["tests","🧪 בדיקות"],["summary","📊 סיכום"]].map(([id,l])=>`
-      <button class="${S.ft===id?"act":""}" onclick="setFT('${id}')">${l}</button>`).join("")}
-    </div>
-    ${S.ft==="profile"?rFP():S.ft==="docs"?rDocs():S.ft==="tests"?rFT(tests):rFS(tests)}
-  </div>`;
-}
-
-// ── DOCUMENT CATEGORIES ──
-const DOC_CATS=[
-  {id:"discharge",l:"סיכום אשפוז",e:"🏥",c:"rgba(248,113,113,.2)",tc:"var(--rose)"},
-  {id:"lab",l:"תוצאות מעבדה",e:"🧪",c:"rgba(52,211,153,.2)",tc:"var(--green)"},
-  {id:"imaging",l:"הדמיה (CT/MRI/US)",e:"🔬",c:"rgba(96,165,250,.2)",tc:"var(--sky)"},
-  {id:"prescription",l:"מרשם תרופות",e:"💊",c:"rgba(192,132,252,.2)",tc:"var(--purple)"},
-  {id:"referral",l:"הפנייה לרופא",e:"📋",c:"rgba(251,191,36,.2)",tc:"var(--amber)"},
-  {id:"report",l:"דו"ח/חוות דעת",e:"📝",c:"rgba(226,185,106,.2)",tc:"var(--gold)"},
-  {id:"other",l:"אחר",e:"📁",c:"rgba(148,163,184,.15)",tc:"var(--sub)"},
-];
-
-function getCat(id){return DOC_CATS.find(c=>c.id===id)||DOC_CATS[DOC_CATS.length-1];}
-
-function rDocs(){
-  const docs=S.profile.medDocs||[];
-  return`<div style="display:flex;flex-direction:column;gap:14px">
-    <!-- Upload area -->
-    <div class="card">
-      <div class="sh"><div class="sh-bar" style="background:var(--sky)"></div><h3>העלאת מסמך רפואי</h3></div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div class="fld"><label>שם / תיאור *</label><input type="text" id="doc-name" placeholder="סיכום אשפוז, תוצאות בדיקה..." oninput="S._dn=this.value"></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div class="fld"><label>תאריך המסמך</label><input type="date" id="doc-date" oninput="S._dd=this.value"></div>
-          <div class="fld"><label>קטגוריה</label><select id="doc-cat" onchange="S._dc=this.value" style="background:var(--card2);border:1.5px solid var(--border);border-radius:13px;padding:14px 15px;color:var(--text);font-size:15px;direction:rtl;outline:none;width:100%;font-family:inherit">
-            ${DOC_CATS.map(c=>`<option value="${c.id}">${c.e} ${c.l}</option>`).join("")}
-          </select></div>
-        </div>
-        <input type="file" id="doc-file" accept="image/*,application/pdf" style="display:none" onchange="uploadDoc(event)">
-        <button onclick="document.getElementById('doc-file').click()" style="width:100%;padding:20px;border-radius:16px;border:2px dashed rgba(96,165,250,.38);background:rgba(96,165,250,.06);cursor:pointer;text-align:center;color:var(--sky);font-size:15px;font-weight:500;font-family:inherit;line-height:1.7;transition:all .15s">
-          📄 לחץ להעלאת מסמך רפואי<br>
-          <span style="font-size:12px;color:var(--sub);font-weight:400">PDF · תמונה (JPG/PNG) · סריקה</span>
-        </button>
-      </div>
-    </div>
-
-    ${docs.length===0?`<div style="text-align:center;padding:2.5rem 1rem;color:var(--muted)">
-      <div style="font-size:44px;margin-bottom:12px">📄</div>
-      <p style="font-size:16px">אין מסמכים רפואיים</p>
-      <p style="font-size:13px;margin-top:6px;line-height:1.6">העלה סיכומי אשפוז, תוצאות, מרשמים, הפניות</p>
-    </div>`:`<div>
-      <!-- Group by category -->
-      ${DOC_CATS.map(cat=>{
-        const catDocs=docs.filter(d=>d.category===cat.id);
-        if(!catDocs.length)return"";
-        return`<div style="margin-bottom:16px">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-            <span style="font-size:16px">${cat.e}</span>
-            <p style="font-size:14px;font-weight:600;color:var(--text)">${cat.l}</p>
-            <span class="pill" style="background:${cat.c};color:${cat.tc}">${catDocs.length}</span>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:10px">
-            ${catDocs.map((doc,i)=>`<div class="doc-card">
-              <div class="doc-thumb" onclick="viewDoc(${docs.indexOf(doc)})">
-                ${doc.thumbDataUrl?`<img src="${doc.thumbDataUrl}" alt="${esc(doc.name)}">`
-                  :doc.type==="application/pdf"
-                    ?`<div style="display:flex;flex-direction:column;align-items:center;gap:8px">
-                        <div class="pdf-icon">📄</div>
-                        <p style="font-size:13px;color:var(--sky);font-weight:500">PDF — לחץ לפתיחה</p>
-                        ${doc.pageCount?`<p style="font-size:11px;color:var(--muted)">${doc.pageCount} עמודים</p>`:""}
-                      </div>`
-                    :`<div class="pdf-icon">📄</div>`}
-                <div style="position:absolute;top:8px;right:8px">
-                  <span class="doc-category" style="background:${cat.c};color:${cat.tc};backdrop-filter:blur(10px)">${cat.e} ${cat.l}</span>
-                </div>
-              </div>
-              <div style="padding:.8rem 1rem">
-                <p style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(doc.name)}</p>
-                <div style="display:flex;gap:10px;font-size:12px;color:var(--sub);margin-bottom:10px;flex-wrap:wrap">
-                  ${doc.date?`<span>📅 ${fD(doc.date)}</span>`:""}
-                  <span>📁 ${(doc.size/1024).toFixed(0)}KB</span>
-                  <span>${doc.type==="application/pdf"?"PDF":"תמונה"}</span>
-                </div>
-                ${doc.aiSummary?`<div style="padding:8px 12px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);border-radius:10px;margin-bottom:10px">
-                  <p style="font-size:11px;color:var(--green);font-weight:600;margin-bottom:3px">🤖 סיכום AI</p>
-                  <p style="font-size:13px;color:var(--text);line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">${esc(doc.aiSummary)}</p>
-                </div>`:""}
-                <div class="doc-actions" style="padding:0;gap:6px;display:flex;flex-wrap:wrap">
-                  <button class="btn k" style="flex:1;min-height:40px;font-size:13px" onclick="viewDoc(${docs.indexOf(doc)})">👁 צפה</button>
-                  <button class="btn s" style="flex:1;min-height:40px;font-size:13px" onclick="${doc.aiSummary?"viewDocSummary("+docs.indexOf(doc)+")":"analyzeDoc("+docs.indexOf(doc)+")"}">
-                    ${doc.aiSummary?"📊 סיכום":"🤖 נתח AI"}
-                  </button>
-                  <button class="btn g" style="flex:1;min-height:40px;font-size:13px" onclick="sendDocToChat(${docs.indexOf(doc)})">💬 שאל</button>
-                  <button class="btn d" style="width:40px;min-height:40px;font-size:16px" onclick="deleteDoc(${docs.indexOf(doc)})">🗑</button>
-                </div>
-              </div>
-            </div>`).join("")}
-          </div>
-        </div>`;
-      }).join("")}
-    </div>`}
-  </div>`;
-}
-
-function rFP(){
-  const p=S.profile;
-  const fi=(k,l,t="text",ph="",opts=null)=>`<div class="fld"><label>${l}</label>${opts
-    ?`<select onchange="uP('${k}',this.value)" style="background:var(--card2);border:1.5px solid var(--border);border-radius:13px;padding:14px 15px;color:${(p[k]||"")?'var(--text)':'var(--sub)'};font-size:15px;direction:rtl;outline:none;width:100%;font-family:inherit">${opts.map(o=>`<option value="${o.v||o}" ${(p[k]||"")===(o.v||o)?"selected":""}>${o.l||o||"בחר..."}</option>`).join("")}</select>`
-    :`<input type="${t}" value="${esc(p[k]||"")}" placeholder="${ph}" oninput="uP('${k}',this.value)">`}</div>`;
-  const ta=(k,l,ph,r=2)=>`<div class="fld"><label>${l}</label><textarea rows="${r}" placeholder="${ph}" oninput="uP('${k}',this.value)">${esc(p[k]||"")}</textarea></div>`;
-  return`<div style="display:flex;flex-direction:column;gap:14px">
-    <div class="card sky">
-      <div class="sh"><div class="sh-bar" style="background:var(--sky)"></div><h3>פרטים אישיים</h3></div>
-      <div style="display:flex;flex-direction:column;gap:12px">
-        ${fi("name","שם מלא","text","ישראל ישראלי")}
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          ${fi("age","גיל","number","45")}
-          ${fi("gender","מין","","",["",{v:"זכר",l:"זכר"},{v:"נקבה",l:"נקבה"},{v:"אחר",l:"אחר"}])}
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          ${fi("bloodType","סוג דם","","",["","A+","A-","B+","B-","AB+","AB-","O+","O-","לא ידוע"])}
-          ${fi("smoking","עישון","","",["",{v:"לא מעשן",l:"לא מעשן"},{v:"לשעבר",l:"לשעבר"},{v:"מעשן",l:"מעשן"}])}
-        </div>
-      </div>
-    </div>
-    <div class="card amber">
-      <div class="sh"><div class="sh-bar" style="background:var(--amber)"></div><h3>רקע רפואי</h3></div>
-      <div style="display:flex;flex-direction:column;gap:12px">
-        ${ta("conditions","מחלות רקע","סוכרת סוג 2, יתר לחץ דם...",3)}
-        ${ta("medications","תרופות קבועות","מטפורמין 500מג ×2/יום...",3)}
-        ${ta("allergies","אלרגיות ורגישויות","פניצילין, אספירין...",2)}
-      </div>
-    </div>
-    <button class="btn p" id="spb" onclick="svP()">💾 שמור פרופיל</button>
-  </div>`;
-}
-
-function rFT(tests){
-  const nt=S.nt;
-  return`<div style="display:flex;flex-direction:column;gap:14px">
-    <div class="card">
-      <div class="sh"><div class="sh-bar" style="background:var(--sky)"></div><h3>העלאת תוצאות בדיקות</h3></div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div class="fld"><label>שם / תיאור הבדיקה</label><input type="text" value="${esc(nt.name)}" placeholder="בדיקת דם מלאה, MRI, אקו לב..." oninput="S.nt.name=this.value"></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div class="fld"><label>תאריך ביצוע</label><input type="date" value="${nt.date}" oninput="S.nt.date=this.value"></div>
-          <div class="fld"><label>מעבדה / הערות</label><input type="text" value="${esc(nt.notes)}" placeholder="מכבי, כלליות..." oninput="S.nt.notes=this.value"></div>
-        </div>
-        <input type="file" id="tfl" accept="image/*,application/pdf" style="display:none" onchange="addTF(event)">
-        <button onclick="document.getElementById('tfl').click()" style="width:100%;padding:20px;border-radius:16px;border:2px dashed rgba(96,165,250,.38);background:rgba(96,165,250,.06);cursor:pointer;text-align:center;color:var(--sky);font-size:15px;font-weight:500;font-family:inherit;line-height:1.65;transition:all .15s" onmouseover="this.style.background='rgba(96,165,250,.12)'" onmouseout="this.style.background='rgba(96,165,250,.06)'">
-          📤 לחץ להעלאת קובץ<br><span style="font-size:12px;color:var(--sub);font-weight:400">תמונה (JPG/PNG) · PDF</span>
-        </button>
-      </div>
-    </div>
-    ${tests.length===0?`<div style="text-align:center;padding:2.5rem 1rem;color:var(--muted)">
-      <div style="font-size:42px;margin-bottom:12px">🧪</div>
-      <p style="font-size:16px">אין בדיקות מועלות</p>
-      <p style="font-size:13px;margin-top:6px">העלה תמונות של תוצאות בדיקות לניתוח AI</p>
-    </div>`:`
-    <p style="font-size:14px;color:var(--sub);font-weight:500">${tests.length} בדיקות מועלות</p>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      ${tests.map((t,i)=>`<div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:${t.type?.startsWith("image/")?"10px":"0"}">
-          <div style="flex:1;min-width:0">
-            <p style="font-size:15px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(t.label||t.name)}</p>
-            <div style="display:flex;gap:10px;margin-top:3px;flex-wrap:wrap">
-              ${t.date?`<p style="font-size:12px;color:var(--sub)">📅 ${fD(t.date)}</p>`:""}
-              ${t.notes?`<p style="font-size:12px;color:var(--sub)">🏥 ${esc(t.notes)}</p>`:""}
-            </div>
-          </div>
-          <button class="btn d" style="width:auto;padding:6px 14px;font-size:13px;min-height:36px;margin-right:8px" onclick="rmT(${i})">מחק</button>
-        </div>
-        ${t.type?.startsWith("image/")
-          ?`<img src="data:${t.type};base64,${t.data}" style="width:100%;max-height:240px;object-fit:contain;border-radius:12px;background:#000;border:1px solid var(--border);cursor:zoom-in" onclick="zoomImg('data:${t.type};base64,${t.data}')">`
-          :`<div style="display:flex;align-items:center;gap:8px;padding:11px 15px;background:var(--card2);border-radius:12px;color:var(--sky);font-size:14px">📄 ${esc(t.name)}</div>`}
-      </div>`).join("")}
-    </div>
-    <button class="btn s" onclick="setFT('summary')">📊 נתח בדיקות עם AI ›</button>`}
-  </div>`;
-}
-
-function rFS(tests){
-  const sum=S.profile.aiSummary||"";
-  return`<div style="display:flex;flex-direction:column;gap:14px">
-    <div class="card gold">
-      <div class="sh"><div class="sh-bar" style="background:var(--gold)"></div><h3>סיכום תיק רפואי — AI</h3></div>
-      <p style="font-size:14px;color:var(--sub);margin-bottom:16px;line-height:1.65">ד"ר קלוד יסכם את פרופילך, מחלות, תרופות ובדיקות לסיכום קליני מקיף ומקצועי.</p>
-      <button class="btn go" id="gsb" onclick="genSum()" ${S.gl?"disabled":""}>
-        ${S.gl?"⏳ מייצר סיכום...":sum?"🔄 עדכן סיכום":"✨ צור סיכום מקצועי"}
-      </button>
-    </div>
-    ${S.gl?`<div class="card" style="text-align:center;padding:2.5rem">
-      <div class="dots" style="display:flex;justify-content:center;gap:6px;margin-bottom:14px"><span></span><span></span><span></span></div>
-      <p style="font-size:14px;color:var(--sub)">ד"ר קלוד מנתח את התיק הרפואי שלך...</p>
-      <p style="font-size:12px;color:var(--muted);margin-top:6px">עשוי לקחת 10-20 שניות</p>
-    </div>`:""}
-    ${sum&&!S.gl?`<div class="card gold">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-        <div>
-          <p style="font-size:15px;font-weight:600;color:var(--gold)">📋 הסיכום שלי</p>
-          <p style="font-size:11px;color:var(--muted)">${fD(Date.now())}</p>
-        </div>
-        <div style="display:flex;gap:8px">
-          <button class="btn g" style="width:auto;padding:8px 14px;font-size:14px;min-height:40px" onclick="shareOrCopy('הסיכום הרפואי שלי',document.getElementById('sum-txt').innerText)">📤 שתף</button>
-          <button class="btn g" style="width:auto;padding:8px 14px;font-size:14px;min-height:40px" onclick="copyText(document.getElementById('sum-txt').innerText)">📋 העתק</button>
-        </div>
-      </div>
-      <div id="sum-txt" style="font-size:14px;color:var(--text);line-height:1.9;white-space:pre-wrap">${esc(sum)}</div>
-    </div>`:""}
-    ${!sum&&!S.gl?`<div style="text-align:center;padding:2.5rem 1rem;color:var(--muted)">
-      <div style="font-size:42px;margin-bottom:12px">📊</div>
-      <p style="font-size:16px">לחץ "צור סיכום" לניתוח מקיף</p>
-      <p style="font-size:13px;margin-top:6px">כולל ניתוח בדיקות, אינטראקציות תרופות והמלצות מעקב</p>
-    </div>`:""}
-  </div>`;
-}
-
-// ── HISTORY ──
-function rHist(){
-  if(!S.hSel)return`<div class="fade" style="padding:1.8rem 1.1rem">
-    <h2 style="font-size:22px;font-weight:700;color:var(--text);margin-bottom:4px">📋 היסטוריה</h2>
-    <p style="font-size:14px;color:var(--sub);margin-bottom:16px">${S.consults.length} ייעוצים</p>
-    ${S.consults.length===0?`<div style="text-align:center;padding:3rem;color:var(--muted)"><div style="font-size:44px;margin-bottom:14px">📋</div><p style="font-size:17px">אין ייעוצים עדיין</p><p style="font-size:13px;margin-top:8px">פתח ייעוץ חדש בלשונית "ייעוץ"</p></div>`
-    :`<div style="display:flex;flex-direction:column;gap:10px">
-      ${S.consults.map(c=>`<div class="card" style="cursor:pointer" onclick="selH('${c.id}')">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start">
-          <div style="flex:1;min-width:0">
-            <div style="display:flex;gap:8px;align-items:center;margin-bottom:5px">
-              <span class="pill" style="background:${c.status==="completed"?"rgba(52,211,153,.18)":c.status==="diagnosed"?"rgba(96,165,250,.18)":"rgba(251,191,36,.18)"};color:${c.status==="completed"?"var(--green)":c.status==="diagnosed"?"var(--sky)":"var(--amber)"}">
-                ${c.status==="completed"?"✅ הושלם":c.status==="diagnosed"?"🔬 אובחן":"💬 פעיל"}
-              </span>
-              <span style="font-size:12px;color:var(--muted)">${fD(c.createdAt)}</span>
-            </div>
-            <p style="font-size:16px;color:var(--text);font-weight:500;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(c.title||"ייעוץ רפואי")}</p>
-            <div style="display:flex;gap:12px;font-size:13px;color:var(--sub)">
-              <span>💬 ${c.messages.length}</span>
-              ${(c.medications||[]).length?`<span>💊 ${c.medications.length}</span>`:""}
-              ${(c.tests||[]).length?`<span>🧪 ${c.tests.length}</span>`:""}
-              ${(c.followUps||[]).filter(f=>!f.done&&new Date(f.date)>=new Date()).length?`<span style="color:var(--amber)">📅 ${(c.followUps||[]).filter(f=>!f.done&&new Date(f.date)>=new Date()).length}</span>`:""}
-            </div>
-          </div>
-          <span style="font-size:22px;color:var(--muted);margin-right:4px">›</span>
-        </div>
-      </div>`).join("")}
-    </div>`}
-  </div>`;
-
-  const sel=S.consults.find(c=>c.id===S.hSel);
-  if(!sel){S.hSel=null;return rHist();}
-  return`<div class="fade" style="padding:1.2rem 1.1rem">
-    <button onclick="S.hSel=null;R()" style="background:transparent;border:none;cursor:pointer;color:var(--sky);font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:6px;padding:0;font-family:inherit;min-height:44px;font-weight:500">‹ חזרה לרשימה</button>
-    <div class="card sky" style="margin-bottom:12px">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <p style="font-size:16px;font-weight:600;color:var(--text)">${esc(sel.title||"ייעוץ")}</p>
-          <p style="font-size:12px;color:var(--sub)">${fD(sel.createdAt)} · ${sel.messages.length} הודעות</p>
-        </div>
-        <div style="display:flex;gap:8px">
-          <button class="btn k" style="width:auto;padding:10px 16px;font-size:16px;min-height:44px" onclick="gTC('${sel.id}')" title="פתח שיחה">💬</button>
-          ${sel.aiDiagnosis?`<button class="btn g" style="width:auto;padding:10px 16px;font-size:12px;min-height:44px" onclick="shareOrCopy('אבחנת ד\'\'ר קלוד','${esc(sel.aiDiagnosis)}')">📤</button>`:""}
-          ${sel.status!=="completed"?`<button class="btn s" style="width:auto;padding:10px 16px;font-size:16px;min-height:44px" onclick="mD('${sel.id}')" title="סמן הושלם">✅</button>`:""}
-        </div>
-      </div>
-    </div>
-    <div class="tb">
-      ${[["dx","🔬 אבחנה"],["meds","💊 תרופות"],["tests","🧪 בדיקות"],["fup","📅 מעקב"]].map(([id,l])=>`
-      <button class="${S.hTab===id?"act":""}" onclick="setHT('${id}')">${l}</button>`).join("")}
-    </div>
-    ${S.hTab==="dx"?rHDx(sel):S.hTab==="meds"?rHM(sel):S.hTab==="tests"?rHT(sel):rHF(sel)}
-  </div>`;
-}
-
-function rHDx(sel){
-  const dx=S.dx;
-  return`<div style="display:flex;flex-direction:column;gap:14px">
-    ${sel.aiDiagnosis?`<div class="card sky">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <p style="font-size:13px;color:var(--sky);font-weight:600">🤖 הערכת ד"ר קלוד</p>
-        <button class="btn g" style="width:auto;padding:6px 12px;font-size:12px;min-height:34px" onclick="shareOrCopy('הערכת ד\'\'ר קלוד','${esc(sel.aiDiagnosis)}')">📤 שתף</button>
-      </div>
-      <div style="font-size:14px;color:var(--text);line-height:1.85;white-space:pre-wrap">${esc(sel.aiDiagnosis)}</div>
-    </div>`:`<div class="card" style="text-align:center;padding:2rem;color:var(--muted)">
-      <p style="font-size:14px">אין הערכת AI עדיין</p>
-      <p style="font-size:12px;margin-top:4px">פתח את השיחה וקבל הערכה קלינית</p>
-    </div>`}
-    <div class="card gold">
-      <p style="font-size:13px;color:var(--gold);font-weight:600;margin-bottom:12px">👨‍⚕️ אבחנת הרופא שלך</p>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div class="fld"><label>אבחנה *</label><textarea rows="2" placeholder="הזן את האבחנה שקיבלת..." oninput="S.dx.diagnosis=this.value">${esc(dx.diagnosis)}</textarea></div>
-        <div class="fld"><label>הערות הרופא</label><textarea rows="2" placeholder="הוראות, המלצות, מידע נוסף..." oninput="S.dx.notes=this.value">${esc(dx.notes)}</textarea></div>
-        <button class="btn p" onclick="svDX('${sel.id}')" ${!dx.diagnosis.trim()?"disabled":""}>💾 שמור אבחנה</button>
-        ${sel.doctorDiagnosis?`<div style="padding:12px 15px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.28);border-radius:13px">
-          <p style="font-size:12px;color:var(--green);font-weight:600;margin-bottom:4px">✅ נשמר</p>
-          <p style="font-size:14px;color:var(--text)">${esc(sel.doctorDiagnosis.diagnosis)}</p>
-          ${sel.doctorDiagnosis.notes?`<p style="font-size:13px;color:var(--sub);margin-top:4px">${esc(sel.doctorDiagnosis.notes)}</p>`:""}
-        </div>`:""}
-      </div>
-    </div>
-  </div>`;
-}
-
-function rHM(sel){
-  const nm=S.nm;const days=d7();
-  return`<div style="display:flex;flex-direction:column;gap:14px">
-    <div class="card">
-      <div class="sh"><div class="sh-bar" style="background:var(--sky)"></div><h3>הוסף תרופה</h3></div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div class="fld"><label>שם תרופה *</label><input type="text" value="${esc(nm.name)}" placeholder="אמוקסיציל, פנדול..." oninput="S.nm.name=this.value"></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div class="fld"><label>מינון</label><input type="text" value="${esc(nm.dose)}" placeholder="500מג" oninput="S.nm.dose=this.value"></div>
-          <div class="fld"><label>תדירות</label><input type="text" value="${esc(nm.freq)}" placeholder="×2 ביום" oninput="S.nm.freq=this.value"></div>
-        </div>
-        <div class="fld"><label>משך טיפול</label><input type="text" value="${esc(nm.duration)}" placeholder="7 ימים" oninput="S.nm.duration=this.value"></div>
-        <button class="btn p" onclick="addM('${sel.id}')" ${!nm.name.trim()?"disabled":""}>💊 הוסף תרופה</button>
-      </div>
-    </div>
-    ${(sel.medications||[]).length===0?`<div style="text-align:center;padding:2rem;color:var(--muted);font-size:15px">אין תרופות רשומות</div>`
-    :(sel.medications||[]).map(m=>`<div class="card">
-      <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-        <div>
-          <p style="font-size:16px;font-weight:600;color:var(--text)">${esc(m.name)}</p>
-          <p style="font-size:13px;color:var(--sub)">${[m.dose,m.freq,m.duration].filter(Boolean).join(" · ") || "ללא פרטים"}</p>
-        </div>
-        <span class="pill" style="background:${m.active?"rgba(52,211,153,.18)":"rgba(148,163,184,.12)"};color:${m.active?"var(--green)":"var(--sub)"}">
-          ${m.active?"● פעיל":"■ הסתיים"}
-        </span>
-      </div>
-      <p style="font-size:12px;color:var(--sub);margin-bottom:8px">לקיחה — 7 ימים אחרונים</p>
-      <div class="trd">
-        ${days.map(day=>`<button class="trdb ${(m.taken||{})[day]?"tk":""}" onclick="tMD('${sel.id}','${m.id}','${day}')">
-          <span style="font-size:9px;color:var(--sub)">${new Date(day).toLocaleDateString("he-IL",{weekday:"short"})}</span>
-          <span style="font-size:15px">${(m.taken||{})[day]?"✅":"○"}</span>
-        </button>`).join("")}
-      </div>
-      <div style="display:flex;gap:8px;margin-top:11px">
-        <button class="btn g" style="flex:1;min-height:46px" onclick="tMA('${sel.id}','${m.id}')">${m.active?"⏹ הפסק":"▶ הפעל"}</button>
-        <button class="btn d" style="flex:1;min-height:46px" onclick="delM('${sel.id}','${m.id}')">🗑 מחק</button>
-      </div>
-    </div>`).join("")}
-  </div>`;
-}
-
-function rHT(sel){
-  const nt=S.ntst;
-  return`<div style="display:flex;flex-direction:column;gap:14px">
-    <div class="card">
-      <div class="sh"><div class="sh-bar" style="background:var(--sky)"></div><h3>הוסף בדיקה</h3></div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div class="fld"><label>שם הבדיקה *</label><input type="text" value="${esc(nt.name)}" placeholder="בדיקת דם, MRI, אקו לב..." oninput="S.ntst.name=this.value"></div>
-        <div class="fld"><label>תאריך מתוכנן</label><input type="date" value="${nt.date}" oninput="S.ntst.date=this.value"></div>
-        <div class="fld"><label>הערות</label><input type="text" value="${esc(nt.notes)}" placeholder="צום נדרש, הפנייה..." oninput="S.ntst.notes=this.value"></div>
-        <button class="btn p" onclick="addTst('${sel.id}')" ${!nt.name.trim()?"disabled":""}>🧪 הוסף בדיקה</button>
-      </div>
-    </div>
-    ${(sel.tests||[]).length===0?`<div style="text-align:center;padding:2rem;color:var(--muted);font-size:15px">אין בדיקות רשומות</div>`
-    :(sel.tests||[]).map(t=>`<div class="card ${t.status==="done"?"green":"amber"}">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="flex:1;min-width:0">
-          <p style="font-size:15px;font-weight:500;color:var(--text)">${esc(t.name)}</p>
-          ${t.date?`<p style="font-size:12px;color:var(--sub)">📅 ${fD(t.date)}</p>`:""}
-          ${t.notes?`<p style="font-size:12px;color:var(--sub)">${esc(t.notes)}</p>`:""}
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;flex-shrink:0">
-          <span class="pill" style="background:${t.status==="done"?"rgba(52,211,153,.18)":"rgba(251,191,36,.18)"};color:${t.status==="done"?"var(--green)":"var(--amber)"}">
-            ${t.status==="done"?"✅ בוצעה":"⏳ ממתינה"}
-          </span>
-          <button class="btn ${t.status==="done"?"g":"s"}" style="width:auto;padding:10px 14px;font-size:14px;min-height:44px" onclick="tTst('${sel.id}','${t.id}')">
-            ${t.status==="done"?"בטל":"✓ בוצע"}
-          </button>
-        </div>
-      </div>
-    </div>`).join("")}
-  </div>`;
-}
-
-function rHF(sel){
-  const nf=S.nf;
-  const sorted=[...(sel.followUps||[])].sort((a,b)=>new Date(a.date)-new Date(b.date));
-  const today=new Date().toISOString().slice(0,10);
-  return`<div style="display:flex;flex-direction:column;gap:14px">
-    <div class="card">
-      <div class="sh"><div class="sh-bar" style="background:var(--sky)"></div><h3>תזמן ביקורת</h3></div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div class="fld"><label>תאריך *</label><input type="date" value="${nf.date}" min="${today}" oninput="S.nf.date=this.value"></div>
-        <div class="fld"><label>הערה</label><input type="text" value="${esc(nf.note)}" placeholder="ביקורת אצל ד'ר, בדיקת דם חוזרת..." oninput="S.nf.note=this.value"></div>
-        <button class="btn p" onclick="addF('${sel.id}')" ${!nf.date?"disabled":""}>📅 הוסף ביקורת</button>
-      </div>
-    </div>
-    ${sorted.length===0?`<div style="text-align:center;padding:2rem;color:var(--muted);font-size:15px">אין ביקורות מתוכננות</div>`
-    :sorted.map(f=>{
-      const isPast=f.date<today&&!f.done;
-      return`<div class="card ${f.done?"green":isPast?"rose":"purple"}">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <p style="font-size:16px;font-weight:500;color:${isPast&&!f.done?"var(--rose)":"var(--text)"}">
-              ${f.done?"✅ ":"📅 "}${fD(f.date)}
-              ${isPast&&!f.done?`<span style="font-size:12px;color:var(--rose)"> — עבר!</span>`:""}
-            </p>
-            ${f.note?`<p style="font-size:13px;color:var(--sub)">${esc(f.note)}</p>`:""}
-          </div>
-          <div style="display:flex;gap:8px">
-            <button class="btn ${f.done?"g":"s"}" style="width:auto;padding:10px 14px;font-size:14px;min-height:44px" onclick="tF('${sel.id}','${f.id}')">
-              ${f.done?"בטל":"✓ הגעתי"}
-            </button>
-            <button class="btn d" style="width:auto;padding:10px 14px;font-size:14px;min-height:44px" onclick="delF('${sel.id}','${f.id}')">✕</button>
-          </div>
-        </div>
-      </div>`;
-    }).join("")}
-  </div>`;
-}
-
-// ── SETTINGS ──
-function rSet(){
-  const hk=!!localStorage.getItem("dr_apikey");const st=S.ss;
-  return`<div class="fade" style="padding:1.8rem 1.1rem">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.4rem">
-      <div style="width:46px;height:46px;border-radius:15px;background:rgba(96,165,250,.12);display:flex;align-items:center;justify-content:center;font-size:22px">⚙️</div>
-      <div><h2 style="font-size:22px;font-weight:700;color:var(--text)">הגדרות</h2><p style="font-size:13px;color:var(--sub)">מפתח Anthropic API</p></div>
-    </div>
-
-    ${!hk?`<div class="card rose" style="margin-bottom:1.2rem;background:rgba(248,113,113,.07)">
-      <div style="display:flex;align-items:flex-start;gap:10px">
-        <span style="font-size:20px">⚠️</span>
-        <div><p style="font-size:14px;color:var(--rose);font-weight:600">נדרש מפתח API</p>
-        <p style="font-size:13px;color:var(--sub);line-height:1.6;margin-top:3px">ד"ר קלוד עובד עם Anthropic API. קבל מפתח חינמי ב-console.anthropic.com</p></div>
-      </div>
-    </div>`:""}
-
-    <div class="card" style="margin-bottom:1.2rem">
-      <div class="sh"><div class="sh-bar" style="background:var(--gold)"></div><h3>🔑 Anthropic API Key</h3></div>
-      <p style="font-size:13px;color:var(--sub);margin-bottom:14px">נשמר רק על המכשיר שלך — לא נשלח לשרת חיצוני.</p>
-      <div style="position:relative;margin-bottom:14px">
-        <input type="${S.sShow?"text":"password"}" id="aki"
-          value="${esc(S.sk)}"
-          placeholder="sk-ant-api03-..."
-          oninput="S.sk=this.value"
-          style="width:100%;background:var(--card2);border:2px solid ${hk?"var(--green)":"var(--border)"};border-radius:13px;padding:14px 50px 14px 16px;color:var(--text);font-size:14px;direction:ltr;outline:none;font-family:'Courier New',monospace;letter-spacing:.5px;transition:border-color .15s">
-        <button onclick="S.sShow=!S.sShow;R()" style="position:absolute;top:50%;left:14px;transform:translateY(-50%);background:transparent;border:none;cursor:pointer;font-size:18px;color:var(--muted);line-height:1">${S.sShow?"🙈":"👁️"}</button>
-        ${hk?`<div style="position:absolute;top:50%;right:14px;transform:translateY(-50%);font-size:16px">✅</div>`:""}
-      </div>
-      <div style="display:flex;gap:10px;margin-bottom:${st?"14px":"0"}">
-        <button class="btn p" style="flex:1" onclick="svKey()" ${!S.sk.trim()?"disabled":""}>💾 שמור</button>
-        <button class="btn k" style="flex:1" onclick="tstKey()" ${S.sld||(!S.sk.trim()&&!hk)?"disabled":""}>${S.sld?"⏳ בודק...":"🔍 בדוק חיבור"}</button>
-      </div>
-      ${st?`<div style="padding:13px 16px;background:${st.ok?"rgba(52,211,153,.1)":"rgba(248,113,113,.1)"};border:1px solid ${st.ok?"rgba(52,211,153,.3)":"rgba(248,113,113,.3)"};border-radius:13px;font-size:14px;color:var(--text);line-height:1.7;white-space:pre-wrap;word-break:break-all">${esc(st.msg)}</div>`:""}
-    </div>
-
-    <div class="card" style="margin-bottom:1.2rem">
-      <div class="sh"><div class="sh-bar" style="background:var(--sky)"></div><h3>📖 איך מקבלים מפתח?</h3></div>
-      ${[["1️⃣","פתח בדפדפן: console.anthropic.com"],["2️⃣","צור חשבון חינמי (או התחבר)"],["3️⃣","לחץ API Keys → Create Key"],["4️⃣","העתק את המפתח (מתחיל ב-sk-ant-)"],["5️⃣","הדבק כאן ולחץ שמור + בדוק"]].map(([n,t])=>`
-      <div style="display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--border)">
-        <span style="font-size:18px;flex-shrink:0">${n}</span>
-        <p style="font-size:14px;color:var(--sub);line-height:1.5;padding-top:2px">${t}</p>
-      </div>`).join("")}
-      <div style="margin-top:12px;padding:10px 14px;background:rgba(52,211,153,.08);border-radius:10px">
-        <p style="font-size:13px;color:var(--green)">💡 Anthropic נותנת $5 קרדיט חינמי לכל חשבון חדש — מספיק להמון שיחות עם ד"ר קלוד!</p>
-      </div>
-    </div>
-
-    <div class="card" style="margin-bottom:1.2rem">
-      <div class="sh"><div class="sh-bar" style="background:var(--purple)"></div><h3>📱 אודות ד"ר קלוד</h3></div>
-      ${[["🩺","מודל AI","Claude Haiku 4.5"],["📚","ספרות רפואית","Harrison's, DSM-5, Nelson's, Fitzpatrick's ועוד"],["💾","שמירת נתונים","מקומי על המכשיר בלבד"],["🔒","פרטיות","מידע לא נשלח לשרתים חיצוניים"],["🌐","שפות","עברית · English"],["⚕️","גרסה","ד\"ר קלוד v2.0"]].map(([e,l,v])=>`
-      <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
-        <span style="font-size:14px;color:var(--sub)">${e} ${l}</span>
-        <span style="font-size:14px;color:var(--text);font-weight:500;text-align:left;max-width:58%">${v}</span>
-      </div>`).join("")}
-    </div>
-
-    <div class="card amber" style="background:rgba(251,191,36,.07)">
-      <p style="font-size:13px;color:var(--amber);font-weight:600;margin-bottom:6px">⚠️ הבהרה חשובה</p>
-      <p style="font-size:13px;color:var(--sub);line-height:1.75">ד"ר קלוד מספק מידע רפואי ראשוני בלבד ואינו מחליף ביקור פיזי אצל רופא מוסמך. בכל מצב חירום — התקשר מיד ל-<strong style="color:var(--rose)">101 (מד"א)</strong>.</p>
-    </div>
-  </div>`;
-}
-
-// ── MODAL ──
-function showModal(){
-  if(!S.modal)return;
-  let el=document.getElementById("modal-overlay");
-  if(!el){el=document.createElement("div");el.className="modal-bg";el.id="modal-overlay";document.body.appendChild(el);}
-  el.innerHTML=`<div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-handle"></div>
-    <h3 style="font-size:18px;font-weight:700;color:var(--text);margin-bottom:16px">${S.modal.title||""}</h3>
-    <div>${S.modal.content||""}</div>
-    <button class="btn p" style="margin-top:20px" onclick="closeModal()">סגור</button>
-  </div>`;
-  el.onclick=closeModal;
-  el.style.display="flex";
-}
-window.closeModal=()=>{S.modal=null;const el=document.getElementById("modal-overlay");if(el)el.style.display="none";};
-window.zoomImg=src=>{S.modal={title:"",content:`<img src="${src}" style="width:100%;border-radius:12px;max-height:70dvh;object-fit:contain">`};R();};
-
-// ── BIND ──
-function bind(){
-  const ta=document.getElementById("cta");
-  if(ta)ta.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendC();}});
-}
-
-// ── ACTIONS ──
-// ── DOCUMENT FUNCTIONS ──
-
-// Render PDF first page to canvas thumbnail
-async function renderPdfThumb(b64data){
-  try{
-    const bin=atob(b64data);const arr=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);
-    const pdf=await pdfjsLib.getDocument({data:arr}).promise;
-    const page=await pdf.getPage(1);
-    const vp=page.getViewport({scale:1.2});
-    const canvas=document.createElement("canvas");
-    canvas.width=vp.width;canvas.height=vp.height;
-    const ctx=canvas.getContext("2d");
-    await page.render({canvasContext:ctx,viewport:vp}).promise;
-    return{thumbDataUrl:canvas.toDataURL("image/jpeg",0.7),pageCount:pdf.numPages};
-  }catch{return{thumbDataUrl:null,pageCount:null};}
-}
-
-// Upload document
-window.uploadDoc=async e=>{
-  const f=e.target.files?.[0];if(!f)return;
-  const name=(document.getElementById("doc-name")?.value||"").trim()||f.name;
-  const date=document.getElementById("doc-date")?.value||"";
-  const category=document.getElementById("doc-cat")?.value||"other";
-  const r=new FileReader();
-  r.onload=async ev=>{
-    const dataUrl=ev.target.result;
-    const b64=dataUrl.split(",")[1];
-    const doc={id:uid(),name,date,category,type:f.type,data:b64,size:f.size,uploadedAt:Date.now(),aiSummary:"",thumbDataUrl:null,pageCount:null};
-    // Render thumbnail
-    toast("⏳ מעבד מסמך...");
-    if(f.type==="application/pdf"&&typeof pdfjsLib!=="undefined"){
-      const {thumbDataUrl,pageCount}=await renderPdfThumb(b64);
-      doc.thumbDataUrl=thumbDataUrl;doc.pageCount=pageCount;
-    }else if(f.type.startsWith("image/")){
-      doc.thumbDataUrl=dataUrl;
-    }
-    if(!S.profile.medDocs)S.profile.medDocs=[];
-    S.profile.medDocs.unshift(doc);
-    // Auto-analyze
-    toast("🤖 מנתח עם AI...");
-    analyzeDocById(doc.id);
-    saveS();R();
-    document.getElementById("doc-name")?document.getElementById("doc-name").value="":null;
-    document.getElementById("doc-date")?document.getElementById("doc-date").value="":null;
+// ── Album factory ──
+function mkAlbum(d){
+  return{
+    id: Date.now()+Math.random().toString(36).slice(2),
+    title: d.title||'Unknown Album',
+    artist: d.artist||'Unknown Artist',
+    year: d.year||'', genre: d.genre||'', label: d.label||'',
+    country: d.country||'', coverImage: d.coverImage||'',
+    tracks: d.tracks||[], rating: d.rating||0, notes: d.notes||'',
+    facts: d.facts||[], addedAt: new Date().toISOString(),
+    aiAnalysis: null, artistBio: null
   };
-  r.readAsDataURL(f);e.target.value="";
-};
-
-// Analyze single document with AI
-async function analyzeDocById(docId){
-  const docs=S.profile.medDocs||[];
-  const doc=docs.find(d=>d.id===docId);if(!doc)return;
-  const key=localStorage.getItem("dr_apikey")||"";if(!key)return;
-  try{
-    const files=[];
-    if(doc.type==="application/pdf")files.push({type:"application/pdf",data:doc.data,name:doc.name});
-    else if(doc.type.startsWith("image/"))files.push({type:doc.type,data:doc.data,name:doc.name});
-    const sys=`אתה מומחה לקריאה ופירוש מסמכים רפואיים. קרא את המסמך הרפואי המצורף וחלץ את המידע הרלוונטי בעברית.
-
-פורמט הסיכום:
-━━━━━━━━━━━━━━━━━━━━━━
-📄 סיכום מסמך רפואי
-━━━━━━━━━━━━━━━━━━━━━━
-🏷️ סוג מסמך: [סיכום אשפוז / מרשם / תוצאות / הפנייה / אחר]
-📅 תאריך: [מהמסמך]
-👨‍⚕️ רופא / מוסד: [אם מופיע]
-━━━━━━━━━━━━━━━━━━━━━━
-📌 ממצאים עיקריים:
-  • [ממצא 1]
-  • [ממצא 2]
-━━━━━━━━━━━━━━━━━━━━━━
-💊 תרופות שהוזכרו: [אם יש]
-🧪 בדיקות שהוזכרו: [אם יש]
-⚠️ נקודות חשובות: [אזהרות, המשך טיפול]
-━━━━━━━━━━━━━━━━━━━━━━`;
-    const rep=await ai([{role:"user",content:"קרא ונתח את המסמך הרפואי הזה:",files}],sys);
-    doc.aiSummary=rep;saveS();R();toast("✅ ניתוח הושלם!");
-  }catch(err){doc.aiSummary="לא הצלחתי לנתח: "+err.message;saveS();R();}
 }
 
-window.analyzeDoc=idx=>{
-  const docs=S.profile.medDocs||[];const doc=docs[idx];if(!doc)return;
-  toast("🤖 מנתח מסמך...");
-  analyzeDocById(doc.id);
-};
+// ── Navigation ──
+function nav(v){
+  if(v===S.view && v!=='collection') return;
+  S.prev=S.view; S.view=v;
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(el=>el.classList.remove('on'));
+  const vEl=document.getElementById('v-'+v);
+  if(vEl){vEl.classList.add('on')}
+  const tEl=document.getElementById('t-'+v);
+  if(tEl) tEl.classList.add('on');
+  if(v==='collection') renderColl();
+  if(v==='stats') renderStats();
+  window.scrollTo(0,0);
+}
+function goBack(){nav(S.prev==='album'||S.prev==='artist'?'collection':S.prev)}
 
-// View document full screen
-window.viewDoc=idx=>{
-  const docs=S.profile.medDocs||[];const doc=docs[idx];if(!doc)return;
-  const cat=getCat(doc.category);
-  let content="";
-  if(doc.type==="application/pdf"){
-    content=`<div style="text-align:center">
-      <canvas id="pdf-viewer-canvas" style="width:100%;border-radius:10px;max-height:60dvh;object-fit:contain"></canvas>
-      <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap">
-        <button class="btn g" style="width:auto;padding:10px 16px;font-size:14px" id="pdf-prev" onclick="pdfPage(-1)" disabled>‹ הקודם</button>
-        <span id="pdf-page-info" style="padding:10px 14px;background:var(--card2);border-radius:10px;font-size:14px;color:var(--text)">עמ' 1</span>
-        <button class="btn g" style="width:auto;padding:10px 16px;font-size:14px" id="pdf-next" onclick="pdfPage(1)">הבא ›</button>
+// ════════════════════════════════════════
+//   COLLECTION
+// ════════════════════════════════════════
+
+function renderColl(){
+  const grid=document.getElementById('album-grid');
+  const empty=document.getElementById('coll-empty');
+  const title=document.getElementById('coll-title');
+  const count=document.getElementById('coll-count');
+
+  let list=[...S.collection].reverse();
+  if(S.search){
+    const q=S.search.toLowerCase();
+    list=list.filter(a=>a.title.toLowerCase().includes(q)||a.artist.toLowerCase().includes(q)||(a.genre&&a.genre.toLowerCase().includes(q)));
+  }
+  if(S.filterGenre!=='all') list=list.filter(a=>a.genre&&a.genre.toLowerCase().includes(S.filterGenre.toLowerCase()));
+
+  title.textContent = S.search ? `"${S.search}"` : 'האוסף שלי';
+  count.textContent = list.length ? `${list.length} אלבומים` : '';
+
+  updateChips();
+
+  if(!S.collection.length){grid.style.display='none';empty.style.display='block';return}
+  grid.style.display='grid';empty.style.display='none';
+
+  grid.innerHTML=list.map(a=>`
+    <div class="album-card" onclick="openAlbum('${a.id}')">
+      <div class="vinyl-peek"></div>
+      <div class="card-inner">
+        <div class="cover-wrap">
+          ${a.coverImage
+            ?`<img src="${a.coverImage}" alt="${esc(a.title)}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'cover-ph\\'><div class=\\'cover-ph-disc\\'></div></div>'">`
+            :`<div class="cover-ph"><div class="cover-ph-disc"></div></div>`}
+          <div class="rating-overlay">
+            ${[1,2,3,4,5].map(i=>`<span class="s${a.rating>=i?' on':''}" onclick="event.stopPropagation();rate('${a.id}',${i})">★</span>`).join('')}
+          </div>
+        </div>
+        <div class="card-info">
+          <div class="card-title">${esc(a.title)}</div>
+          <div class="card-artist">${esc(a.artist)}</div>
+          <div class="card-meta">${a.year||''}${a.year&&a.genre?' · ':''}${a.genre||''}</div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  // Show export btn if collection non-empty
+  const exp=document.getElementById('fab-export');
+  if(exp) exp.style.display=S.collection.length?'flex':'none';
+}
+
+function updateChips(){
+  const genres=[...new Set(S.collection.map(a=>a.genre).filter(Boolean))];
+  const c=document.getElementById('genre-chips');
+  c.innerHTML=`<div class="chip${S.filterGenre==='all'?' on':''}" onclick="setGenre('all',this)">הכל</div>`+
+    genres.map(g=>`<div class="chip${S.filterGenre===g?' on':''}" onclick="setGenre('${esc(g)}',this)">${esc(g)}</div>`).join('');
+}
+
+function setGenre(g,el){
+  S.filterGenre=g;
+  document.querySelectorAll('.chips .chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  renderColl();
+}
+
+// Search
+function toggleSearch(){
+  const bar=document.getElementById('search-bar');
+  bar.style.display=bar.style.display==='none'?'block':'none';
+  if(bar.style.display==='block') bar.querySelector('input').focus();
+}
+function onSearch(q){S.search=q;renderColl()}
+
+// ════════════════════════════════════════
+//   FILE / CAMERA HANDLING
+// ════════════════════════════════════════
+
+let pendingB64=null;
+
+function onFile(e){
+  const f=e.target.files[0]; if(!f) return;
+  e.target.value=''; // reset so same file can be re-selected
+  const r=new FileReader();
+  r.onload=ev=>{pendingB64=ev.target.result; showPreview(pendingB64)};
+  r.readAsDataURL(f);
+}
+
+function onDragOver(e){e.preventDefault();e.currentTarget.classList.add('drag')}
+function onDragLeave(e){e.currentTarget.classList.remove('drag')}
+function onDrop(e){
+  e.preventDefault();e.currentTarget.classList.remove('drag');
+  const f=e.dataTransfer.files[0];
+  if(f&&f.type.startsWith('image/')){
+    const r=new FileReader();
+    r.onload=ev=>{pendingB64=ev.target.result;showPreview(pendingB64)};
+    r.readAsDataURL(f);
+  }
+}
+
+function showPreview(b64){
+  document.getElementById('scan-zone').style.display='none';
+  document.getElementById('result-wrap').style.display='none';
+  const p=document.getElementById('scan-preview');
+  p.style.display='block';
+  document.getElementById('preview-img').src=b64;
+}
+
+function clearScan(){
+  pendingB64=null;
+  document.getElementById('scan-preview').style.display='none';
+  document.getElementById('result-wrap').style.display='none';
+  document.getElementById('scan-zone').style.display='block';
+}
+
+// ════════════════════════════════════════
+//   AI — IDENTIFY ALBUM
+// ════════════════════════════════════════
+
+async function identify(){
+  if(!pendingB64) return;
+  showLoad('מזהה תקליט...','AI מנתח את העטיפה');
+  const b64=pendingB64.split(',')[1];
+  const mt=pendingB64.split(';')[0].split(':')[1]||'image/jpeg';
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:`You are a world-class vinyl record expert and musicologist. Identify the album cover image and return ONLY a valid JSON object — absolutely no preamble, no markdown, no backticks.
+
+JSON structure:
+{
+  "identified": true,
+  "confidence": "high",
+  "title": "Album Title",
+  "artist": "Artist Name",
+  "year": "1973",
+  "genre": "Genre",
+  "label": "Label Name",
+  "country": "UK",
+  "tracks": ["Track 1","Track 2","Track 3","Track 4","Track 5"],
+  "facts": ["Fact 1","Fact 2","Fact 3","Fact 4","Fact 5"],
+  "brief_description": "2-3 sentences in Hebrew about album significance and themes"
+}
+
+If uncertain, set identified:false but fill in what's visible. Always return valid JSON only.`,
+        messages:[{role:'user',content:[
+          {type:'image',source:{type:'base64',media_type:mt,data:b64}},
+          {type:'text',text:'זהה את האלבום'}
+        ]}]
+      })
+    });
+    const d=await res.json();
+    hideLoad();
+    const txt=d.content[0].text.replace(/```json|```/g,'').trim();
+    const album=JSON.parse(txt);
+    album.coverImage=pendingB64;
+    showResult(album);
+  }catch(e){hideLoad();toast('שגיאה בזיהוי — נסה שנית','err');console.error(e)}
+}
+
+function showResult(data){
+  const conf=data.confidence==='high'?'conf-high':data.confidence==='medium'?'conf-med':'conf-low';
+  const confLabel=data.confidence==='high'?'✓ זוהה בביטחון גבוה':data.confidence==='medium'?'~ זוהה בביטחון בינוני':'? זיהוי חלקי';
+  const wrap=document.getElementById('result-wrap');
+  wrap.style.display='block';
+  wrap.innerHTML=`
+    <div class="result-card">
+      <div class="result-top">
+        <div class="result-cover">
+          ${data.coverImage?`<img src="${data.coverImage}" alt="">`:`<div class="result-cover-ph">💿</div>`}
+        </div>
+        <div class="result-info">
+          <div class="result-album">${esc(data.title||'?')}</div>
+          <div class="result-artist">${esc(data.artist||'?')}</div>
+          <div class="result-detail">${data.year||''}${data.year&&data.label?' · ':''}${data.label||''}<br>${data.genre||''}</div>
+          <div class="confidence ${conf}">${confLabel}</div>
+        </div>
+      </div>
+      ${data.brief_description?`
+      <div class="result-section">
+        <div class="sec-title">על האלבום</div>
+        <div class="sec-body">${esc(data.brief_description)}</div>
+      </div>`:''}
+      ${data.facts&&data.facts.length?`
+      <div class="result-section">
+        <div class="sec-title">עובדות מרתקות</div>
+        <ul class="facts-ul">${data.facts.map(f=>`<li>${esc(f)}</li>`).join('')}</ul>
+      </div>`:''}
+      ${data.tracks&&data.tracks.length?`
+      <div class="result-section">
+        <div class="sec-title">רשימת שירים</div>
+        <div class="tracklist">${data.tracks.map((t,i)=>`<div class="track"><span class="track-n">${i+1}</span><span class="track-name">${esc(t)}</span></div>`).join('')}</div>
+      </div>`:''}
+      <div class="result-btns">
+        <button class="btn-save" onclick='saveResult(${JSON.stringify(data).replace(/'/g,"&#39;")})'>+ הוסף לאוסף</button>
+        <button class="btn-cancel" onclick="clearScan()">ביטול</button>
       </div>
     </div>`;
-  }else if(doc.thumbDataUrl){
-    content=`<img src="${doc.thumbDataUrl}" style="width:100%;border-radius:12px;max-height:65dvh;object-fit:contain">`;
-  }else{
-    content=`<div style="text-align:center;padding:3rem;color:var(--sub)"><div style="font-size:48px;margin-bottom:12px">📄</div><p>אין תצוגה מקדימה זמינה</p></div>`;
-  }
-  content+=`<div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
-    <button class="btn s" style="flex:1;min-height:44px" onclick="closeModal();analyzeDoc(${idx})">🤖 ${doc.aiSummary?"נתח מחדש":"נתח עם AI"}</button>
-    <button class="btn k" style="flex:1;min-height:44px" onclick="closeModal();sendDocToChat(${idx})">💬 שאל על המסמך</button>
-  </div>`;
-  S.modal={title:`${cat.e} ${esc(doc.name)}`,content};
-  S._pdfDoc=null;S._pdfPage=1;
-  R();
-  if(doc.type==="application/pdf")setTimeout(()=>loadPdfInModal(doc.data,1),200);
-};
-
-window.viewDocSummary=idx=>{
-  const docs=S.profile.medDocs||[];const doc=docs[idx];if(!doc||!doc.aiSummary)return;
-  const cat=getCat(doc.category);
-  S.modal={title:`📊 ${esc(doc.name)}`,content:`
-    <div style="font-size:14px;color:var(--text);line-height:1.85;white-space:pre-wrap;margin-bottom:14px">${esc(doc.aiSummary)}</div>
-    <div style="display:flex;gap:8px">
-      <button class="btn g" style="flex:1;min-height:44px" onclick="shareOrCopy('סיכום מסמך',document.querySelector('.modal div').innerText)">📤 שתף</button>
-      <button class="btn g" style="flex:1;min-height:44px" onclick="copyText(document.querySelector('.modal div').innerText)">📋 העתק</button>
-    </div>`};
-  R();
-};
-
-// Load PDF in modal viewer
-async function loadPdfInModal(b64,pageNum){
-  try{
-    if(!S._pdfDoc){
-      const bin=atob(b64);const arr=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);
-      S._pdfDoc=await pdfjsLib.getDocument({data:arr}).promise;
-    }
-    const pdf=S._pdfDoc;S._pdfPage=pageNum;
-    const page=await pdf.getPage(pageNum);
-    const vp=page.getViewport({scale:1.5});
-    const canvas=document.getElementById("pdf-viewer-canvas");if(!canvas)return;
-    canvas.width=vp.width;canvas.height=vp.height;
-    canvas.style.maxHeight="58dvh";canvas.style.width="100%";
-    await page.render({canvasContext:canvas.getContext("2d"),viewport:vp}).promise;
-    const info=document.getElementById("pdf-page-info");if(info)info.textContent=`עמ' ${pageNum} מתוך ${pdf.numPages}`;
-    const prev=document.getElementById("pdf-prev");if(prev)prev.disabled=(pageNum<=1);
-    const next=document.getElementById("pdf-next");if(next)next.disabled=(pageNum>=pdf.numPages);
-  }catch(e){console.error("PDF render:",e);}
 }
 
-window.pdfPage=async delta=>{
-  const docs=S.profile.medDocs||[];const doc=docs.find(d=>S.modal?.title?.includes(esc(d.name)));
-  if(!doc)return;
-  await loadPdfInModal(doc.data,S._pdfPage+delta);
-};
+function saveResult(data){
+  const a=mkAlbum(data);
+  S.collection.push(a);
+  save();
+  clearScan();
+  toast('✓ אלבום נוסף לאוסף!','ok');
+  nav('collection');
+  updateFAB();
+}
 
-// Send doc to chat for analysis
-window.sendDocToChat=async idx=>{
-  const docs=S.profile.medDocs||[];const doc=docs[idx];if(!doc)return;
-  S.view="consult";
-  if(!S.consults.find(c=>c.id===S.activeId))newC();
-  const c=S.consults.find(x=>x.id===S.activeId);if(!c)return;
-  const um={id:uid(),role:"user",content:`יש לי מסמך רפואי לניתוח: "${doc.name}". אנא קרא ונתח אותו.`,files:[{type:doc.type,data:doc.data,name:doc.name}],ts:Date.now()};
-  c.messages.push(um);S.cld=true;R();
-  setTimeout(()=>document.getElementById("ce")?.scrollIntoView({block:"end"}),100);
-  try{
-    const rep=await ai(c.messages);
-    c.messages.push({id:uid(),role:"assistant",content:rep,ts:Date.now()});
-    if(rep.includes("סיכום קליני")||rep.includes("ממצא"))c.status="diagnosed";
-  }catch(err){c.messages.push({id:uid(),role:"assistant",content:"⚠️ "+err.message,ts:Date.now()});}
-  S.cld=false;saveS();R();
-  setTimeout(()=>document.getElementById("ce")?.scrollIntoView({block:"end",behavior:"smooth"}),150);
-};
+// ════════════════════════════════════════
+//   MANUAL ADD
+// ════════════════════════════════════════
 
-window.deleteDoc=idx=>{
-  if(!confirm("למחוק מסמך זה לצמיתות?"))return;
-  S.profile.medDocs?.splice(idx,1);saveS();R();toast("🗑 נמחק");
-};
+function addManual(){
+  const title=document.getElementById('m-album').value.trim();
+  const artist=document.getElementById('m-artist').value.trim();
+  if(!title||!artist){toast('נא למלא שם אלבום ואמן','err');return}
+  S.collection.push(mkAlbum({
+    title,artist,
+    year:document.getElementById('m-year').value,
+    genre:document.getElementById('m-genre').value.trim()
+  }));
+  save();
+  ['m-album','m-artist','m-year','m-genre'].forEach(id=>{document.getElementById(id).value=''});
+  toast('✓ נוסף!','ok');
+  nav('collection');
+  updateFAB();
+}
 
-window.setChip=s=>{S.ci=s;R();setTimeout(()=>{const ta=document.getElementById("cta");if(ta){ta.focus();ta.selectionStart=ta.selectionEnd=ta.value.length;}},60);};
-window.aR=ta=>{ta.style.height="auto";ta.style.height=Math.min(ta.scrollHeight,110)+"px";S.ci=ta.value;};
-window.pickF=e=>{
-  Array.from(e.target.files||[]).forEach(f=>{
-    const r=new FileReader();
-    r.onload=ev=>{
-      const b64=ev.target.result.split(",")[1];
-      S.cf.push({name:f.name,type:f.type,data:b64});
-      if(f.type.startsWith("image/"))S.cp.push(ev.target.result);
-      else S.cp.push(null); // placeholder for PDF
-      R();setTimeout(()=>document.getElementById("ce")?.scrollIntoView({block:"end"}),80);
-    };
-    r.readAsDataURL(f);
-  });e.target.value="";
-};
-window.rmPrev=i=>{S.cf.splice(i,1);S.cp.splice(i,1);R();toast("הוסר");};
-window.sendC=async()=>{
-  const c=S.consults.find(x=>x.id===S.activeId);
-  if(!c||S.cld)return;
-  const txt=S.ci.trim();
-  if(!txt&&!S.cf.length)return;
-  const um={id:uid(),role:"user",content:txt||"אנא נתח את הקבצים המצורפים",files:[...S.cf],ts:Date.now()};
-  c.messages.push(um);
-  if(c.messages.length===1)c.title=(txt.slice(0,40)||"קבצים לניתוח");
-  S.ci="";S.cf=[];S.cp=[];S.cld=true;R();
-  setTimeout(()=>document.getElementById("ce")?.scrollIntoView({block:"end",behavior:"smooth"}),100);
+// ════════════════════════════════════════
+//   ALBUM DETAIL
+// ════════════════════════════════════════
+
+function openAlbum(id){
+  const a=S.collection.find(x=>x.id===id);
+  if(!a) return;
+  S.view_album_id=id;
+  renderAlbum(a);
+  nav('album');
+  logListen(a);
+}
+
+function renderAlbum(a){
+  const el=document.getElementById('album-detail');
+  el.innerHTML=`
+    <div class="album-hero">
+      <div class="hero-cover">
+        ${a.coverImage
+          ?`<img src="${a.coverImage}" alt="${esc(a.title)}">`
+          :`<div class="cover-ph" style="height:240px"><div class="cover-ph-disc" style="width:52%"></div></div>`}
+        <div class="hero-gradient"></div>
+      </div>
+      <div class="hero-info">
+        <div class="hero-album">${esc(a.title)}</div>
+        <div class="hero-artist" onclick="openArtist('${esc(a.artist)}')">${esc(a.artist)} →</div>
+        <div class="hero-meta">${[a.year,a.label,a.genre,a.country].filter(Boolean).join(' · ')}</div>
+        <div class="hero-rating">
+          ${[1,2,3,4,5].map(i=>`<span class="hs${a.rating>=i?' on':''}" onclick="rate('${a.id}',${i});renderAlbum(S.collection.find(x=>x.id==='${a.id}'))">★</span>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-actions">
+      <button class="act-btn act-primary" onclick="fetchAnalysis('${a.id}')">✦ ניתוח AI</button>
+      <button class="act-btn act-sec" onclick="fetchArtistBio('${a.id}')">🎸 על האמן</button>
+      ${!a.tracks.length?`<button class="act-btn act-sec" onclick="fetchTracks('${a.id}')">♪ שירים</button>`:''}
+      <button class="act-btn act-danger" onclick="delAlbum('${a.id}')">🗑</button>
+    </div>
+
+    ${a.tracks.length?`
+    <div class="detail-section">
+      <div class="detail-section-title">רשימת שירים</div>
+      <div class="tracklist">
+        ${a.tracks.map((t,i)=>`
+          <div class="track" onclick="analyzeTrack('${a.id}',${i})">
+            <span class="track-n">${i+1}</span>
+            <span class="track-name">${esc(typeof t==='string'?t:t.title)}</span>
+            <span class="track-play">▷</span>
+          </div>`).join('')}
+      </div>
+    </div>`:''}
+
+    ${a.facts&&a.facts.length?`
+    <div class="detail-section">
+      <div class="detail-section-title">עובדות מרתקות</div>
+      <ul class="facts-ul">${a.facts.map(f=>`<li>${esc(f)}</li>`).join('')}</ul>
+    </div>`:''}
+
+    <div class="detail-section" id="analysis-sec-${a.id}">
+      ${a.aiAnalysis?`<div class="ai-tag">✦ ניתוח AI</div><div class="stream-text">${a.aiAnalysis}</div>`:''}
+    </div>
+
+    ${a.artistBio?`
+    <div class="detail-section">
+      <div class="detail-section-title">על ${esc(a.artist)}</div>
+      <div class="ai-tag">ביוגרפיה</div>
+      <div class="bio-text">${esc(a.artistBio.summary||'')}</div>
+      <div class="divider"></div>
+      <button onclick="openArtist('${esc(a.artist)}')" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--rail);background:none;color:var(--cool);font-size:12px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold-lo)'" onmouseout="this.style.color='var(--cool)';this.style.borderColor='var(--rail)'">עמוד מלא לאמן ←</button>
+    </div>`:''}
+
+    <div class="detail-section">
+      <div class="detail-section-title">הערות אישיות</div>
+      <textarea class="notes-ta" placeholder="רשום את המחשבות שלך על האלבום..." onchange="updateNotes('${a.id}',this.value)">${a.notes||''}</textarea>
+    </div>
+  `;
+}
+
+// ════════════════════════════════════════
+//   AI — ALBUM ANALYSIS
+// ════════════════════════════════════════
+
+async function fetchAnalysis(id){
+  const a=S.collection.find(x=>x.id===id); if(!a) return;
+  const sec=document.getElementById('analysis-sec-'+id); if(!sec) return;
+  sec.innerHTML=`<div class="ai-tag">✦ ניתוח AI</div><div class="stream-text" id="st-${id}"></div><span class="cursor"></span>`;
+  showLoad('מנתח אלבום...',`${a.title} · ${a.artist}`);
   try{
-    const rep=await ai(c.messages);
-    c.messages.push({id:uid(),role:"assistant",content:rep,ts:Date.now()});
-    if(rep.includes("סיכום קליני")||rep.includes("אבחנה ראשית")||rep.includes("הערכה קלינית")){c.aiDiagnosis=rep;c.status="diagnosed";}
-  }catch(err){
-    const isNoKey=err.message==="NO_KEY";
-    c.messages.push({id:uid(),role:"assistant",content:isNoKey
-      ?"🔑 נדרש מפתח API לפעולה.\n\nעבור להגדרות ⚙️ → הזן מפתח מ-console.anthropic.com"
-      :"⚠️ שגיאה: "+err.message,ts:Date.now()});
-  }
-  S.cld=false;saveS();R();setTimeout(()=>document.getElementById("ce")?.scrollIntoView({block:"end",behavior:"smooth"}),150);
-};
-window.uP=(k,v)=>{S.profile[k]=v;};
-window.svP=()=>{const b=document.getElementById("spb");if(b){b.textContent="✅ נשמר!";b.disabled=true;setTimeout(()=>{b.textContent="💾 שמור פרופיל";b.disabled=false;},2000);}saveS();toast("✅ פרופיל נשמר");};
-window.setFT=t=>{S.ft=t;R();};
-window.addTF=e=>{
-  const f=e.target.files?.[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=ev=>{const entry={id:uid(),name:f.name,type:f.type,data:ev.target.result.split(",")[1],uploadedAt:Date.now(),label:S.nt.name||f.name,date:S.nt.date,notes:S.nt.notes};if(!S.profile.uploadedTests)S.profile.uploadedTests=[];S.profile.uploadedTests.push(entry);S.nt={name:"",date:"",notes:""};saveS();R();toast("✅ בדיקה הועלתה");};
-  r.readAsDataURL(f);e.target.value="";
-};
-window.rmT=i=>{if(confirm("למחוק בדיקה זו?")){S.profile.uploadedTests?.splice(i,1);saveS();R();}};
-window.genSum=async()=>{
-  S.gl=true;const b=document.getElementById("gsb");if(b)b.disabled=true;R();
-  const p=S.profile;
-  const txt=`שם: ${p.name||"?"} | גיל: ${p.age||"?"} | מין: ${p.gender||"?"} | סוג דם: ${p.bloodType||"לא ידוע"} | עישון: ${p.smoking||"?"}
-מחלות רקע: ${p.conditions||"לא ידוע"}
-תרופות קבועות: ${p.medications||"לא ידוע"}
-אלרגיות: ${p.allergies||"לא ידוע"}
-בדיקות שהועלו: ${(p.uploadedTests||[]).map(t=>(t.label||t.name)+(t.date?" ("+fD(t.date)+")":"")).join(", ")||"אין"}`;
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',max_tokens:1000,
+        messages:[{role:'user',content:`אתה מוזיקולוג בכיר. כתוב ניתוח מעמיק בעברית על האלבום "${a.title}" של ${a.artist} (${a.year||''}).
+
+**הקשר יצירה** — מה קרה בחיי האמן ובעולם?
+**המסר הגדול** — מה האלבום אומר?
+**חדשנות מוזיקלית** — מה היה ייחודי בסאונד ובגישה?
+**מורשת** — מה השפעתו על המוזיקה שבאה אחריו?
+
+כתוב בעברית, בשפה תשוקתית ומעמיקה, 200-280 מילה.`}]
+      })
+    });
+    hideLoad();
+    const text=res.ok?(await res.json()).content[0].text:'שגיאה בטעינה';
+    a.aiAnalysis=text; save();
+    const el=document.getElementById('st-'+id);
+    if(el){await typeText(el,text); sec.querySelector('.cursor')?.remove()}
+  }catch(e){hideLoad();toast('שגיאה בניתוח','err');console.error(e)}
+}
+
+// ════════════════════════════════════════
+//   AI — ARTIST BIO
+// ════════════════════════════════════════
+
+async function fetchArtistBio(id){
+  const a=S.collection.find(x=>x.id===id); if(!a) return;
+  showLoad('טוען ביוגרפיה...',a.artist);
   try{
-    const sum=await ai([{role:"user",content:txt,files:(p.uploadedTests||[]).filter(t=>t.type?.startsWith("image/"))}],SYS_SUM);
-    S.profile.aiSummary=sum;saveS();toast("✅ סיכום נוצר בהצלחה!");
-  }catch(e){S.profile.aiSummary="שגיאה: "+e.message;toast("❌ שגיאה: "+e.message,3000);}
-  S.gl=false;R();
-};
-window.selH=id=>{S.hSel=id;S.hTab="dx";S.dx={diagnosis:"",notes:""};R();};
-window.setHT=t=>{S.hTab=t;R();};
-window.gTC=id=>{S.activeId=id;S.view="consult";R();};
-window.mD=id=>{const c=S.consults.find(x=>x.id===id);if(c){c.status="completed";saveS();R();toast("✅ ייעוץ הושלם");}};
-window.svDX=id=>{const c=S.consults.find(x=>x.id===id);if(!c||!S.dx.diagnosis.trim())return;c.doctorDiagnosis={...S.dx,savedAt:Date.now()};c.status="diagnosed";saveS();R();toast("✅ אבחנה נשמרה");};
-window.addM=id=>{const c=S.consults.find(x=>x.id===id);if(!c||!S.nm.name?.trim())return;if(!c.medications)c.medications=[];c.medications.push({id:uid(),...S.nm,active:true,taken:{}});S.nm={name:"",dose:"",freq:"",duration:""};saveS();R();toast("✅ תרופה נוספה");};
-window.tMD=(cid,mid,day)=>{const c=S.consults.find(x=>x.id===cid);const m=c?.medications?.find(x=>x.id===mid);if(m){if(!m.taken)m.taken={};m.taken[day]=!m.taken[day];saveS();R();}};
-window.tMA=(cid,mid)=>{const c=S.consults.find(x=>x.id===cid);const m=c?.medications?.find(x=>x.id===mid);if(m){m.active=!m.active;saveS();R();}};
-window.delM=(cid,mid)=>{if(confirm("למחוק תרופה זו?")){const c=S.consults.find(x=>x.id===cid);if(c){c.medications=c.medications?.filter(x=>x.id!==mid);saveS();R();}}};
-window.addTst=id=>{const c=S.consults.find(x=>x.id===id);if(!c||!S.ntst.name?.trim())return;if(!c.tests)c.tests=[];c.tests.push({id:uid(),...S.ntst,status:"pending"});S.ntst={name:"",date:"",notes:""};saveS();R();toast("✅ בדיקה נוספה");};
-window.tTst=(cid,tid)=>{const c=S.consults.find(x=>x.id===cid);const t=c?.tests?.find(x=>x.id===tid);if(t){t.status=t.status==="done"?"pending":"done";saveS();R();}};
-window.addF=id=>{const c=S.consults.find(x=>x.id===id);if(!c||!S.nf.date)return;if(!c.followUps)c.followUps=[];c.followUps.push({id:uid(),...S.nf,done:false});S.nf={date:"",note:""};saveS();R();toast("✅ ביקורת נוספה");};
-window.tF=(cid,fid)=>{const c=S.consults.find(x=>x.id===cid);const f=c?.followUps?.find(x=>x.id===fid);if(f){f.done=!f.done;saveS();R();}};
-window.delF=(cid,fid)=>{const c=S.consults.find(x=>x.id===cid);if(c){c.followUps=c.followUps?.filter(x=>x.id!==fid);saveS();R();}};
-window.svKey=()=>{const k=S.sk.trim();if(!k)return;localStorage.setItem("dr_apikey",k);S.ss={ok:true,msg:"✅ מפתח נשמר בהצלחה!"};R();toast("✅ מפתח נשמר!");};
-window.tstKey=async()=>{
-  const key=(S.sk||"").trim()||localStorage.getItem("dr_apikey")||"";
-  if(!key){S.ss={ok:false,msg:"❌ הזן מפתח API תחילה"};R();return;}
-  S.sld=true;S.ss=null;R();
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',max_tokens:1000,
+        system:'Return ONLY valid JSON. No markdown, no backticks, no preamble.',
+        messages:[{role:'user',content:`Create artist profile for ${a.artist} in Hebrew. Return ONLY this JSON:
+{"summary":"2-3 sentence Hebrew summary","full":"150-word Hebrew biography","timeline":[{"year":"1965","event":"Hebrew event description"},{"year":"1968","event":"..."},{"year":"1972","event":"..."},{"year":"1977","event":"..."},{"year":"1983","event":"..."}],"influences":["Influence 1","Influence 2","Influence 3"],"legacy":"One Hebrew sentence about legacy"}`}]
+      })
+    });
+    hideLoad();
+    const d=await res.json();
+    const bio=JSON.parse(d.content[0].text.replace(/```json|```/g,'').trim());
+    S.collection.forEach(x=>{if(x.artist===a.artist) x.artistBio=bio});
+    save();
+    toast('✓ ביוגרפיה נטענה','ok');
+    renderAlbum(a);
+  }catch(e){hideLoad();toast('שגיאה בטעינת ביוגרפיה','err');console.error(e)}
+}
+
+// ════════════════════════════════════════
+//   AI — FETCH TRACKS
+// ════════════════════════════════════════
+
+async function fetchTracks(id){
+  const a=S.collection.find(x=>x.id===id); if(!a) return;
+  showLoad('טוען שירים...',a.title);
   try{
-    const r=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:MODEL,max_tokens:30,messages:[{role:"user",content:"אמור שלום"}]})});
-    const raw=await r.text();
-    let d;try{d=JSON.parse(raw);}catch{S.ss={ok:false,msg:`❌ תגובה לא תקינה (${r.status}):\n${raw.slice(0,200)}`};S.sld=false;R();return;}
-    if(d.content?.[0]?.text){S.ss={ok:true,msg:"✅ חיבור תקין!\nד\"ר קלוד: "+d.content[0].text};localStorage.setItem("dr_apikey",key);toast("✅ חיבור תקין!");}
-    else S.ss={ok:false,msg:`❌ ${d.error?.message||JSON.stringify(d).slice(0,200)}`};
-  }catch(e){S.ss={ok:false,msg:`❌ שגיאת רשת: ${e.message}`};}
-  S.sld=false;R();
-};
-window.shareOrCopy=shareOrCopy;
-window.copyText=copyText;
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',max_tokens:400,
+        system:'Return ONLY a JSON array of track title strings. No markdown.',
+        messages:[{role:'user',content:`List all tracks on "${a.title}" by ${a.artist}. JSON array only.`}]
+      })
+    });
+    hideLoad();
+    const d=await res.json();
+    const tracks=JSON.parse(d.content[0].text.replace(/```json|```/g,'').trim());
+    a.tracks=tracks; save();
+    renderAlbum(a);
+    toast('✓ שירים נטענו','ok');
+  }catch(e){hideLoad();toast('שגיאה','err')}
+}
+
+// ════════════════════════════════════════
+//   AI — TRACK ANALYSIS
+// ════════════════════════════════════════
+
+async function analyzeTrack(id, idx){
+  const a=S.collection.find(x=>x.id===id); if(!a||!a.tracks[idx]) return;
+  const trackName=typeof a.tracks[idx]==='string'?a.tracks[idx]:a.tracks[idx].title;
+  showLoad('מנתח שיר...',trackName);
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',max_tokens:800,
+        messages:[{role:'user',content:`אתה מוזיקולוג. נתח בעברית את השיר "${trackName}" מהאלבום "${a.title}" של ${a.artist}.
+
+**פשט** — על מה השיר מספר?
+**עומק** — מה המשמעות הנסתרת / הסמלית?
+**מוזיקה** — מה מיוחד בסאונד, מבנה, כלים?
+**מקום** — מה מקומו בקריירה של האמן?
+
+200 מילה, עברית תשוקתית ומעמיקה.`}]
+      })
+    });
+    hideLoad();
+    const text=(await res.json()).content[0].text;
+    showTrackModal(trackName, a.artist, text);
+  }catch(e){hideLoad();toast('שגיאה','err')}
+}
+
+function showTrackModal(track, artist, text){
+  const m=document.createElement('div');
+  m.className='modal-bg';
+  m.innerHTML=`
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-pad">
+        <div class="modal-track">${esc(track)}</div>
+        <div class="modal-artist">${esc(artist)}</div>
+        <div class="ai-tag">✦ ניתוח AI</div>
+        <div class="stream-text" id="modal-st"></div>
+        <button class="modal-close" onclick="this.closest('.modal-bg').remove()">סגור</button>
+      </div>
+    </div>`;
+  document.body.appendChild(m);
+  m.addEventListener('click',e=>{if(e.target===m)m.remove()});
+  typeText(m.querySelector('#modal-st'),text);
+}
+
+// ════════════════════════════════════════
+//   ARTIST PAGE
+// ════════════════════════════════════════
+
+function openArtist(name){
+  const albums=S.collection.filter(a=>a.artist===name);
+  const ref=albums[0];
+  const bio=ref?.artistBio;
+  const el=document.getElementById('artist-detail');
+
+  el.innerHTML=`
+    <div class="artist-hero">
+      <div class="artist-avatar">🎸</div>
+      <div class="artist-name">${esc(name)}</div>
+      <div class="artist-sub">${albums.length} אלבומים באוסף</div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn on" onclick="artistTab('bio',this)">ביוגרפיה</button>
+      <button class="tab-btn" onclick="artistTab('albums',this)">אלבומים</button>
+      <button class="tab-btn" onclick="artistTab('timeline',this)">ציר זמן</button>
+    </div>
+    <div id="atab-bio">
+      ${bio?`<div class="bio-text">${esc(bio.full||bio.summary||'')}</div>`:`
+        <div class="empty" style="padding:30px 0">
+          <div class="empty-s">טרם נטענה ביוגרפיה</div>
+          <button onclick="loadBioStandalone('${esc(name)}')" style="margin-top:14px;padding:11px 22px;border-radius:12px;border:none;background:rgba(200,153,74,.15);color:var(--gold);font-size:13px;cursor:pointer;font-family:'Outfit',sans-serif;border:1px solid rgba(200,153,74,.2)">✦ טען ביוגרפיה</button>
+        </div>`}
+    </div>
+    <div id="atab-albums" style="display:none">
+      <div class="album-grid">
+        ${albums.map(a=>`
+          <div class="album-card" onclick="openAlbum('${a.id}')">
+            <div class="vinyl-peek"></div>
+            <div class="card-inner">
+              <div class="cover-wrap">
+                ${a.coverImage?`<img src="${a.coverImage}" alt="" loading="lazy">`:`<div class="cover-ph"><div class="cover-ph-disc"></div></div>`}
+              </div>
+              <div class="card-info">
+                <div class="card-title">${esc(a.title)}</div>
+                <div class="card-meta">${a.year||''}</div>
+              </div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div id="atab-timeline" style="display:none">
+      ${bio&&bio.timeline?`
+        <div class="timeline">
+          ${bio.timeline.map(e=>`
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-year">${esc(e.year)}</div>
+              <div class="tl-event">${esc(e.event)}</div>
+            </div>`).join('')}
+        </div>`:`<div class="empty" style="padding:30px 0"><div class="empty-s">טען ביוגרפיה לצפייה בציר הזמן</div></div>`}
+    </div>
+  `;
+  nav('artist');
+}
+
+function artistTab(tab,btn){
+  document.querySelectorAll('#v-artist .tab-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  ['bio','albums','timeline'].forEach(t=>{
+    const el=document.getElementById('atab-'+t);
+    if(el) el.style.display=t===tab?'block':'none';
+  });
+}
+
+async function loadBioStandalone(name){
+  const ref=S.collection.find(a=>a.artist===name);
+  if(!ref) return;
+  await fetchArtistBio(ref.id);
+  openArtist(name);
+}
+
+// ════════════════════════════════════════
+//   DISCOVER — RECOMMENDATIONS
+// ════════════════════════════════════════
+
+async function genRecs(){
+  if(!S.collection.length){toast('הוסף אלבומים קודם','err');return}
+  const list=document.getElementById('recs-list');
+  list.innerHTML='<div class="empty" style="padding:30px 0"><div class="empty-s">מנתח את האוסף שלך...</div></div>';
+  const sample=S.collection.slice(-8).map(a=>`${a.title} by ${a.artist} (${a.genre||''})`).join(', ');
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',max_tokens:800,
+        system:'Return ONLY a valid JSON array. No markdown.',
+        messages:[{role:'user',content:`Based on: ${sample}
+Recommend 5 albums. Return JSON array:
+[{"title":"Album","artist":"Artist","year":"1972","reason":"Hebrew reason why they'd love it based on their taste"}]`}]
+      })
+    });
+    const d=await res.json();
+    const recs=JSON.parse(d.content[0].text.replace(/```json|```/g,'').trim());
+    list.innerHTML=recs.map((r,i)=>`
+      <div class="rec-card" style="animation:rise .3s ${i*.08}s both">
+        <div class="rec-icon">🎵</div>
+        <div>
+          <div class="rec-title">${esc(r.title)}</div>
+          <div class="rec-artist">${esc(r.artist)}${r.year?' · '+r.year:''}</div>
+          <div class="rec-reason">${esc(r.reason)}</div>
+        </div>
+      </div>`).join('');
+  }catch(e){list.innerHTML='<div style="color:var(--red);font-size:12px;text-align:center;padding:20px">שגיאה בטעינת המלצות</div>'}
+}
+
+// ════════════════════════════════════════
+//   STATS
+// ════════════════════════════════════════
+
+function renderStats(){
+  const el=document.getElementById('stats-body');
+  const col=S.collection;
+  if(!col.length){el.innerHTML='<div class="empty"><div class="empty-disc"></div><div class="empty-t">אין נתונים עדיין</div></div>';return}
+  const artists=new Set(col.map(a=>a.artist)).size;
+  const rated=col.filter(a=>a.rating>0);
+  const avgR=rated.length?(rated.reduce((s,a)=>s+a.rating,0)/rated.length).toFixed(1):'—';
+  const genres=col.reduce((acc,a)=>{if(a.genre)acc[a.genre]=(acc[a.genre]||0)+1;return acc},{});
+  const decades=col.reduce((acc,a)=>{if(a.year){const d=Math.floor(+a.year/10)*10;acc[d+'s']=(acc[d+'s']||0)+1}return acc},{});
+  const maxG=Math.max(...Object.values(genres),1);
+  const maxD=Math.max(...Object.values(decades),1);
+  const recentLog=S.log.slice(-5).reverse();
+
+  el.innerHTML=`
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-n">${col.length}</div><div class="stat-l">אלבומים</div></div>
+      <div class="stat-box"><div class="stat-n">${artists}</div><div class="stat-l">אמנים</div></div>
+      <div class="stat-box"><div class="stat-n">${S.log.length}</div><div class="stat-l">האזנות</div></div>
+      <div class="stat-box"><div class="stat-n">${avgR}</div><div class="stat-l">דירוג ממוצע</div></div>
+    </div>
+    ${Object.keys(genres).length?`
+    <div class="bar-section">
+      <div class="bar-title">ז׳אנרים</div>
+      ${Object.entries(genres).sort((a,b)=>b[1]-a[1]).map(([g,n])=>`
+        <div class="bar-item">
+          <div class="bar-labels"><span>${esc(g)}</span><span>${n}</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:${(n/maxG*100).toFixed(0)}%"></div></div>
+        </div>`).join('')}
+    </div>`:''}
+    ${Object.keys(decades).length?`
+    <div class="bar-section">
+      <div class="bar-title">עשורים</div>
+      ${Object.entries(decades).sort((a,b)=>a[0].localeCompare(b[0])).map(([d,n])=>`
+        <div class="bar-item">
+          <div class="bar-labels"><span>${d}</span><span>${n}</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:${(n/maxD*100).toFixed(0)}%"></div></div>
+        </div>`).join('')}
+    </div>`:''}
+    ${recentLog.length?`
+    <div class="log-section">
+      <div class="bar-title" style="margin-bottom:12px">האזנות אחרונות</div>
+      ${recentLog.map(l=>`
+        <div class="log-item">
+          <div class="log-cov">${l.img?`<img src="${l.img}" alt="">`:' 💿'}</div>
+          <div class="log-info">
+            <div class="log-t">${esc(l.title||'?')}</div>
+            <div class="log-a">${esc(l.artist||'')}</div>
+          </div>
+          <div class="log-d">${fmtDate(l.date)}</div>
+        </div>`).join('')}
+    </div>`:''}
+  `;
+  // animate bars
+  setTimeout(()=>{document.querySelectorAll('.bar-fill').forEach(b=>{const w=b.style.width;b.style.width='0';setTimeout(()=>b.style.width=w,50)})},100);
+}
+
+// ════════════════════════════════════════
+//   UTILS
+// ════════════════════════════════════════
+
+function rate(id,r){const a=S.collection.find(x=>x.id===id);if(a){a.rating=r;save();renderColl()}}
+function updateNotes(id,v){const a=S.collection.find(x=>x.id===id);if(a){a.notes=v;save()}}
+function delAlbum(id){
+  if(!confirm('למחוק את האלבום מהאוסף?')) return;
+  S.collection=S.collection.filter(x=>x.id!==id);
+  save();toast('נמחק','ok');nav('collection');
+  updateFAB();
+}
+
+function logListen(a){
+  S.log.push({albumId:a.id,title:a.title,artist:a.artist,img:a.coverImage,date:new Date().toISOString()});
+  if(S.log.length>200) S.log=S.log.slice(-200);
+  save();
+  showNP(a);
+}
+
+function showNP(a){
+  S.npId=a.id;
+  const bar=document.getElementById('npbar');bar.style.display='flex';
+  document.getElementById('np-t').textContent=a.title;
+  document.getElementById('np-a').textContent=a.artist;
+  const disc=document.getElementById('np-disc');
+  disc.innerHTML=a.coverImage?`<img src="${a.coverImage}" alt="">`:'';
+}
+function openNP(){if(S.npId)openAlbum(S.npId)}
+
+function randomPick(){
+  if(!S.collection.length){toast('הוסף אלבומים קודם','err');return}
+  const a=S.collection[Math.floor(Math.random()*S.collection.length)];
+  toast(`🎲 ${a.title}  ·  ${a.artist}`,'ok');
+  setTimeout(()=>openAlbum(a.id),900);
+}
+
+function exportCol(){
+  const d={date:new Date().toISOString(),total:S.collection.length,
+    collection:S.collection.map(a=>({title:a.title,artist:a.artist,year:a.year,genre:a.genre,label:a.label,rating:a.rating,tracks:a.tracks,notes:a.notes}))};
+  const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  const u=URL.createObjectURL(b);
+  const l=document.createElement('a');l.href=u;l.download=`grooves-${new Date().toISOString().slice(0,10)}.json`;l.click();URL.revokeObjectURL(u);
+  toast('✓ יוצא','ok');
+}
+
+function updateFAB(){
+  const e=document.getElementById('fab-export');if(e) e.style.display=S.collection.length?'flex':'none';
+}
+
+function showLoad(t,s){
+  document.getElementById('loading').style.display='flex';
+  document.getElementById('load-title').textContent=t;
+  document.getElementById('load-sub').textContent=s||'';
+}
+function hideLoad(){document.getElementById('loading').style.display='none'}
+
+function toast(msg,type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='show '+(type==='ok'?'ok':type==='err'?'err':'');
+  clearTimeout(t._timer);t._timer=setTimeout(()=>t.className='',3000);
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+function fmtDate(iso){try{return new Date(iso).toLocaleDateString('he-IL',{day:'numeric',month:'short'})}catch{return''}}
+
+async function typeText(el,text,speed=6){
+  el.textContent='';
+  for(let i=0;i<text.length;i++){el.textContent+=text[i];if(i%5===0)await new Promise(r=>setTimeout(r,speed))}
+}
+
+// ── Sample Data ──
+function loadSample(){
+  [
+    {title:'The Dark Side of the Moon',artist:'Pink Floyd',year:'1973',genre:'Progressive Rock',
+     tracks:['Speak to Me','Breathe','On the Run','Time','The Great Gig in the Sky','Money','Us and Them','Any Colour You Like','Brain Damage','Eclipse'],
+     facts:['נמכר מעל 50 מיליון עותקים','שהה 741 שבועות ברשימת המאה של ה-Billboard','הוקלט ב-Abbey Road Studios','השיר Money מנוגן ב-7/4 — מקצב נדיר בפופ','העטיפה עוצבה על ידי Hipgnosis ו-Storm Thorgerson'],
+     rating:5},
+    {title:'Kind of Blue',artist:'Miles Davis',year:'1959',genre:'Modal Jazz',
+     tracks:['So What','Freddie Freeloader','Blue in Green','All Blues','Flamenco Sketches'],
+     facts:['האלבום הנמכר ביותר בתולדות הג\'אז','הוקלט בשתי סשנים בלבד','שינה את כיוון הג\'אז ממבוסס-אקורדים למבוסס-מצבים','הוקלט בהמלטה אחת — כמעט ללא תיקונים'],
+     rating:5},
+    {title:'Revolver',artist:'The Beatles',year:'1966',genre:'Psychedelic Rock',
+     tracks:['Taxman','Eleanor Rigby','I\'m Only Sleeping','Love You To','Here, There and Everywhere','Yellow Submarine','She Said She Said','Good Day Sunshine','And Your Bird Can Sing','For No One','Doctor Robert','I Want to Tell You','Got to Get You into My Life','Tomorrow Never Knows'],
+     facts:['המאסטרטייפ האחרון שהוקלט על 4 ערוצים בלבד','Tomorrow Never Knows — פסקולו בנוי מלולאות סרט','Harrison כתב שלושה שירים — שיא אישי','הכריז על סוף ההופעות החיות של הביטלס'],
+     rating:5},
+  ].forEach(d=>S.collection.push(mkAlbum(d)));
+  save();renderColl();updateFAB();
+}
 
 // ── INIT ──
-loadS();
-// Set default view to settings if no API key
-if(!localStorage.getItem("dr_apikey"))S.view="settings";
-R();
+load();
+renderColl();
+if(!S.collection.length) setTimeout(loadSample,400);
+updateFAB();
 </script>
 </body>
 </html>
