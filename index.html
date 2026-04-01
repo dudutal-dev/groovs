@@ -750,6 +750,125 @@ body::after{
 
 .divider{height:1px;background:var(--rail);margin:16px 0}
 
+/* ════════════════════════════════════════
+   SETTINGS VIEW
+   ════════════════════════════════════════ */
+
+.settings-hero{
+  text-align:center;padding:30px 0 24px;
+}
+.settings-logo{
+  font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;
+  font-style:italic;color:var(--gold);letter-spacing:4px;
+  text-shadow:0 0 40px rgba(200,153,74,.3);
+  display:block;margin-bottom:8px;
+}
+.settings-tagline{font-size:12px;color:var(--cool);letter-spacing:1.5px;text-transform:uppercase}
+
+.api-card{
+  background:var(--card);border:1px solid var(--rail);border-radius:20px;
+  padding:24px;margin-bottom:16px;
+}
+.api-card-title{
+  font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;
+  color:var(--cream);margin-bottom:6px;
+}
+.api-card-sub{font-size:12px;color:var(--cool);line-height:1.7;margin-bottom:20px}
+
+.api-input-wrap{position:relative;margin-bottom:12px}
+.api-input{
+  width:100%;padding:13px 48px 13px 14px;
+  background:var(--lift);border:1px solid var(--rail);border-radius:12px;
+  color:var(--cream);font-family:'DM Mono',monospace;font-size:12px;
+  outline:none;transition:border-color .2s;letter-spacing:.5px;
+  direction:ltr;text-align:left;
+}
+.api-input:focus{border-color:rgba(200,153,74,.4)}
+.api-input.has-key{border-color:rgba(74,158,136,.3);color:var(--teal)}
+.api-toggle{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;font-size:16px;color:var(--fog);
+  transition:color .2s;
+}
+.api-toggle:hover{color:var(--gold)}
+
+.api-save-btn{
+  width:100%;padding:13px;border-radius:12px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--gold-lo),var(--gold));
+  color:var(--ink);font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;
+  letter-spacing:.5px;transition:all .2s;
+  box-shadow:0 4px 16px rgba(200,153,74,.25);
+}
+.api-save-btn:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(200,153,74,.4)}
+
+.api-status{
+  display:flex;align-items:center;gap:8px;padding:10px 14px;
+  border-radius:10px;font-size:12px;margin-top:10px;
+}
+.api-status.ok{background:rgba(74,158,136,.1);border:1px solid rgba(74,158,136,.2);color:var(--teal)}
+.api-status.missing{background:rgba(201,72,72,.08);border:1px solid rgba(201,72,72,.15);color:var(--red)}
+
+.info-card{
+  background:var(--lift);border:1px solid var(--rail);border-radius:14px;
+  padding:16px;margin-bottom:12px;
+}
+.info-row{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.info-row:last-child{border-bottom:none}
+.info-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.info-text{font-size:12px;color:var(--warm);line-height:1.55}
+.info-text strong{color:var(--cream);display:block;font-size:13px;margin-bottom:2px}
+
+/* First-run overlay */
+#firstrun{
+  position:fixed;inset:0;z-index:800;
+  background:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:30px 24px;text-align:center;
+}
+.firstrun-disc{
+  width:80px;height:80px;border-radius:50%;margin:0 auto 24px;
+  background:radial-gradient(circle at 50%,
+    #0a0a0a 0%,#0a0a0a 12%,rgba(200,153,74,.5) 12%,rgba(200,153,74,.5) 14%,
+    #111 14%,#111 24%,#181818 24%,#181818 34%,#111 34%,#111 44%,#181818 44%,#181818 54%,#111 54%
+  );
+  animation:spin 8s linear infinite;
+  box-shadow:0 0 40px rgba(200,153,74,.2);
+}
+.firstrun-logo{
+  font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;font-style:italic;
+  color:var(--gold);letter-spacing:4px;text-shadow:0 0 40px rgba(200,153,74,.3);
+  margin-bottom:8px;
+}
+.firstrun-sub{font-size:12px;color:var(--cool);letter-spacing:2px;text-transform:uppercase;margin-bottom:32px}
+.firstrun-label{font-size:13px;color:var(--warm);margin-bottom:12px;font-weight:500}
+
+.firstrun-input-wrap{position:relative;width:100%;max-width:320px;margin:0 auto 12px}
+.firstrun-input{
+  width:100%;padding:14px 48px 14px 16px;
+  background:var(--card);border:1.5px solid var(--rail);border-radius:14px;
+  color:var(--cream);font-family:'DM Mono',monospace;font-size:12px;
+  outline:none;transition:border-color .2s;letter-spacing:.5px;
+  direction:ltr;text-align:left;
+}
+.firstrun-input:focus{border-color:rgba(200,153,74,.5)}
+.firstrun-toggle{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;font-size:16px;color:var(--fog);
+}
+
+.firstrun-btn{
+  width:100%;max-width:320px;padding:14px;border-radius:14px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--gold-lo),var(--gold));
+  color:var(--ink);font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;
+  letter-spacing:.5px;box-shadow:0 6px 24px rgba(200,153,74,.35);
+  transition:all .2s;margin:0 auto;display:block;
+}
+.firstrun-btn:hover{transform:translateY(-1px);box-shadow:0 8px 32px rgba(200,153,74,.5)}
+
+.firstrun-hint{font-size:11px;color:var(--fog);margin-top:14px;line-height:1.6;max-width:280px}
+.firstrun-hint a{color:var(--gold-lo);text-decoration:none}
+.firstrun-hint a:hover{color:var(--gold)}
+
 /* FAB */
 .fab{
   position:fixed;bottom:70px;left:16px;z-index:180;
@@ -765,6 +884,25 @@ body::after{
 <body>
 <div id="app">
 
+<!-- FIRST RUN API KEY SCREEN -->
+<div id="firstrun" style="display:none">
+  <div class="firstrun-disc"></div>
+  <div class="firstrun-logo">GROOVES</div>
+  <div class="firstrun-sub">ניהול אוסף ויניל · AI</div>
+  <div class="firstrun-label">הכנס מפתח Anthropic API להתחלה</div>
+  <div class="firstrun-input-wrap">
+    <input class="firstrun-input" id="fr-key" type="password"
+           placeholder="sk-ant-api03-..." autocomplete="off" autocorrect="off" spellcheck="false"
+           onkeydown="if(event.key==='Enter')saveApiKey()">
+    <button class="firstrun-toggle" onclick="toggleKeyVis('fr-key',this)">👁</button>
+  </div>
+  <button class="firstrun-btn" onclick="saveApiKey()">התחל ←</button>
+  <div class="firstrun-hint">
+    המפתח נשמר רק במכשיר שלך ולא נשלח לשום שרת.<br>
+    קבל מפתח בחינם ב: <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>
+  </div>
+</div>
+
 <!-- TOP BAR -->
 <header id="topbar">
   <div class="logo" onclick="nav('collection')">GROOVES</div>
@@ -777,6 +915,9 @@ body::after{
     </button>
     <button class="icon-btn" onclick="exportCol()" title="ייצא" id="fab-export" style="display:none">
       <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+    </button>
+    <button class="icon-btn" onclick="nav('settings')" title="הגדרות">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
     </button>
   </div>
 </header>
@@ -936,6 +1077,66 @@ body::after{
   <div id="stats-body"></div>
 </div>
 
+<!-- ── SETTINGS ── -->
+<div class="view" id="v-settings">
+  <div class="settings-hero">
+    <span class="settings-logo">GROOVES</span>
+    <div class="settings-tagline">הגדרות ומפתח API</div>
+  </div>
+
+  <div class="api-card">
+    <div class="api-card-title">🔑 Anthropic API Key</div>
+    <div class="api-card-sub">
+      המפתח נשמר רק במכשיר שלך (localStorage) ולא עוזב אותו לעולם.
+      כל הקריאות ל-AI דורשות מפתח תקף.
+    </div>
+    <div class="api-input-wrap">
+      <input class="api-input" id="settings-key" type="password"
+             placeholder="sk-ant-api03-..." autocomplete="off" spellcheck="false"
+             onkeydown="if(event.key==='Enter')saveSettings()" dir="ltr">
+      <button class="api-toggle" onclick="toggleKeyVis('settings-key',this)">👁</button>
+    </div>
+    <div id="api-status-box"></div>
+    <button class="api-save-btn" onclick="saveSettings()">שמור מפתח</button>
+  </div>
+
+  <div class="info-card">
+    <div class="info-row">
+      <span class="info-icon">🔒</span>
+      <div class="info-text"><strong>פרטיות מלאה</strong>המפתח נשמר רק על המכשיר שלך ב-localStorage. לא עובר שום שרת חיצוני.</div>
+    </div>
+    <div class="info-row">
+      <span class="info-icon">⚡</span>
+      <div class="info-text"><strong>קבל מפתח</strong>כנס ל-<a href="https://console.anthropic.com" target="_blank" style="color:var(--gold-lo)">console.anthropic.com</a> ← API Keys ← Create Key</div>
+    </div>
+    <div class="info-row">
+      <span class="info-icon">💰</span>
+      <div class="info-text"><strong>עלות</strong>כל זיהוי תקליט עולה כ-$0.01–0.03. $5 יספיקו לאות זיהויים.</div>
+    </div>
+    <div class="info-row">
+      <span class="info-icon">🗑</span>
+      <div class="info-text"><strong>מחק מפתח</strong>
+        <button onclick="clearApiKey()" style="margin-top:6px;padding:6px 14px;border-radius:8px;border:1px solid rgba(201,72,72,.3);background:rgba(201,72,72,.08);color:var(--red);font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif">מחק מפתח שמור</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="margin-bottom:20px">
+    <div class="info-row">
+      <span class="info-icon">📊</span>
+      <div class="info-text"><strong>גרסת האפליקציה</strong>Grooves v2.0 · GitHub Pages Edition</div>
+    </div>
+    <div class="info-row">
+      <span class="info-icon">🤖</span>
+      <div class="info-text"><strong>מודל AI</strong>claude-sonnet-4-20250514</div>
+    </div>
+    <div class="info-row">
+      <span class="info-icon">💾</span>
+      <div class="info-text"><strong>אחסון</strong>כל הנתונים נשמרים מקומית על המכשיר</div>
+    </div>
+  </div>
+</div>
+
 </main>
 
 <!-- BOTTOM NAV -->
@@ -966,13 +1167,133 @@ body::after{
 // ═══════════════════════════════════════════════
 
 const SK = 'grooves_v2';
+const KEY_SK = 'grooves_apikey';
+
+// ── API Key management ──
+function getKey(){return localStorage.getItem(KEY_SK)||''}
+function setKey(k){localStorage.setItem(KEY_SK,k.trim())}
+function clearApiKey(){
+  if(!confirm('למחוק את המפתח השמור?')) return;
+  localStorage.removeItem(KEY_SK);
+  toast('מפתח נמחק','ok');
+  renderSettingsStatus();
+}
+
+function toggleKeyVis(inputId, btn){
+  const inp=document.getElementById(inputId);
+  if(!inp) return;
+  inp.type=inp.type==='password'?'text':'password';
+  btn.textContent=inp.type==='password'?'👁':'🙈';
+}
+
+function saveApiKey(){
+  const k=document.getElementById('fr-key')?.value?.trim();
+  if(!k||!k.startsWith('sk-ant-')){toast('מפתח לא תקין — חייב להתחיל ב-sk-ant-','err');return}
+  setKey(k);
+  document.getElementById('firstrun').style.display='none';
+  toast('✓ מפתח נשמר!','ok');
+  renderColl();
+}
+
+function saveSettings(){
+  const k=document.getElementById('settings-key')?.value?.trim();
+  if(!k||!k.startsWith('sk-ant-')){toast('מפתח לא תקין','err');return}
+  setKey(k);
+  toast('✓ מפתח נשמר!','ok');
+  renderSettingsStatus();
+}
+
+function renderSettingsStatus(){
+  const box=document.getElementById('api-status-box');
+  if(!box) return;
+  const k=getKey();
+  box.innerHTML=k
+    ?`<div class="api-status ok">✓ מפתח שמור: ${k.slice(0,14)}…${k.slice(-4)}</div>`
+    :`<div class="api-status missing">✕ אין מפתח שמור</div>`;
+  const inp=document.getElementById('settings-key');
+  if(inp&&k){inp.value=k;inp.classList.add('has-key')}
+}
+
+// ── Central Claude API call ──
+async function claude(payload){
+  const key=getKey();
+  if(!key){
+    toast('הכנס מפתח API בהגדרות ⚙️','err');
+    nav('settings');
+    throw new Error('No API key');
+  }
+  const res=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'x-api-key': key,
+      'anthropic-version':'2023-06-01',
+      'anthropic-dangerous-direct-browser-access':'true'
+    },
+    body:JSON.stringify({...payload, model:'claude-sonnet-4-20250514', max_tokens: payload.max_tokens||1000})
+  });
+  if(!res.ok){
+    const err=await res.json().catch(()=>({}));
+    const msg=err?.error?.message||`שגיאת API (${res.status})`;
+    if(res.status===401){toast('מפתח API לא תקין — בדוק בהגדרות','err');nav('settings')}
+    else toast(msg,'err');
+    throw new Error(msg);
+  }
+  return res.json();
+}
 let S = { collection:[], log:[], view:'collection', prev:'collection', filterGenre:'all', search:'', npId:null };
 
-// ── Storage ──
-function load(){try{const d=JSON.parse(localStorage.getItem(SK)||'{}');S.collection=d.c||[];S.log=d.l||[]}catch(e){}}
-function save(){try{localStorage.setItem(SK,JSON.stringify({c:S.collection,l:S.log}))}catch(e){}}
-setInterval(save, 20000);
-window.addEventListener('beforeunload', save);
+// ── Storage — robust, no base64 bloat ──
+function load(){
+  try{
+    const d=JSON.parse(localStorage.getItem(SK)||'{}');
+    S.collection=d.c||[];
+    S.log=d.l||[];
+  }catch(e){ console.warn('Load failed',e); }
+}
+
+function save(){
+  try{
+    // Strip base64 camera images before saving — use artworkUrl instead
+    const clean=S.collection.map(a=>({
+      ...a,
+      coverImage: a.coverImage?.startsWith('data:') ? '' : a.coverImage
+    }));
+    const log=S.log.map(({albumId,title,artist,date})=>({albumId,title,artist,date})); // no img blobs
+    localStorage.setItem(SK, JSON.stringify({c:clean, l:log}));
+  }catch(e){
+    console.warn('Save failed (storage full?)',e);
+    // Try saving without cover images at all
+    try{
+      const minimal=S.collection.map(({id,title,artist,year,genre,label,rating,notes,tracks,facts,addedAt,aiAnalysis,artistBio,artworkUrl})=>
+        ({id,title,artist,year,genre,label,rating,notes,tracks,facts,addedAt,aiAnalysis,artistBio,artworkUrl}));
+      const log=S.log.map(({albumId,title,artist,date})=>({albumId,title,artist,date}));
+      localStorage.setItem(SK, JSON.stringify({c:minimal, l:log}));
+    }catch(e2){ toast('⚠️ שגיאה בשמירה — אחסון מלא','err'); }
+  }
+}
+
+// ── iTunes artwork (free, no key, official covers) ──
+async function fetchArtwork(title, artist){
+  try{
+    const q=encodeURIComponent(`${artist} ${title}`);
+    const res=await fetch(`https://itunes.apple.com/search?term=${q}&entity=album&limit=5&country=US`);
+    const data=await res.json();
+    // Find best match
+    const results=data.results||[];
+    const best=results.find(r=>
+      r.collectionName?.toLowerCase().includes(title.toLowerCase()) ||
+      title.toLowerCase().includes(r.collectionName?.toLowerCase())
+    ) || results[0];
+    if(best?.artworkUrl100){
+      // Upgrade to highest available resolution
+      return best.artworkUrl100
+        .replace('100x100bb','600x600bb')
+        .replace('/100x100/','/600x600/');
+    }
+  }catch(e){ console.warn('iTunes artwork fetch failed',e); }
+  return null;
+}
 
 // ── Album factory ──
 function mkAlbum(d){
@@ -981,12 +1302,17 @@ function mkAlbum(d){
     title: d.title||'Unknown Album',
     artist: d.artist||'Unknown Artist',
     year: d.year||'', genre: d.genre||'', label: d.label||'',
-    country: d.country||'', coverImage: d.coverImage||'',
+    country: d.country||'',
+    artworkUrl: d.artworkUrl||'',       // official iTunes URL (persistent)
+    coverImage: d.coverImage||'',       // camera capture (NOT persisted — too large)
     tracks: d.tracks||[], rating: d.rating||0, notes: d.notes||'',
     facts: d.facts||[], addedAt: new Date().toISOString(),
     aiAnalysis: null, artistBio: null
   };
 }
+
+// Resolve best cover for display (prefer official URL over camera base64)
+function getCover(a){ return a.artworkUrl || a.coverImage || ''; }
 
 // ── Navigation ──
 function nav(v){
@@ -1000,6 +1326,7 @@ function nav(v){
   if(tEl) tEl.classList.add('on');
   if(v==='collection') renderColl();
   if(v==='stats') renderStats();
+  if(v==='settings') renderSettingsStatus();
   window.scrollTo(0,0);
 }
 function goBack(){nav(S.prev==='album'||S.prev==='artist'?'collection':S.prev)}
@@ -1034,8 +1361,8 @@ function renderColl(){
       <div class="vinyl-peek"></div>
       <div class="card-inner">
         <div class="cover-wrap">
-          ${a.coverImage
-            ?`<img src="${a.coverImage}" alt="${esc(a.title)}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'cover-ph\\'><div class=\\'cover-ph-disc\\'></div></div>'">`
+          ${getCover(a)
+            ?`<img src="${getCover(a)}" alt="${esc(a.title)}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'cover-ph\\'><div class=\\'cover-ph-disc\\'></div></div>'">`
             :`<div class="cover-ph"><div class="cover-ph-disc"></div></div>`}
           <div class="rating-overlay">
             ${[1,2,3,4,5].map(i=>`<span class="s${a.rating>=i?' on':''}" onclick="event.stopPropagation();rate('${a.id}',${i})">★</span>`).join('')}
@@ -1127,61 +1454,53 @@ async function identify(){
   const b64=pendingB64.split(',')[1];
   const mt=pendingB64.split(';')[0].split(':')[1]||'image/jpeg';
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        system:`You are a world-class vinyl record expert and musicologist. Identify the album cover image and return ONLY a valid JSON object — absolutely no preamble, no markdown, no backticks.
+    const d=await claude({
+      max_tokens:1000,
+      system:`You are a world-class vinyl record expert and musicologist. Identify the album cover image and return ONLY a valid JSON object — absolutely no preamble, no markdown, no backticks.
 
 JSON structure:
-{
-  "identified": true,
-  "confidence": "high",
-  "title": "Album Title",
-  "artist": "Artist Name",
-  "year": "1973",
-  "genre": "Genre",
-  "label": "Label Name",
-  "country": "UK",
-  "tracks": ["Track 1","Track 2","Track 3","Track 4","Track 5"],
-  "facts": ["Fact 1","Fact 2","Fact 3","Fact 4","Fact 5"],
-  "brief_description": "2-3 sentences in Hebrew about album significance and themes"
-}
+{"identified":true,"confidence":"high","title":"Album Title","artist":"Artist Name","year":"1973","genre":"Genre","label":"Label Name","country":"UK","tracks":["Track 1","Track 2","Track 3","Track 4","Track 5"],"facts":["Fact 1","Fact 2","Fact 3","Fact 4","Fact 5"],"brief_description":"2-3 sentences in Hebrew about album significance and themes"}
 
 If uncertain, set identified:false but fill in what's visible. Always return valid JSON only.`,
-        messages:[{role:'user',content:[
-          {type:'image',source:{type:'base64',media_type:mt,data:b64}},
-          {type:'text',text:'זהה את האלבום'}
-        ]}]
-      })
+      messages:[{role:'user',content:[
+        {type:'image',source:{type:'base64',media_type:mt,data:b64}},
+        {type:'text',text:'זהה את האלבום'}
+      ]}]
     });
-    const d=await res.json();
     hideLoad();
     const txt=d.content[0].text.replace(/```json|```/g,'').trim();
     const album=JSON.parse(txt);
     album.coverImage=pendingB64;
-    showResult(album);
-  }catch(e){hideLoad();toast('שגיאה בזיהוי — נסה שנית','err');console.error(e)}
+    await showResult(album);
+  }catch(e){hideLoad();if(e.message!=='No API key')toast('שגיאה בזיהוי: '+e.message,'err');console.error(e)}
 }
 
-function showResult(data){
+async function showResult(data){
+  // Fetch official artwork immediately for preview
+  showLoad('מחפש תמונה רשמית...', `${data.title} · ${data.artist}`);
+  const artworkUrl = await fetchArtwork(data.title, data.artist);
+  hideLoad();
+  data.artworkUrl = artworkUrl || '';
+
   const conf=data.confidence==='high'?'conf-high':data.confidence==='medium'?'conf-med':'conf-low';
   const confLabel=data.confidence==='high'?'✓ זוהה בביטחון גבוה':data.confidence==='medium'?'~ זוהה בביטחון בינוני':'? זיהוי חלקי';
+  const displayCover = artworkUrl || data.coverImage || '';
   const wrap=document.getElementById('result-wrap');
   wrap.style.display='block';
   wrap.innerHTML=`
     <div class="result-card">
       <div class="result-top">
         <div class="result-cover">
-          ${data.coverImage?`<img src="${data.coverImage}" alt="">`:`<div class="result-cover-ph">💿</div>`}
+          ${displayCover
+            ?`<img src="${displayCover}" alt="" onerror="this.parentElement.innerHTML='<div class=\\'result-cover-ph\\'>💿</div>'">`
+            :`<div class="result-cover-ph">💿</div>`}
         </div>
         <div class="result-info">
           <div class="result-album">${esc(data.title||'?')}</div>
           <div class="result-artist">${esc(data.artist||'?')}</div>
           <div class="result-detail">${data.year||''}${data.year&&data.label?' · ':''}${data.label||''}<br>${data.genre||''}</div>
           <div class="confidence ${conf}">${confLabel}</div>
+          ${artworkUrl?`<div style="font-size:10px;color:var(--teal);margin-top:6px">✓ תמונה רשמית נמצאה</div>`:`<div style="font-size:10px;color:var(--fog);margin-top:6px">תמונת צילום בלבד</div>`}
         </div>
       </div>
       ${data.brief_description?`
@@ -1206,12 +1525,16 @@ function showResult(data){
     </div>`;
 }
 
-function saveResult(data){
-  const a=mkAlbum(data);
+async function saveResult(data){
+  const a = mkAlbum({
+    ...data,
+    artworkUrl: data.artworkUrl || '',
+    coverImage: ''   // never store base64
+  });
   S.collection.push(a);
   save();
   clearScan();
-  toast('✓ אלבום נוסף לאוסף!','ok');
+  toast('✓ אלבום נוסף לאוסף!', 'ok');
   nav('collection');
   updateFAB();
 }
@@ -1220,18 +1543,21 @@ function saveResult(data){
 //   MANUAL ADD
 // ════════════════════════════════════════
 
-function addManual(){
+async function addManual(){
   const title=document.getElementById('m-album').value.trim();
   const artist=document.getElementById('m-artist').value.trim();
   if(!title||!artist){toast('נא למלא שם אלבום ואמן','err');return}
+  showLoad('מחפש תמונה רשמית...', `${title} · ${artist}`);
+  const artworkUrl = await fetchArtwork(title, artist);
+  hideLoad();
   S.collection.push(mkAlbum({
-    title,artist,
-    year:document.getElementById('m-year').value,
-    genre:document.getElementById('m-genre').value.trim()
+    title, artist, artworkUrl,
+    year: document.getElementById('m-year').value,
+    genre: document.getElementById('m-genre').value.trim()
   }));
   save();
   ['m-album','m-artist','m-year','m-genre'].forEach(id=>{document.getElementById(id).value=''});
-  toast('✓ נוסף!','ok');
+  toast(artworkUrl ? '✓ נוסף עם תמונה רשמית!' : '✓ נוסף!', 'ok');
   nav('collection');
   updateFAB();
 }
@@ -1254,8 +1580,8 @@ function renderAlbum(a){
   el.innerHTML=`
     <div class="album-hero">
       <div class="hero-cover">
-        ${a.coverImage
-          ?`<img src="${a.coverImage}" alt="${esc(a.title)}">`
+        ${getCover(a)
+          ?`<img src="${getCover(a)}" alt="${esc(a.title)}" onerror="this.style.display='none'">`
           :`<div class="cover-ph" style="height:240px"><div class="cover-ph-disc" style="width:52%"></div></div>`}
         <div class="hero-gradient"></div>
       </div>
@@ -1273,6 +1599,7 @@ function renderAlbum(a){
       <button class="act-btn act-primary" onclick="fetchAnalysis('${a.id}')">✦ ניתוח AI</button>
       <button class="act-btn act-sec" onclick="fetchArtistBio('${a.id}')">🎸 על האמן</button>
       ${!a.tracks.length?`<button class="act-btn act-sec" onclick="fetchTracks('${a.id}')">♪ שירים</button>`:''}
+      ${!a.artworkUrl?`<button class="act-btn act-sec" onclick="refreshArtwork('${a.id}')">🖼 תמונה רשמית</button>`:''}
       <button class="act-btn act-danger" onclick="delAlbum('${a.id}')">🗑</button>
     </div>
 
@@ -1325,12 +1652,9 @@ async function fetchAnalysis(id){
   sec.innerHTML=`<div class="ai-tag">✦ ניתוח AI</div><div class="stream-text" id="st-${id}"></div><span class="cursor"></span>`;
   showLoad('מנתח אלבום...',`${a.title} · ${a.artist}`);
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',max_tokens:1000,
-        messages:[{role:'user',content:`אתה מוזיקולוג בכיר. כתוב ניתוח מעמיק בעברית על האלבום "${a.title}" של ${a.artist} (${a.year||''}).
+    const d=await claude({
+      max_tokens:1000,
+      messages:[{role:'user',content:`אתה מוזיקולוג בכיר. כתוב ניתוח מעמיק בעברית על האלבום "${a.title}" של ${a.artist} (${a.year||''}).
 
 **הקשר יצירה** — מה קרה בחיי האמן ובעולם?
 **המסר הגדול** — מה האלבום אומר?
@@ -1338,14 +1662,13 @@ async function fetchAnalysis(id){
 **מורשת** — מה השפעתו על המוזיקה שבאה אחריו?
 
 כתוב בעברית, בשפה תשוקתית ומעמיקה, 200-280 מילה.`}]
-      })
     });
     hideLoad();
-    const text=res.ok?(await res.json()).content[0].text:'שגיאה בטעינה';
+    const text=d.content[0].text;
     a.aiAnalysis=text; save();
     const el=document.getElementById('st-'+id);
     if(el){await typeText(el,text); sec.querySelector('.cursor')?.remove()}
-  }catch(e){hideLoad();toast('שגיאה בניתוח','err');console.error(e)}
+  }catch(e){hideLoad();if(e.message!=='No API key')toast('שגיאה בניתוח','err');console.error(e)}
 }
 
 // ════════════════════════════════════════
@@ -1356,24 +1679,19 @@ async function fetchArtistBio(id){
   const a=S.collection.find(x=>x.id===id); if(!a) return;
   showLoad('טוען ביוגרפיה...',a.artist);
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',max_tokens:1000,
-        system:'Return ONLY valid JSON. No markdown, no backticks, no preamble.',
-        messages:[{role:'user',content:`Create artist profile for ${a.artist} in Hebrew. Return ONLY this JSON:
+    const d=await claude({
+      max_tokens:1000,
+      system:'Return ONLY valid JSON. No markdown, no backticks, no preamble.',
+      messages:[{role:'user',content:`Create artist profile for ${a.artist} in Hebrew. Return ONLY this JSON:
 {"summary":"2-3 sentence Hebrew summary","full":"150-word Hebrew biography","timeline":[{"year":"1965","event":"Hebrew event description"},{"year":"1968","event":"..."},{"year":"1972","event":"..."},{"year":"1977","event":"..."},{"year":"1983","event":"..."}],"influences":["Influence 1","Influence 2","Influence 3"],"legacy":"One Hebrew sentence about legacy"}`}]
-      })
     });
     hideLoad();
-    const d=await res.json();
     const bio=JSON.parse(d.content[0].text.replace(/```json|```/g,'').trim());
     S.collection.forEach(x=>{if(x.artist===a.artist) x.artistBio=bio});
     save();
     toast('✓ ביוגרפיה נטענה','ok');
     renderAlbum(a);
-  }catch(e){hideLoad();toast('שגיאה בטעינת ביוגרפיה','err');console.error(e)}
+  }catch(e){hideLoad();if(e.message!=='No API key')toast('שגיאה בטעינת ביוגרפיה','err');console.error(e)}
 }
 
 // ════════════════════════════════════════
@@ -1384,22 +1702,17 @@ async function fetchTracks(id){
   const a=S.collection.find(x=>x.id===id); if(!a) return;
   showLoad('טוען שירים...',a.title);
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',max_tokens:400,
-        system:'Return ONLY a JSON array of track title strings. No markdown.',
-        messages:[{role:'user',content:`List all tracks on "${a.title}" by ${a.artist}. JSON array only.`}]
-      })
+    const d=await claude({
+      max_tokens:400,
+      system:'Return ONLY a JSON array of track title strings. No markdown.',
+      messages:[{role:'user',content:`List all tracks on "${a.title}" by ${a.artist}. JSON array only.`}]
     });
     hideLoad();
-    const d=await res.json();
     const tracks=JSON.parse(d.content[0].text.replace(/```json|```/g,'').trim());
     a.tracks=tracks; save();
     renderAlbum(a);
     toast('✓ שירים נטענו','ok');
-  }catch(e){hideLoad();toast('שגיאה','err')}
+  }catch(e){hideLoad();if(e.message!=='No API key')toast('שגיאה','err')}
 }
 
 // ════════════════════════════════════════
@@ -1411,12 +1724,9 @@ async function analyzeTrack(id, idx){
   const trackName=typeof a.tracks[idx]==='string'?a.tracks[idx]:a.tracks[idx].title;
   showLoad('מנתח שיר...',trackName);
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',max_tokens:800,
-        messages:[{role:'user',content:`אתה מוזיקולוג. נתח בעברית את השיר "${trackName}" מהאלבום "${a.title}" של ${a.artist}.
+    const d=await claude({
+      max_tokens:800,
+      messages:[{role:'user',content:`אתה מוזיקולוג. נתח בעברית את השיר "${trackName}" מהאלבום "${a.title}" של ${a.artist}.
 
 **פשט** — על מה השיר מספר?
 **עומק** — מה המשמעות הנסתרת / הסמלית?
@@ -1424,12 +1734,10 @@ async function analyzeTrack(id, idx){
 **מקום** — מה מקומו בקריירה של האמן?
 
 200 מילה, עברית תשוקתית ומעמיקה.`}]
-      })
     });
     hideLoad();
-    const text=(await res.json()).content[0].text;
-    showTrackModal(trackName, a.artist, text);
-  }catch(e){hideLoad();toast('שגיאה','err')}
+    showTrackModal(trackName, a.artist, d.content[0].text);
+  }catch(e){hideLoad();if(e.message!=='No API key')toast('שגיאה','err')}
 }
 
 function showTrackModal(track, artist, text){
@@ -1486,7 +1794,7 @@ function openArtist(name){
             <div class="vinyl-peek"></div>
             <div class="card-inner">
               <div class="cover-wrap">
-                ${a.coverImage?`<img src="${a.coverImage}" alt="" loading="lazy">`:`<div class="cover-ph"><div class="cover-ph-disc"></div></div>`}
+                ${getCover(a)?`<img src="${getCover(a)}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'cover-ph\\'><div class=\\'cover-ph-disc\\'></div></div>'">`:`<div class="cover-ph"><div class="cover-ph-disc"></div></div>`}
               </div>
               <div class="card-info">
                 <div class="card-title">${esc(a.title)}</div>
@@ -1537,18 +1845,13 @@ async function genRecs(){
   list.innerHTML='<div class="empty" style="padding:30px 0"><div class="empty-s">מנתח את האוסף שלך...</div></div>';
   const sample=S.collection.slice(-8).map(a=>`${a.title} by ${a.artist} (${a.genre||''})`).join(', ');
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',max_tokens:800,
-        system:'Return ONLY a valid JSON array. No markdown.',
-        messages:[{role:'user',content:`Based on: ${sample}
+    const d=await claude({
+      max_tokens:800,
+      system:'Return ONLY a valid JSON array. No markdown.',
+      messages:[{role:'user',content:`Based on: ${sample}
 Recommend 5 albums. Return JSON array:
 [{"title":"Album","artist":"Artist","year":"1972","reason":"Hebrew reason why they'd love it based on their taste"}]`}]
-      })
     });
-    const d=await res.json();
     const recs=JSON.parse(d.content[0].text.replace(/```json|```/g,'').trim());
     list.innerHTML=recs.map((r,i)=>`
       <div class="rec-card" style="animation:rise .3s ${i*.08}s both">
@@ -1559,7 +1862,10 @@ Recommend 5 albums. Return JSON array:
           <div class="rec-reason">${esc(r.reason)}</div>
         </div>
       </div>`).join('');
-  }catch(e){list.innerHTML='<div style="color:var(--red);font-size:12px;text-align:center;padding:20px">שגיאה בטעינת המלצות</div>'}
+  }catch(e){
+    if(e.message!=='No API key')
+      list.innerHTML='<div style="color:var(--red);font-size:12px;text-align:center;padding:20px">שגיאה בטעינת המלצות</div>';
+  }
 }
 
 // ════════════════════════════════════════
@@ -1607,15 +1913,18 @@ function renderStats(){
     ${recentLog.length?`
     <div class="log-section">
       <div class="bar-title" style="margin-bottom:12px">האזנות אחרונות</div>
-      ${recentLog.map(l=>`
+      ${recentLog.map(l=>{
+        const album=S.collection.find(a=>a.id===l.albumId);
+        const cover=album?getCover(album):'';
+        return `
         <div class="log-item">
-          <div class="log-cov">${l.img?`<img src="${l.img}" alt="">`:' 💿'}</div>
+          <div class="log-cov">${cover?`<img src="${cover}" alt="">`:' 💿'}</div>
           <div class="log-info">
             <div class="log-t">${esc(l.title||'?')}</div>
             <div class="log-a">${esc(l.artist||'')}</div>
           </div>
           <div class="log-d">${fmtDate(l.date)}</div>
-        </div>`).join('')}
+        </div>`;}).join('')}
     </div>`:''}
   `;
   // animate bars
@@ -1628,6 +1937,21 @@ function renderStats(){
 
 function rate(id,r){const a=S.collection.find(x=>x.id===id);if(a){a.rating=r;save();renderColl()}}
 function updateNotes(id,v){const a=S.collection.find(x=>x.id===id);if(a){a.notes=v;save()}}
+
+async function refreshArtwork(id){
+  const a=S.collection.find(x=>x.id===id); if(!a) return;
+  showLoad('מחפש תמונה רשמית...',`${a.title} · ${a.artist}`);
+  const url=await fetchArtwork(a.title,a.artist);
+  hideLoad();
+  if(url){
+    a.artworkUrl=url; a.coverImage='';
+    save();
+    renderAlbum(a);
+    toast('✓ תמונה רשמית נטענה!','ok');
+  } else {
+    toast('לא נמצאה תמונה רשמית','err');
+  }
+}
 function delAlbum(id){
   if(!confirm('למחוק את האלבום מהאוסף?')) return;
   S.collection=S.collection.filter(x=>x.id!==id);
@@ -1636,7 +1960,7 @@ function delAlbum(id){
 }
 
 function logListen(a){
-  S.log.push({albumId:a.id,title:a.title,artist:a.artist,img:a.coverImage,date:new Date().toISOString()});
+  S.log.push({albumId:a.id,title:a.title,artist:a.artist,date:new Date().toISOString()});
   if(S.log.length>200) S.log=S.log.slice(-200);
   save();
   showNP(a);
@@ -1648,7 +1972,8 @@ function showNP(a){
   document.getElementById('np-t').textContent=a.title;
   document.getElementById('np-a').textContent=a.artist;
   const disc=document.getElementById('np-disc');
-  disc.innerHTML=a.coverImage?`<img src="${a.coverImage}" alt="">`:'';
+  const cover=getCover(a);
+  disc.innerHTML=cover?`<img src="${cover}" alt="">`:'';
 }
 function openNP(){if(S.npId)openAlbum(S.npId)}
 
@@ -1694,29 +2019,44 @@ async function typeText(el,text,speed=6){
 }
 
 // ── Sample Data ──
-function loadSample(){
-  [
+// Sample data uses fetchArtwork on init
+async function loadSample(){
+  const samples=[
     {title:'The Dark Side of the Moon',artist:'Pink Floyd',year:'1973',genre:'Progressive Rock',
      tracks:['Speak to Me','Breathe','On the Run','Time','The Great Gig in the Sky','Money','Us and Them','Any Colour You Like','Brain Damage','Eclipse'],
-     facts:['נמכר מעל 50 מיליון עותקים','שהה 741 שבועות ברשימת המאה של ה-Billboard','הוקלט ב-Abbey Road Studios','השיר Money מנוגן ב-7/4 — מקצב נדיר בפופ','העטיפה עוצבה על ידי Hipgnosis ו-Storm Thorgerson'],
+     facts:['נמכר מעל 50 מיליון עותקים','שהה 741 שבועות ברשימת המאה של ה-Billboard','הוקלט ב-Abbey Road Studios','השיר Money מנוגן ב-7/4 — מקצב נדיר בפופ','העטיפה עוצבה על ידי Storm Thorgerson'],
      rating:5},
     {title:'Kind of Blue',artist:'Miles Davis',year:'1959',genre:'Modal Jazz',
      tracks:['So What','Freddie Freeloader','Blue in Green','All Blues','Flamenco Sketches'],
-     facts:['האלבום הנמכר ביותר בתולדות הג\'אז','הוקלט בשתי סשנים בלבד','שינה את כיוון הג\'אז ממבוסס-אקורדים למבוסס-מצבים','הוקלט בהמלטה אחת — כמעט ללא תיקונים'],
+     facts:['האלבום הנמכר ביותר בתולדות הג\'אז','הוקלט בשתי סשנים בלבד','שינה את כיוון הג\'אז למבוסס-מצבים','כמעט כל שיר הוקלט בהמלטה אחת'],
      rating:5},
     {title:'Revolver',artist:'The Beatles',year:'1966',genre:'Psychedelic Rock',
      tracks:['Taxman','Eleanor Rigby','I\'m Only Sleeping','Love You To','Here, There and Everywhere','Yellow Submarine','She Said She Said','Good Day Sunshine','And Your Bird Can Sing','For No One','Doctor Robert','I Want to Tell You','Got to Get You into My Life','Tomorrow Never Knows'],
-     facts:['המאסטרטייפ האחרון שהוקלט על 4 ערוצים בלבד','Tomorrow Never Knows — פסקולו בנוי מלולאות סרט','Harrison כתב שלושה שירים — שיא אישי','הכריז על סוף ההופעות החיות של הביטלס'],
+     facts:['Tomorrow Never Knows — פסקולו בנוי מלולאות סרט','הוקלט על 4 ערוצים בלבד','Harrison כתב שלושה שירים — שיא אישי'],
      rating:5},
-  ].forEach(d=>S.collection.push(mkAlbum(d)));
+  ];
+  for(const d of samples){
+    const artworkUrl=await fetchArtwork(d.title,d.artist);
+    S.collection.push(mkAlbum({...d,artworkUrl}));
+  }
   save();renderColl();updateFAB();
 }
 
 // ── INIT ──
 load();
-renderColl();
-if(!S.collection.length) setTimeout(loadSample,400);
-updateFAB();
+
+// Show first-run screen if no API key saved
+if(!getKey()){
+  document.getElementById('firstrun').style.display='flex';
+} else {
+  renderColl();
+  if(!S.collection.length) setTimeout(loadSample,400);
+  updateFAB();
+}
+
+// Auto-save
+setInterval(save, 20000);
+window.addEventListener('beforeunload', save);
 </script>
 </body>
 </html>
