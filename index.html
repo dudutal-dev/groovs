@@ -979,6 +979,80 @@ body::after{
 .ms-save-btn:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(200,153,74,.45)}
 .ms-save-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 
+/* ════════════════════════════════════════
+   DISCOGRAPHY BROWSER
+   ════════════════════════════════════════ */
+
+.disco-album{
+  display:flex;gap:12px;align-items:center;
+  padding:11px 0;border-bottom:1px solid rgba(255,255,255,.04);
+}
+.disco-album:last-child{border-bottom:none}
+.disco-cov{
+  width:52px;height:52px;border-radius:9px;flex-shrink:0;
+  background:var(--slate);overflow:hidden;
+}
+.disco-cov img{width:100%;height:100%;object-fit:cover}
+.disco-info{flex:1;min-width:0}
+.disco-title{font-size:13px;font-weight:600;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.disco-year{font-size:11px;color:var(--gold);margin-top:2px}
+.disco-type{font-size:9px;color:var(--fog);margin-top:2px;letter-spacing:.5px;text-transform:uppercase}
+.disco-add-btn{
+  width:34px;height:34px;border-radius:50%;border:1px solid rgba(200,153,74,.3);
+  background:rgba(200,153,74,.08);color:var(--gold);font-size:20px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;
+}
+.disco-add-btn:hover{background:rgba(200,153,74,.2);border-color:var(--gold);transform:scale(1.1)}
+.disco-in-coll{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  background:rgba(74,158,136,.1);border:1px solid rgba(74,158,136,.2);
+  color:var(--teal);font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ════════════════════════════════════════
+   PERSONALITY ANALYSIS
+   ════════════════════════════════════════ */
+
+.persona-card{
+  background:linear-gradient(135deg,rgba(200,153,74,.06),rgba(200,153,74,.02));
+  border:1px solid rgba(200,153,74,.15);border-radius:20px;
+  padding:20px;margin-bottom:14px;
+}
+.persona-header{
+  display:flex;align-items:center;gap:14px;margin-bottom:16px;
+}
+.persona-avatar{
+  width:60px;height:60px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold-lo),var(--gold));
+  display:flex;align-items:center;justify-content:center;font-size:26px;
+}
+.persona-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--cream)}
+.persona-sub{font-size:12px;color:var(--gold);margin-top:3px}
+.persona-trait{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);
+}
+.persona-trait:last-child{border-bottom:none}
+.trait-icon{font-size:18px;width:28px;text-align:center;flex-shrink:0;margin-top:1px}
+.trait-label{font-size:12px;font-weight:600;color:var(--cream)}
+.trait-desc{font-size:11px;color:var(--cool);margin-top:2px;line-height:1.5}
+.persona-quote{
+  background:var(--lift);border-right:3px solid var(--gold);
+  border-radius:0 10px 10px 0;padding:12px 14px;
+  margin:14px 0;font-size:13px;color:var(--warm);font-style:italic;line-height:1.7;
+}
+.persona-btn{
+  width:100%;padding:13px;border-radius:13px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--gold-lo),var(--gold));
+  color:var(--ink);font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;
+  letter-spacing:.5px;transition:all .2s;
+  box-shadow:0 4px 16px rgba(200,153,74,.25);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.persona-btn:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(200,153,74,.4)}
+.persona-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
 /* FAB + button */
 .fab-add{
   position:fixed;bottom:72px;left:16px;z-index:180;
@@ -1395,9 +1469,24 @@ body::after{
     <div class="disc-art"></div>
     <div class="disc-info">
       <div class="disc-title">גלה מוזיקה</div>
-      <div class="disc-sub">המלצות AI מותאמות לאוסף שלך<br>והפתעות יומיות</div>
+      <div class="disc-sub">המלצות AI · ניתוח אישיות · הפתעות</div>
     </div>
   </div>
+
+  <!-- Personality Analysis -->
+  <div style="margin-bottom:20px">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;font-style:italic;color:var(--cream);margin-bottom:12px">הפרופיל המוזיקלי שלך</div>
+    <div style="background:var(--card);border:1px solid var(--rail);border-radius:16px;padding:18px;margin-bottom:10px">
+      <div style="font-size:13px;color:var(--cool);margin-bottom:14px;line-height:1.6">
+        AI ינתח את האוסף שלך ויחשוף את אישיותך המוזיקלית — מה מוזיקה אומרת עליך כאדם
+      </div>
+      <button class="persona-btn" id="persona-analyze-btn" onclick="analyzePersonality()">
+        <span>✦</span> נתח את אישיותי המוזיקלית
+      </button>
+    </div>
+    <div id="persona-result" style="display:none"></div>
+  </div>
+
   <div class="random-card" onclick="randomPick()">
     <span class="random-icon">🎲</span>
     <div class="random-info">
@@ -2993,7 +3082,8 @@ function openArtist(name){
     </div>
     <div class="tabs">
       <button class="tab-btn on" onclick="artistTab('bio',this)">ביוגרפיה</button>
-      <button class="tab-btn" onclick="artistTab('albums',this)">אלבומים</button>
+      <button class="tab-btn" onclick="artistTab('albums',this)">באוסף שלי</button>
+      <button class="tab-btn" onclick="artistTab('disco',this)">דיסקוגרפיה</button>
       <button class="tab-btn" onclick="artistTab('timeline',this)">ציר זמן</button>
     </div>
     <div id="atab-bio">
@@ -3020,6 +3110,27 @@ function openArtist(name){
           </div>`).join('')}
       </div>
     </div>
+    <div id="atab-disco" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-size:12px;color:var(--cool)">לחץ + להוסיף לאוסף</div>
+        <button onclick="loadDiscography('${esc(name)}')"
+          style="padding:7px 14px;border-radius:10px;border:1px solid rgba(200,153,74,.2);
+                 background:rgba(200,153,74,.08);color:var(--gold);font-size:11px;
+                 cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s">
+          ✦ טען
+        </button>
+      </div>
+      <div class="chips" id="disco-filter-chips" style="margin-bottom:12px;display:none">
+        <div class="chip on" onclick="filterDisco('all',this)">הכל</div>
+        <div class="chip" onclick="filterDisco('studio',this)">אסטודיו</div>
+        <div class="chip" onclick="filterDisco('live',this)">🎤 הופעות חיות</div>
+        <div class="chip" onclick="filterDisco('ep',this)">EP</div>
+        <div class="chip" onclick="filterDisco('compilation',this)">אוספים</div>
+      </div>
+      <div id="disco-list-${esc(name)}" style="min-height:60px">
+        <div style="text-align:center;padding:20px;color:var(--fog);font-size:13px">לחץ "טען" לדיסקוגרפיה מלאה</div>
+      </div>
+    </div>
     <div id="atab-timeline" style="display:none">
       ${bio&&bio.timeline?`
         <div class="timeline">
@@ -3038,9 +3149,18 @@ function openArtist(name){
 function artistTab(tab,btn){
   document.querySelectorAll('#v-artist .tab-btn').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
-  ['bio','albums','timeline'].forEach(t=>{
+  ['bio','albums','disco','timeline'].forEach(t=>{
     const el=document.getElementById('atab-'+t);
     if(el) el.style.display=t===tab?'block':'none';
+  });
+}
+
+function filterDisco(type, el){
+  document.querySelectorAll('#disco-filter-chips .chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  document.querySelectorAll('.disco-album').forEach(row=>{
+    const rowType=row.dataset.type||'studio';
+    row.style.display=(type==='all'||rowType===type)?'flex':'none';
   });
 }
 
@@ -3049,6 +3169,177 @@ async function loadBioStandalone(name){
   if(!ref) return;
   await fetchArtistBio(ref.id);
   openArtist(name);
+}
+
+// ── DISCOGRAPHY BROWSER ──
+async function loadDiscography(artistName){
+  const safeId=normStr(artistName).replace(/\s+/g,'-');
+  const listEl=document.getElementById('disco-list-'+artistName);
+  if(!listEl) return;
+  listEl.innerHTML=`<div style="text-align:center;padding:20px;color:var(--cool);font-size:13px">⟳ טוען דיסקוגרפיה...</div>`;
+
+  try{
+    const d=await claude({
+      max_tokens:1000,
+      system:'Return ONLY valid JSON array. No markdown, no backticks, no explanation.',
+      messages:[{role:'user',content:`List the complete discography of ${artistName}, including ALL official releases: studio albums, live albums/concerts, EPs, and compilations. Return a JSON array, chronological order:
+[{"title":"Album Name","year":"1973","type":"studio"},...]
+Types: "studio" | "live" | "compilation" | "ep"
+Include everything — do NOT skip live albums or concert recordings. Max 40 items.`}]
+    });
+
+    const raw=d.content[0].text.replace(/```json|```/g,'').trim();
+    const discoList=JSON.parse(raw);
+    const ownedTitles=new Set(S.collection.filter(a=>a.artist===artistName).map(a=>normStr(a.title)));
+
+    listEl.innerHTML=`
+      <div style="background:var(--card);border:1px solid var(--rail);border-radius:14px;padding:4px 16px">
+        ${discoList.map((album,i)=>{
+          const owned=ownedTitles.has(normStr(album.title));
+          const safeTitle=esc(album.title);
+          const safeArtist=esc(artistName);
+          return `
+          <div class="disco-album" data-type="${album.type||'studio'}">
+            <div class="disco-cov" id="disco-cov-${i}">
+              <div class="cover-ph"><div class="cover-ph-disc" style="width:60%"></div></div>
+            </div>
+            <div class="disco-info">
+              <div class="disco-title">${safeTitle}</div>
+              <div class="disco-year">${album.year||''}</div>
+              <div class="disco-type">${album.type==='studio'?'אלבום אסטודיו':album.type==='live'?'הופעה חיה':album.type==='ep'?'EP':'אוסף'}</div>
+            </div>
+            <div class="disco-action">
+              ${owned
+                ?`<div class="disco-in-coll" title="כבר באוסף">✓</div>`
+                :`<button class="disco-add-btn" title="הוסף לאוסף"
+                    onclick="addFromDiscography('${safeArtist}','${safeTitle}','${album.year||''}',${i})">+</button>`}
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`;
+
+    // Show filter chips
+    const chips=document.getElementById('disco-filter-chips');
+    if(chips) chips.style.display='flex';
+
+    // Lazy-load artwork for each album
+    discoList.forEach(async (album, i) => {
+      const covEl = document.getElementById('disco-cov-'+i);
+      if(!covEl) return;
+      const url = await fetchArtwork(album.title, artistName);
+      if(url && covEl) covEl.innerHTML = `<img src="${url}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'cover-ph\\'><div class=\\'cover-ph-disc\\'></div></div>'">`;
+    });
+
+  }catch(e){
+    if(e.message!=='No API key')
+      listEl.innerHTML=`<div style="color:var(--red);font-size:12px;text-align:center;padding:20px">שגיאה בטעינת דיסקוגרפיה</div>`;
+  }
+}
+
+async function addFromDiscography(artistName, albumTitle, year, idx){
+  const btn=document.querySelector(`.disco-album:nth-child(${idx+1}) .disco-add-btn`);
+
+  // Optimistic UI
+  const actionEl=btn?.parentElement;
+  if(actionEl) actionEl.innerHTML=`<div style="width:34px;height:34px;display:flex;align-items:center;justify-content:center;color:var(--fog);font-size:12px">⟳</div>`;
+
+  showLoad('מחפש תמונה...', albumTitle);
+  const artworkUrl=await fetchArtwork(albumTitle, artistName);
+  hideLoad();
+
+  const album=mkAlbum({title:albumTitle, artist:artistName, year, artworkUrl:artworkUrl||''});
+  S.collection.push(album);
+  save();
+  updateFAB();
+
+  // Update button to checkmark
+  if(actionEl) actionEl.innerHTML=`<div class="disco-in-coll">✓</div>`;
+  toast(`✓ "${albumTitle}" נוסף לאוסף!`,'ok');
+}
+
+// ════════════════════════════════════════
+//   PERSONALITY ANALYSIS
+// ════════════════════════════════════════
+
+async function analyzePersonality(){
+  if(S.collection.length<3){toast('הוסף לפחות 3 אלבומים קודם','err');return}
+  const btn=document.getElementById('persona-analyze-btn');
+  if(btn){btn.disabled=true;btn.innerHTML='<span>✦</span> מנתח...';}
+
+  const summary=S.collection.map(a=>`"${a.title}" by ${a.artist} (${a.year||'?'}, ${a.genre||'?'})`).join('; ');
+
+  try{
+    const d=await claude({
+      max_tokens:1000,
+      system:'Return ONLY valid JSON. No markdown.',
+      messages:[{role:'user',content:`You are a musical psychologist and cultural analyst. Based on this vinyl record collection, create a personality profile of the collector:
+
+Collection: ${summary}
+
+Return JSON:
+{
+  "nickname": "Creative Hebrew nickname for this collector type (2-3 words)",
+  "emoji": "Single emoji that represents them",
+  "summary": "2-sentence Hebrew personality summary",
+  "quote": "A Hebrew quote or lyric that perfectly describes them",
+  "traits": [
+    {"icon":"🧠","label":"Hebrew trait name","desc":"Hebrew description, 1 sentence"},
+    {"icon":"❤️","label":"Hebrew trait name","desc":"Hebrew description, 1 sentence"},
+    {"icon":"🎭","label":"Hebrew trait name","desc":"Hebrew description, 1 sentence"},
+    {"icon":"🌍","label":"Hebrew trait name","desc":"Hebrew description, 1 sentence"},
+    {"icon":"⚡","label":"Hebrew trait name","desc":"Hebrew description, 1 sentence"}
+  ],
+  "music_era": "Primary musical era they love",
+  "listening_style": "Hebrew description of how they listen to music",
+  "recommended_next": "One album they absolutely must hear next, with brief Hebrew reason"
+}`}]
+    });
+
+    const raw=d.content[0].text.replace(/```json|```/g,'').trim();
+    const p=JSON.parse(raw);
+    renderPersonality(p);
+  }catch(e){
+    if(e.message!=='No API key') toast('שגיאה בניתוח','err');
+    if(btn){btn.disabled=false;btn.innerHTML='<span>✦</span> נתח את אישיותי המוזיקלית';}
+  }
+}
+
+function renderPersonality(p){
+  const container=document.getElementById('persona-result');
+  if(!container) return;
+  container.style.display='block';
+  container.innerHTML=`
+    <div class="persona-card fade-in">
+      <div class="persona-header">
+        <div class="persona-avatar">${p.emoji||'🎵'}</div>
+        <div>
+          <div class="persona-title">${esc(p.nickname||'')}</div>
+          <div class="persona-sub">${esc(p.music_era||'')}</div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--warm);line-height:1.7;margin-bottom:14px">${esc(p.summary||'')}</div>
+      ${p.quote?`<div class="persona-quote">"${esc(p.quote)}"</div>`:''}
+      <div style="display:flex;flex-direction:column;gap:0">
+        ${(p.traits||[]).map(t=>`
+          <div class="persona-trait">
+            <div class="trait-icon">${t.icon||'•'}</div>
+            <div>
+              <div class="trait-label">${esc(t.label||'')}</div>
+              <div class="trait-desc">${esc(t.desc||'')}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+      ${p.listening_style?`
+      <div style="margin-top:14px;padding:12px 14px;background:var(--lift);border-radius:12px">
+        <div style="font-size:10px;color:var(--fog);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px">סגנון האזנה</div>
+        <div style="font-size:13px;color:var(--warm)">${esc(p.listening_style)}</div>
+      </div>`:''}
+      ${p.recommended_next?`
+      <div style="margin-top:12px;padding:12px 14px;background:rgba(200,153,74,.06);border:1px solid rgba(200,153,74,.15);border-radius:12px">
+        <div style="font-size:10px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px">חייב לשמוע</div>
+        <div style="font-size:13px;color:var(--cream)">${esc(p.recommended_next)}</div>
+      </div>`:''}
+    </div>`;
 }
 
 // ════════════════════════════════════════
