@@ -1273,25 +1273,118 @@ function save(){
   }
 }
 
-// ── iTunes artwork (free, no key, official covers) ──
-async function fetchArtwork(title, artist){
+// ── Smart artwork lookup ──
+// Strategy: iTunes (scored match) → MusicBrainz/Cover Art Archive fallback
+
+function normStr(s){
+  return String(s||'')
+    .toLowerCase()
+    .replace(/[\u2018\u2019\u201c\u201d]/g,"'")   // smart quotes
+    .replace(/[^a-z0-9\u05d0-\u05ea\s]/g,' ')     // strip punctuation (keep Hebrew)
+    .replace(/\s+/g,' ').trim();
+}
+
+function titleScore(candidate, target){
+  const c=normStr(candidate), t=normStr(target);
+  if(!c||!t) return 0;
+  if(c===t) return 100;
+  if(c.startsWith(t)||t.startsWith(c)) return 80;
+  if(c.includes(t)||t.includes(c)) return 60;
+  // Word overlap
+  const cw=new Set(c.split(' ')), tw=t.split(' ');
+  const overlap=tw.filter(w=>w.length>2&&cw.has(w)).length;
+  return overlap>0 ? Math.round(40*overlap/tw.length) : 0;
+}
+
+function artistScore(candidate, target){
+  const c=normStr(candidate), t=normStr(target);
+  if(!c||!t) return 0;
+  if(c===t) return 100;
+  if(c.includes(t)||t.includes(c)) return 70;
+  const cw=new Set(c.split(' ')), tw=t.split(' ');
+  const overlap=tw.filter(w=>w.length>2&&cw.has(w)).length;
+  return overlap>0 ? 40 : 0;
+}
+
+async function fetchArtworkiTunes(title, artist){
   try{
     const q=encodeURIComponent(`${artist} ${title}`);
-    const res=await fetch(`https://itunes.apple.com/search?term=${q}&entity=album&limit=5&country=US`);
+    const res=await fetch(`https://itunes.apple.com/search?term=${q}&entity=album&limit=10&country=US`,{signal:AbortSignal.timeout(6000)});
+    if(!res.ok) return null;
     const data=await res.json();
-    // Find best match
     const results=data.results||[];
-    const best=results.find(r=>
-      r.collectionName?.toLowerCase().includes(title.toLowerCase()) ||
-      title.toLowerCase().includes(r.collectionName?.toLowerCase())
-    ) || results[0];
-    if(best?.artworkUrl100){
-      // Upgrade to highest available resolution
-      return best.artworkUrl100
-        .replace('100x100bb','600x600bb')
-        .replace('/100x100/','/600x600/');
+    if(!results.length) return null;
+
+    // Score every result
+    const scored=results.map(r=>({
+      r,
+      score: titleScore(r.collectionName, title)*2 + artistScore(r.artistName, artist)
+    })).filter(x=>x.score>=60)   // require at least partial title match
+       .sort((a,b)=>b.score-a.score);
+
+    const best=scored[0]?.r;
+    if(!best) return null;
+
+    const url=best.artworkUrl100||best.artworkUrl60||'';
+    if(!url) return null;
+
+    // Try highest-res variants in order
+    for(const size of ['1200x1200bb','600x600bb','500x500bb']){
+      const hi=url.replace(/\d+x\d+bb/,size).replace(/\/\d+x\d+\//,'/'+size.replace('bb','')+'/');
+      // Verify it loads (quick HEAD check)
+      try{
+        const chk=await fetch(hi,{method:'HEAD',signal:AbortSignal.timeout(3000)});
+        if(chk.ok) return hi;
+      }catch{}
     }
-  }catch(e){ console.warn('iTunes artwork fetch failed',e); }
+    // Fallback to 600x600bb without verification
+    return url.replace(/\d+x\d+bb/,'600x600bb');
+  }catch(e){
+    console.warn('iTunes fetch failed',e);
+    return null;
+  }
+}
+
+async function fetchArtworkMusicBrainz(title, artist){
+  try{
+    // 1. Search release-group on MusicBrainz
+    const q=encodeURIComponent(`release:"${title}" AND artist:"${artist}"`);
+    const mbRes=await fetch(
+      `https://musicbrainz.org/ws/2/release-group/?query=${q}&limit=3&fmt=json`,
+      {headers:{'User-Agent':'Grooves/2.0 (vinyl collection app)'},signal:AbortSignal.timeout(8000)}
+    );
+    if(!mbRes.ok) return null;
+    const mbData=await mbRes.json();
+    const groups=mbData['release-groups']||[];
+
+    // Find best matching group
+    const best=groups.find(g=>
+      titleScore(g.title,title)>=60 && artistScore(g['artist-credit']?.[0]?.artist?.name,artist)>=40
+    )||groups[0];
+    if(!best?.id) return null;
+
+    // 2. Get cover from Cover Art Archive
+    const caRes=await fetch(
+      `https://coverartarchive.org/release-group/${best.id}/front-500`,
+      {redirect:'follow',signal:AbortSignal.timeout(6000)}
+    );
+    if(caRes.ok) return caRes.url;
+    return null;
+  }catch(e){
+    console.warn('MusicBrainz fetch failed',e);
+    return null;
+  }
+}
+
+async function fetchArtwork(title, artist){
+  // 1. Try iTunes (fast, high-quality)
+  const iTunesUrl=await fetchArtworkiTunes(title, artist);
+  if(iTunesUrl) return iTunesUrl;
+
+  // 2. Fallback: MusicBrainz Cover Art Archive (accurate, open data)
+  const mbUrl=await fetchArtworkMusicBrainz(title, artist);
+  if(mbUrl) return mbUrl;
+
   return null;
 }
 
@@ -1490,7 +1583,7 @@ async function showResult(data){
   wrap.innerHTML=`
     <div class="result-card">
       <div class="result-top">
-        <div class="result-cover">
+        <div class="result-cover" id="rc-cover">
           ${displayCover
             ?`<img src="${displayCover}" alt="" onerror="this.parentElement.innerHTML='<div class=\\'result-cover-ph\\'>💿</div>'">`
             :`<div class="result-cover-ph">💿</div>`}
@@ -1500,7 +1593,15 @@ async function showResult(data){
           <div class="result-artist">${esc(data.artist||'?')}</div>
           <div class="result-detail">${data.year||''}${data.year&&data.label?' · ':''}${data.label||''}<br>${data.genre||''}</div>
           <div class="confidence ${conf}">${confLabel}</div>
-          ${artworkUrl?`<div style="font-size:10px;color:var(--teal);margin-top:6px">✓ תמונה רשמית נמצאה</div>`:`<div style="font-size:10px;color:var(--fog);margin-top:6px">תמונת צילום בלבד</div>`}
+          ${artworkUrl
+            ?`<div style="font-size:10px;color:var(--teal);margin-top:6px;display:flex;align-items:center;gap:4px">
+                <span>✓ תמונה רשמית</span>
+                <button onclick="swapArtwork(event,'${esc(data.title)}','${esc(data.artist)}')"
+                  style="font-size:10px;padding:2px 7px;border-radius:6px;border:1px solid rgba(74,158,136,.3);background:none;color:var(--teal);cursor:pointer;margin-right:4px">
+                  החלף
+                </button>
+              </div>`
+            :`<div style="font-size:10px;color:var(--fog);margin-top:6px">תמונה לא נמצאה</div>`}
         </div>
       </div>
       ${data.brief_description?`
@@ -1525,7 +1626,65 @@ async function showResult(data){
     </div>`;
 }
 
+// ── Artwork picker — lets user choose from iTunes alternatives ──
+async function swapArtwork(e, title, artist){
+  e.stopPropagation();
+  showLoad('טוען אפשרויות תמונה...','');
+  let options=[];
+  try{
+    const q=encodeURIComponent(`${artist} ${title}`);
+    const res=await fetch(`https://itunes.apple.com/search?term=${q}&entity=album&limit=15&country=US`,{signal:AbortSignal.timeout(8000)});
+    const data=await res.json();
+    options=(data.results||[])
+      .filter(r=>r.artworkUrl100)
+      .map(r=>({
+        url:r.artworkUrl100.replace(/\d+x\d+bb/,'600x600bb'),
+        thumb:r.artworkUrl100.replace(/\d+x\d+bb/,'150x150bb'),
+        label:`${r.collectionName||'?'} — ${r.artistName||''}`
+      }));
+  }catch(e2){ console.warn(e2); }
+  hideLoad();
+  if(!options.length){toast('לא נמצאו אפשרויות נוספות','err');return}
+
+  const m=document.createElement('div');
+  m.className='modal-bg'; m.style.zIndex='600';
+  m.innerHTML=`
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-pad">
+        <div class="modal-track" style="font-size:18px">בחר עטיפה</div>
+        <div class="modal-artist" style="margin-bottom:16px">בחר את התמונה הנכונה</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px">
+          ${options.slice(0,9).map(o=>`
+            <div onclick="selectArtwork('${o.url}');this.closest('.modal-bg').remove()"
+              style="cursor:pointer;border-radius:10px;overflow:hidden;border:2px solid var(--rail);transition:border-color .2s;aspect-ratio:1"
+              onmouseover="this.style.borderColor='var(--gold)'"
+              onmouseout="this.style.borderColor='var(--rail)'">
+              <img src="${o.thumb}" alt=""
+                style="width:100%;height:100%;object-fit:cover;display:block"
+                onerror="this.parentElement.style.display='none'">
+            </div>`).join('')}
+        </div>
+        <button class="modal-close" onclick="this.closest('.modal-bg').remove()">ביטול</button>
+      </div>
+    </div>`;
+  document.body.appendChild(m);
+  m.addEventListener('click',ev=>{if(ev.target===m)m.remove()});
+}
+
+function selectArtwork(url){
+  const cover=document.getElementById('rc-cover');
+  if(cover) cover.innerHTML=`<img src="${url}" alt="" style="width:100%;height:100%;object-fit:cover">`;
+  const wrap=document.getElementById('result-wrap');
+  if(wrap) wrap.dataset.selectedArtwork=url;
+  toast('✓ תמונה עודכנה','ok');
+}
+
 async function saveResult(data){
+  // Use manually picked artwork if user swapped it
+  const wrap=document.getElementById('result-wrap');
+  if(wrap?.dataset?.selectedArtwork) data.artworkUrl=wrap.dataset.selectedArtwork;
+
   const a = mkAlbum({
     ...data,
     artworkUrl: data.artworkUrl || '',
@@ -1599,7 +1758,7 @@ function renderAlbum(a){
       <button class="act-btn act-primary" onclick="fetchAnalysis('${a.id}')">✦ ניתוח AI</button>
       <button class="act-btn act-sec" onclick="fetchArtistBio('${a.id}')">🎸 על האמן</button>
       ${!a.tracks.length?`<button class="act-btn act-sec" onclick="fetchTracks('${a.id}')">♪ שירים</button>`:''}
-      ${!a.artworkUrl?`<button class="act-btn act-sec" onclick="refreshArtwork('${a.id}')">🖼 תמונה רשמית</button>`:''}
+      ${!a.artworkUrl?`<button class="act-btn act-sec" onclick="refreshArtwork('${a.id}')">🖼 תמונה רשמית</button>`:`<button class="act-btn act-sec" onclick="swapAlbumArtwork('${a.id}')">🖼 החלף תמונה</button>`}
       <button class="act-btn act-danger" onclick="delAlbum('${a.id}')">🗑</button>
     </div>
 
@@ -1943,14 +2102,55 @@ async function refreshArtwork(id){
   showLoad('מחפש תמונה רשמית...',`${a.title} · ${a.artist}`);
   const url=await fetchArtwork(a.title,a.artist);
   hideLoad();
-  if(url){
-    a.artworkUrl=url; a.coverImage='';
-    save();
-    renderAlbum(a);
-    toast('✓ תמונה רשמית נטענה!','ok');
-  } else {
-    toast('לא נמצאה תמונה רשמית','err');
-  }
+  if(url){ a.artworkUrl=url; a.coverImage=''; save(); renderAlbum(a); toast('✓ תמונה רשמית נטענה!','ok'); }
+  else toast('לא נמצאה תמונה רשמית','err');
+}
+
+async function swapAlbumArtwork(id){
+  const a=S.collection.find(x=>x.id===id); if(!a) return;
+  showLoad('טוען אפשרויות תמונה...','');
+  let options=[];
+  try{
+    const q=encodeURIComponent(`${a.artist} ${a.title}`);
+    const res=await fetch(`https://itunes.apple.com/search?term=${q}&entity=album&limit=15&country=US`,{signal:AbortSignal.timeout(8000)});
+    const data=await res.json();
+    options=(data.results||[]).filter(r=>r.artworkUrl100).map(r=>({
+      url:r.artworkUrl100.replace(/\d+x\d+bb/,'600x600bb'),
+      thumb:r.artworkUrl100.replace(/\d+x\d+bb/,'150x150bb')
+    }));
+  }catch(e){ console.warn(e); }
+  hideLoad();
+  if(!options.length){toast('לא נמצאו תמונות','err');return}
+
+  const m=document.createElement('div');
+  m.className='modal-bg'; m.style.zIndex='600';
+  m.innerHTML=`
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-pad">
+        <div class="modal-track" style="font-size:18px">בחר עטיפה</div>
+        <div class="modal-artist" style="margin-bottom:16px">${esc(a.title)} · ${esc(a.artist)}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px">
+          ${options.slice(0,9).map(o=>`
+            <div onclick="applyAlbumArtwork('${id}','${o.url}');this.closest('.modal-bg').remove()"
+              style="cursor:pointer;border-radius:10px;overflow:hidden;border:2px solid var(--rail);transition:border-color .2s;aspect-ratio:1"
+              onmouseover="this.style.borderColor='var(--gold)'"
+              onmouseout="this.style.borderColor='var(--rail)'">
+              <img src="${o.thumb}" alt="" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.parentElement.style.display='none'">
+            </div>`).join('')}
+        </div>
+        <button class="modal-close" onclick="this.closest('.modal-bg').remove()">ביטול</button>
+      </div>
+    </div>`;
+  document.body.appendChild(m);
+  m.addEventListener('click',ev=>{if(ev.target===m)m.remove()});
+}
+
+function applyAlbumArtwork(id, url){
+  const a=S.collection.find(x=>x.id===id); if(!a) return;
+  a.artworkUrl=url; a.coverImage='';
+  save(); renderAlbum(a); renderColl();
+  toast('✓ תמונה עודכנה!','ok');
 }
 function delAlbum(id){
   if(!confirm('למחוק את האלבום מהאוסף?')) return;
