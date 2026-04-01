@@ -752,8 +752,49 @@ body::after{
 }
 
 /* ════════════════════════════════════════
-   VALUE SCREEN
+   AI ASSISTANT CHAT
    ════════════════════════════════════════ */
+
+.ai-msg{
+  margin-bottom:12px;animation:rise .25s ease both;
+}
+.ai-msg-user{
+  display:flex;justify-content:flex-start;
+}
+.ai-msg-user .ai-bubble{
+  background:var(--lift);border:1px solid var(--rail);
+  border-radius:16px 16px 4px 16px;
+  padding:10px 14px;max-width:85%;
+  font-size:13px;color:var(--cream);line-height:1.65;
+}
+.ai-msg-ai{
+  display:flex;gap:8px;align-items:flex-start;
+}
+.ai-msg-ai .ai-avatar{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold-lo),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;margin-top:2px;
+}
+.ai-msg-ai .ai-bubble{
+  background:var(--card);border:1px solid rgba(200,153,74,.12);
+  border-radius:4px 16px 16px 16px;
+  padding:12px 14px;max-width:90%;flex:1;
+  font-size:13px;color:var(--warm);line-height:1.75;
+  white-space:pre-wrap;
+}
+.ai-typing{
+  display:flex;gap:4px;align-items:center;padding:10px 14px;
+  background:var(--card);border:1px solid rgba(200,153,74,.12);
+  border-radius:4px 16px 16px 16px;width:fit-content;
+}
+.ai-typing span{
+  width:6px;height:6px;border-radius:50%;background:var(--gold);
+  animation:bounce .8s ease-in-out infinite;
+}
+.ai-typing span:nth-child(2){animation-delay:.15s}
+.ai-typing span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 
 .val-hero{
   padding:22px 0 20px;
@@ -1469,8 +1510,41 @@ body::after{
     <div class="disc-art"></div>
     <div class="disc-info">
       <div class="disc-title">גלה מוזיקה</div>
-      <div class="disc-sub">המלצות AI · ניתוח אישיות · הפתעות</div>
+      <div class="disc-sub">חפש אמן · המלצות AI · ניתוח אישיות</div>
     </div>
+  </div>
+
+  <!-- ── ARTIST SEARCH ── -->
+  <div style="margin-bottom:22px">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;font-style:italic;color:var(--cream);margin-bottom:12px">חיפוש אמן</div>
+    <div style="background:var(--card);border:1px solid var(--rail);border-radius:18px;padding:18px;margin-bottom:10px">
+      <div style="font-size:12px;color:var(--cool);margin-bottom:12px;line-height:1.6">
+        חפש כל אמן · קבל דיסקוגרפיה מלאה · הוסף ישירות לאוסף
+      </div>
+      <div style="display:flex;gap:8px">
+        <input id="artist-search-input"
+          type="text" dir="auto" autocomplete="off"
+          placeholder="Pink Floyd, Bob Dylan, The Beatles..."
+          style="flex:1;padding:12px 14px;background:var(--lift);border:1px solid var(--rail);
+                 border-radius:12px;color:var(--cream);font-family:'Outfit',sans-serif;font-size:14px;
+                 outline:none;transition:border-color .2s"
+          onfocus="this.style.borderColor='rgba(200,153,74,.4)'"
+          onblur="this.style.borderColor='var(--rail)'"
+          onkeydown="if(event.key==='Enter')searchArtistDisco()">
+        <button onclick="searchArtistDisco()"
+          style="padding:12px 18px;border-radius:12px;border:none;cursor:pointer;
+                 background:linear-gradient(135deg,var(--gold-lo),var(--gold));
+                 color:var(--ink);font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;
+                 white-space:nowrap;transition:all .2s;flex-shrink:0"
+          onmouseover="this.style.transform='translateY(-1px)'"
+          onmouseout="this.style.transform=''">
+          🔍 חפש
+        </button>
+      </div>
+    </div>
+
+    <!-- Artist Search Result -->
+    <div id="artist-search-result"></div>
   </div>
 
   <!-- Personality Analysis -->
@@ -1501,6 +1575,52 @@ body::after{
   <div id="recs-list">
     <div class="empty" style="padding:30px 0"><div class="empty-s">לחץ רענן לקבלת המלצות מותאמות</div></div>
   </div>
+
+  <!-- ── AI ASSISTANT ── -->
+  <div style="margin-top:24px;margin-bottom:20px">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;font-style:italic;color:var(--cream);margin-bottom:4px">עוזר מוזיקלי AI</div>
+    <div style="font-size:12px;color:var(--fog);margin-bottom:14px">שאל כל שאלה על מוזיקה · בנה פלייליסטים · השווה אמנים</div>
+
+    <!-- Suggestion chips -->
+    <div class="chips" id="ai-suggestions" style="margin-bottom:12px">
+      <div class="chip" onclick="fillAiQ('בנה לי פלייליסט ערב רומנטי מהאוסף שלי')">🌙 פלייליסט ערב</div>
+      <div class="chip" onclick="fillAiQ('מה הקשר בין האמנים באוסף שלי?')">🔗 קשרים בין אמנים</div>
+      <div class="chip" onclick="fillAiQ('איזה אלבום מהאוסף שלי מתאים הכי לסוף שבוע בוקר?')">☀️ בוקר סוף שבוע</div>
+      <div class="chip" onclick="fillAiQ('דרג את האלבומים שלי לפי חשיבות היסטורית')">📜 דירוג היסטורי</div>
+      <div class="chip" onclick="fillAiQ('מה החוט המשותף בין כל התקליטים שלי?')">🧵 חוט משותף</div>
+      <div class="chip" onclick="fillAiQ('בנה לי פלייליסט נסיעה לפי האוסף')">🚗 נסיעה</div>
+      <div class="chip" onclick="fillAiQ('השווה בין שני האמנים הנפוצים ביותר אצלי')">⚖️ השוואת אמנים</div>
+    </div>
+
+    <!-- Chat messages -->
+    <div id="ai-chat-messages" style="display:none;margin-bottom:12px;max-height:400px;overflow-y:auto"></div>
+
+    <!-- Input -->
+    <div style="background:var(--card);border:1px solid var(--rail);border-radius:16px;overflow:hidden;transition:border-color .2s" id="ai-input-wrap">
+      <textarea id="ai-question-input"
+        placeholder="שאל כל שאלה על מוזיקה, בקש פלייליסט, השווה אמנים..."
+        dir="auto" rows="2"
+        style="width:100%;padding:14px 16px;background:none;border:none;resize:none;
+               color:var(--cream);font-family:'Outfit',sans-serif;font-size:13px;
+               outline:none;line-height:1.6;display:block"
+        onfocus="document.getElementById('ai-input-wrap').style.borderColor='rgba(200,153,74,.4)'"
+        onblur="document.getElementById('ai-input-wrap').style.borderColor='var(--rail)'"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAiQuestion()}"></textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-top:1px solid var(--rail)">
+        <div style="font-size:10px;color:var(--dim)">Enter לשליחה · Shift+Enter לשורה חדשה</div>
+        <button onclick="sendAiQuestion()" id="ai-send-btn"
+          style="padding:8px 18px;border-radius:9px;border:none;cursor:pointer;
+                 background:linear-gradient(135deg,var(--gold-lo),var(--gold));
+                 color:var(--ink);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;
+                 transition:all .2s"
+          onmouseover="this.style.transform='translateY(-1px)'"
+          onmouseout="this.style.transform=''">
+          שלח ✦
+        </button>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ── LIBRARY (was stats) ── -->
@@ -3255,6 +3375,263 @@ async function addFromDiscography(artistName, albumTitle, year, idx){
   // Update button to checkmark
   if(actionEl) actionEl.innerHTML=`<div class="disco-in-coll">✓</div>`;
   toast(`✓ "${albumTitle}" נוסף לאוסף!`,'ok');
+}
+
+// ════════════════════════════════════════
+//   AI ASSISTANT CHAT
+// ════════════════════════════════════════
+
+let aiChatHistory = [];  // multi-turn conversation
+
+function fillAiQ(text){
+  const inp=document.getElementById('ai-question-input');
+  if(inp){ inp.value=text; inp.focus(); }
+}
+
+async function sendAiQuestion(){
+  const inp=document.getElementById('ai-question-input');
+  const q=(inp?.value||'').trim();
+  if(!q) return;
+
+  inp.value='';
+  const messagesEl=document.getElementById('ai-chat-messages');
+  const sendBtn=document.getElementById('ai-send-btn');
+  if(!messagesEl) return;
+
+  messagesEl.style.display='block';
+  sendBtn.disabled=true; sendBtn.textContent='...';
+
+  // Add user message
+  appendAiMsg('user', q, messagesEl);
+  messagesEl.scrollTop=messagesEl.scrollHeight;
+
+  // Add typing indicator
+  const typingId='typing-'+Date.now();
+  messagesEl.insertAdjacentHTML('beforeend',`
+    <div class="ai-msg ai-msg-ai" id="${typingId}">
+      <div class="ai-avatar">♪</div>
+      <div class="ai-typing"><span></span><span></span><span></span></div>
+    </div>`);
+  messagesEl.scrollTop=messagesEl.scrollHeight;
+
+  // Build collection context
+  const collContext=S.collection.length
+    ? `האוסף של המשתמש (${S.collection.length} תקליטים): ${S.collection.map(a=>`"${a.title}" מאת ${a.artist} (${a.year||'?'}, ${a.genre||'?'})`).join(' · ')}`
+    : 'אין עדיין תקליטים באוסף';
+
+  // Add to history
+  aiChatHistory.push({role:'user', content:q});
+
+  try{
+    const d=await claude({
+      max_tokens:1000,
+      system:`אתה עוזר מוזיקלי מקצועי בשם Grooves. יש לך ידע עמוק במוזיקה, תולדות הרוק, ג'אז, קלאסיקה וכל ז'אנר.
+אתה עונה בעברית, בצורה חמה ומקצועית.
+${collContext}
+השתמש במידע על האוסף כשרלוונטי. תוכל לבנות פלייליסטים, להשוות אמנים, לספר על אלבומים, להמליץ ולנתח.`,
+      messages: aiChatHistory.slice(-10)  // last 10 turns for context
+    });
+
+    document.getElementById(typingId)?.remove();
+    const answer=d.content[0].text;
+
+    // Add AI response to history
+    aiChatHistory.push({role:'assistant', content:answer});
+
+    appendAiMsg('ai', answer, messagesEl);
+    messagesEl.scrollTop=messagesEl.scrollHeight;
+
+  }catch(e){
+    document.getElementById(typingId)?.remove();
+    if(e.message!=='No API key'){
+      appendAiMsg('ai', 'מצטער, אירעה שגיאה. נסה שנית.', messagesEl);
+    }
+  }finally{
+    sendBtn.disabled=false; sendBtn.textContent='שלח ✦';
+  }
+}
+
+function appendAiMsg(role, text, container){
+  const isUser=role==='user';
+  const el=document.createElement('div');
+  el.className=`ai-msg ai-msg-${isUser?'user':'ai'}`;
+  el.innerHTML=isUser
+    ?`<div class="ai-bubble">${esc(text)}</div>`
+    :`<div class="ai-avatar">♪</div><div class="ai-bubble">${esc(text)}</div>`;
+  container.appendChild(el);
+}
+
+// ════════════════════════════════════════
+//   ARTIST SEARCH — DISCOGRAPHY BROWSER
+// ════════════════════════════════════════
+
+async function searchArtistDisco(){
+  const inp=document.getElementById('artist-search-input');
+  const artistName=(inp?.value||'').trim();
+  if(!artistName){toast('הכנס שם אמן','err');return}
+
+  const resultEl=document.getElementById('artist-search-result');
+  if(!resultEl) return;
+
+  resultEl.innerHTML=`
+    <div style="background:var(--card);border:1px solid var(--rail);border-radius:18px;padding:20px;text-align:center">
+      <div style="animation:spin 1.5s linear infinite;display:inline-block;font-size:28px;margin-bottom:10px">💿</div>
+      <div style="font-size:13px;color:var(--cool)">טוען דיסקוגרפיה של ${esc(artistName)}...</div>
+    </div>`;
+
+  try{
+    const d=await claude({
+      max_tokens:1200,
+      system:'Return ONLY valid JSON array. No markdown, no backticks.',
+      messages:[{role:'user',content:`List the COMPLETE discography of "${artistName}" including ALL official releases: studio albums, live albums/concerts, EPs, and compilations. Chronological order.
+
+Return JSON array:
+[{"title":"Album Name","year":"1973","type":"studio","genre":"Rock"}]
+
+Types: "studio" | "live" | "compilation" | "ep"
+Include EVERYTHING — do not skip live albums. Max 50 items.
+If you don't know this artist, return an empty array [].`}]
+    });
+
+    const raw=d.content[0].text.replace(/```json|```/g,'').trim();
+    const disco=JSON.parse(raw);
+
+    if(!disco.length){
+      resultEl.innerHTML=`
+        <div style="background:var(--card);border:1px solid var(--rail);border-radius:18px;padding:24px;text-align:center">
+          <div style="font-size:32px;margin-bottom:10px">🎵</div>
+          <div style="font-size:14px;color:var(--cool)">לא נמצא מידע על "${esc(artistName)}"<br>נסה שם אחר</div>
+        </div>`;
+      return;
+    }
+
+    renderArtistSearchDisco(artistName, disco, resultEl);
+
+  }catch(e){
+    if(e.message!=='No API key')
+      resultEl.innerHTML=`<div style="color:var(--red);font-size:13px;text-align:center;padding:20px">שגיאה בחיפוש</div>`;
+  }
+}
+
+function renderArtistSearchDisco(artistName, disco, container){
+  const ownedTitles=new Set(S.collection.filter(a=>normStr(a.artist)===normStr(artistName)).map(a=>normStr(a.title)));
+  const ownedCount=disco.filter(a=>ownedTitles.has(normStr(a.title))).length;
+
+  const types={studio:'אסטודיו', live:'🎤 הופעה חיה', ep:'EP', compilation:'אוסף'};
+  const typeColors={studio:'var(--cool)', live:'var(--amber)', ep:'var(--teal)', compilation:'var(--fog)'};
+
+  container.innerHTML=`
+    <div style="background:var(--card);border:1px solid rgba(200,153,74,.15);border-radius:18px;overflow:hidden;animation:rise .3s ease both">
+
+      <!-- Header -->
+      <div style="padding:18px 18px 14px;background:linear-gradient(135deg,rgba(200,153,74,.06),transparent);border-bottom:1px solid var(--rail)">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--cream)">${esc(artistName)}</div>
+        <div style="font-size:12px;color:var(--cool);margin-top:4px">
+          ${disco.length} הוצאות · <span style="color:var(--gold)">${ownedCount} באוסף שלך</span>
+        </div>
+      </div>
+
+      <!-- Type filter -->
+      <div class="chips" style="padding:10px 14px 0;margin-bottom:0;gap:6px;scrollbar-width:none">
+        <div class="chip on" onclick="filterArtistSearch('all',this)">הכל</div>
+        ${['studio','live','ep','compilation']
+          .filter(t=>disco.some(a=>a.type===t))
+          .map(t=>`<div class="chip" onclick="filterArtistSearch('${t}',this)">${types[t]}</div>`).join('')}
+      </div>
+
+      <!-- Disco list -->
+      <div id="artist-search-disco-list" style="padding:8px 0">
+        ${disco.map((album,i)=>{
+          const owned=ownedTitles.has(normStr(album.title));
+          return `
+          <div class="disco-album" data-type="${album.type||'studio'}"
+            style="padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.04)">
+            <div class="disco-cov" id="asd-cov-${i}">
+              <div class="cover-ph"><div class="cover-ph-disc" style="width:60%"></div></div>
+            </div>
+            <div class="disco-info">
+              <div class="disco-title">${esc(album.title)}</div>
+              <div class="disco-year">${album.year||''}${album.genre?' · '+esc(album.genre):''}</div>
+              <div class="disco-type" style="color:${typeColors[album.type]||'var(--fog)'}">
+                ${types[album.type]||album.type||''}
+              </div>
+            </div>
+            <div class="disco-action" id="asd-act-${i}">
+              ${owned
+                ?`<div class="disco-in-coll">✓</div>`
+                :`<button class="disco-add-btn"
+                    onclick="addFromArtistSearch('${esc(artistName)}','${esc(album.title)}','${album.year||''}','${album.genre||''}',${i})">+</button>`}
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+
+      <!-- Add all missing button -->
+      ${disco.filter(a=>!ownedTitles.has(normStr(a.title))).length>0?`
+      <div style="padding:14px 16px;border-top:1px solid var(--rail)">
+        <button onclick="addAllFromArtistSearch('${esc(artistName)}')"
+          style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(200,153,74,.2);
+                 background:rgba(200,153,74,.06);color:var(--gold);font-size:13px;font-weight:500;
+                 cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s"
+          onmouseover="this.style.background='rgba(200,153,74,.12)'"
+          onmouseout="this.style.background='rgba(200,153,74,.06)'">
+          + הוסף את כל החסרים (${disco.filter(a=>!ownedTitles.has(normStr(a.title))).length})
+        </button>
+      </div>`:''}
+    </div>`;
+
+  // Store disco data for "add all" function
+  window._lastArtistDisco = {artistName, disco};
+
+  // Lazy-load artwork
+  disco.forEach(async (album,i)=>{
+    const el=document.getElementById('asd-cov-'+i);
+    if(!el) return;
+    const url=await fetchArtwork(album.title, artistName);
+    if(url && el) el.innerHTML=`<img src="${url}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'cover-ph\\'><div class=\\'cover-ph-disc\\'></div></div>'">`;
+  });
+}
+
+function filterArtistSearch(type, el){
+  document.querySelectorAll('#artist-search-result .chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  document.querySelectorAll('#artist-search-disco-list .disco-album').forEach(row=>{
+    row.style.display=(type==='all'||row.dataset.type===type)?'flex':'none';
+  });
+}
+
+async function addFromArtistSearch(artistName, albumTitle, year, genre, idx){
+  const actEl=document.getElementById('asd-act-'+idx);
+  if(actEl) actEl.innerHTML=`<div style="width:34px;height:34px;display:flex;align-items:center;justify-content:center;color:var(--fog);font-size:11px;animation:spin 1s linear infinite">⟳</div>`;
+
+  const artworkUrl=await fetchArtwork(albumTitle, artistName);
+  const album=mkAlbum({title:albumTitle, artist:artistName, year, genre, artworkUrl:artworkUrl||''});
+  S.collection.push(album);
+  save(); updateFAB();
+
+  if(actEl) actEl.innerHTML=`<div class="disco-in-coll">✓</div>`;
+  toast(`✓ "${albumTitle}" נוסף!`,'ok');
+}
+
+async function addAllFromArtistSearch(artistName){
+  const data=window._lastArtistDisco;
+  if(!data||data.artistName!==artistName) return;
+
+  const owned=new Set(S.collection.filter(a=>normStr(a.artist)===normStr(artistName)).map(a=>normStr(a.title)));
+  const missing=data.disco.filter(a=>!owned.has(normStr(a.title)));
+  if(!missing.length){toast('כל האלבומים כבר באוסף','ok');return}
+
+  showLoad(`מוסיף ${missing.length} אלבומים...`, artistName);
+  for(const album of missing){
+    const artworkUrl=await fetchArtwork(album.title, artistName);
+    S.collection.push(mkAlbum({title:album.title, artist:artistName, year:album.year||'', genre:album.genre||'', artworkUrl:artworkUrl||''}));
+  }
+  save(); updateFAB(); hideLoad();
+  toast(`✓ ${missing.length} אלבומים נוספו!`,'ok');
+
+  // Re-render with all checked
+  const resultEl=document.getElementById('artist-search-result');
+  if(resultEl) renderArtistSearchDisco(artistName, data.disco, resultEl);
 }
 
 // ════════════════════════════════════════
