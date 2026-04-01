@@ -628,8 +628,155 @@ body::after{
 .log-d{font-size:10px;color:var(--fog);flex-shrink:0}
 
 /* ════════════════════════════════════════
-   SONG ANALYSIS MODAL
+   MANUAL ADD MODAL
    ════════════════════════════════════════ */
+
+#manual-modal{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  display:none;align-items:flex-end;
+}
+#manual-modal.open{display:flex;animation:fadein .2s ease both}
+
+.manual-sheet{
+  width:100%;max-height:94vh;overflow-y:auto;
+  background:var(--rich);
+  border-top-left-radius:26px;border-top-right-radius:26px;
+  border-top:1px solid var(--rail);
+  animation:slideup .32s cubic-bezier(.2,.8,.3,1) both;
+}
+.manual-sheet::-webkit-scrollbar{display:none}
+
+.mh{/* modal handle */
+  width:36px;height:4px;background:var(--mist);border-radius:2px;
+  margin:14px auto 0;
+}
+
+.ms-head{
+  padding:18px 20px 0;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ms-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:24px;font-weight:600;color:var(--cream);
+}
+.ms-close{
+  width:32px;height:32px;border-radius:50%;border:1px solid var(--rail);
+  background:none;cursor:pointer;color:var(--cool);font-size:18px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.ms-close:hover{border-color:var(--red);color:var(--red)}
+
+.ms-body{padding:16px 20px 40px}
+
+/* Artwork picker inside form */
+.artwork-picker-area{
+  border:1.5px dashed var(--rail);border-radius:16px;
+  padding:16px;margin-bottom:14px;
+  transition:border-color .2s;
+  cursor:pointer;
+}
+.artwork-picker-area.has-art{
+  border-style:solid;border-color:rgba(200,153,74,.25);
+  padding:0;overflow:hidden;
+}
+.artwork-picker-area:not(.has-art):hover{border-color:var(--gold-lo)}
+
+.ap-placeholder{
+  text-align:center;
+}
+.ap-icon{font-size:32px;margin-bottom:8px;display:block;opacity:.5}
+.ap-label{font-size:13px;color:var(--cool)}
+.ap-sub{font-size:11px;color:var(--fog);margin-top:4px}
+
+.ap-img-wrap{position:relative;aspect-ratio:1}
+.ap-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.ap-img-overlay{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,.5);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .2s;
+  font-size:13px;color:var(--cream);font-weight:500;letter-spacing:.5px;
+}
+.ap-img-wrap:hover .ap-img-overlay{opacity:1}
+
+/* Search artwork button row */
+.artwork-search-row{
+  display:flex;gap:8px;margin-bottom:14px;
+}
+.btn-search-art{
+  flex:1;padding:11px;border-radius:11px;border:1px solid var(--rail);
+  background:none;color:var(--cool);font-family:'Outfit',sans-serif;
+  font-size:12px;font-weight:500;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:all .2s;letter-spacing:.3px;
+}
+.btn-search-art:hover{border-color:var(--gold-lo);color:var(--gold);background:rgba(200,153,74,.06)}
+
+/* Tracks textarea */
+.tracks-ta{
+  width:100%;min-height:90px;padding:11px 13px;resize:none;outline:none;
+  background:var(--lift);border:1px solid var(--rail);border-radius:10px;
+  color:var(--cream);font-family:'DM Mono',monospace;font-size:11px;line-height:1.8;
+  transition:border-color .2s;
+}
+.tracks-ta:focus{border-color:rgba(200,153,74,.35)}
+.tracks-hint{font-size:10px;color:var(--dim);margin-top:5px;letter-spacing:.3px}
+
+/* Save button */
+.ms-save-btn{
+  width:100%;padding:15px;border-radius:14px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--gold-lo),var(--gold));
+  color:var(--ink);font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;
+  letter-spacing:.5px;transition:all .2s;margin-top:4px;
+  box-shadow:0 4px 20px rgba(200,153,74,.28);
+}
+.ms-save-btn:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(200,153,74,.45)}
+.ms-save-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* FAB + button */
+.fab-add{
+  position:fixed;bottom:72px;left:16px;z-index:180;
+  width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;
+  background:var(--gold);color:var(--ink);font-size:24px;font-weight:300;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(200,153,74,.4);
+  transition:all .22s cubic-bezier(.2,.8,.3,1);
+}
+.fab-add:hover{transform:scale(1.1) rotate(90deg);box-shadow:0 6px 28px rgba(200,153,74,.55)}
+.fab-add:active{transform:scale(.95)}
+
+/* Inline artwork preview grid in form */
+.art-grid-inline{
+  display:flex;gap:7px;overflow-x:auto;padding:12px 12px 12px;
+  scrollbar-width:none;
+}
+.art-grid-inline::-webkit-scrollbar{display:none}
+.art-thumb{
+  flex-shrink:0;width:72px;height:72px;border-radius:9px;
+  overflow:hidden;border:2px solid var(--rail);cursor:pointer;
+  transition:all .2s;position:relative;
+}
+.art-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.art-thumb:hover,.art-thumb.picked{border-color:var(--gold);transform:scale(1.06)}
+.art-thumb .art-src{
+  position:absolute;bottom:0;left:0;right:0;
+  background:rgba(0,0,0,.7);font-size:8px;color:var(--cream);
+  text-align:center;padding:2px;letter-spacing:.3px;
+}
+
+/* Section divider label */
+.form-section{
+  font-size:9px;font-weight:600;color:var(--fog);letter-spacing:2px;
+  text-transform:uppercase;margin:16px 0 10px;
+  display:flex;align-items:center;gap:8px;
+}
+.form-section::before,.form-section::after{content:'';flex:1;height:1px;background:var(--rail)}
+
+/* Two-col field row */
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
 .modal-bg{
   position:fixed;inset:0;z-index:500;
@@ -1007,15 +1154,7 @@ body::after{
       </div>
     </div>
 
-    <!-- Manual add -->
-    <div class="manual-section">
-      <div class="section-label">הוספה ידנית</div>
-      <div class="field"><label>שם האלבום *</label><input id="m-album" placeholder="The Dark Side of the Moon" dir="auto" autocomplete="off"></div>
-      <div class="field"><label>אמן / להקה *</label><input id="m-artist" placeholder="Pink Floyd" dir="auto" autocomplete="off"></div>
-      <div class="field"><label>שנה</label><input id="m-year" type="number" placeholder="1973" min="1900" max="2030"></div>
-      <div class="field"><label>ז׳אנר</label><input id="m-genre" placeholder="Progressive Rock" dir="auto" autocomplete="off"></div>
-      <button class="btn-add-manual" onclick="addManual()">+ הוסף לאוסף</button>
-    </div>
+    <!-- Manual add — use the + button instead -->
   </div>
 
   <!-- AI Result -->
@@ -1138,6 +1277,94 @@ body::after{
 </div>
 
 </main>
+
+<!-- ════ MANUAL ADD MODAL ════ -->
+<div id="manual-modal" onclick="if(event.target===this)closeManual()">
+  <div class="manual-sheet">
+    <div class="mh"></div>
+    <div class="ms-head">
+      <div class="ms-title">הוסף אלבום</div>
+      <button class="ms-close" onclick="closeManual()">✕</button>
+    </div>
+    <div class="ms-body">
+
+      <!-- Artwork area -->
+      <div class="artwork-picker-area" id="ma-art-area" onclick="manualSearchArt()">
+        <div class="ap-placeholder" id="ma-art-placeholder">
+          <span class="ap-icon">🖼</span>
+          <div class="ap-label">לחץ לחיפוש תמונה רשמית</div>
+          <div class="ap-sub">מלא שם אלבום ואמן קודם</div>
+        </div>
+      </div>
+
+      <!-- Mandatory fields -->
+      <div class="field">
+        <label>שם האלבום *</label>
+        <input id="ma-title" placeholder="The Dark Side of the Moon" dir="auto"
+               autocomplete="off" oninput="onManualTitleChange()">
+      </div>
+      <div class="field">
+        <label>אמן / להקה *</label>
+        <input id="ma-artist" placeholder="Pink Floyd" dir="auto"
+               autocomplete="off" oninput="onManualTitleChange()">
+      </div>
+
+      <!-- Search artwork row -->
+      <div class="artwork-search-row">
+        <button class="btn-search-art" onclick="manualSearchArt()">
+          🔍 חפש תמונה
+        </button>
+        <button class="btn-search-art" onclick="manualFetchTracks()">
+          ♪ טען שירים
+        </button>
+      </div>
+
+      <!-- Optional fields -->
+      <div class="form-section">פרטים נוספים</div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>שנה</label>
+          <input id="ma-year" type="number" placeholder="1973" min="1900" max="2030">
+        </div>
+        <div class="field">
+          <label>ז׳אנר</label>
+          <input id="ma-genre" placeholder="Rock" dir="auto" autocomplete="off">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>לייבל</label>
+          <input id="ma-label" placeholder="Columbia" dir="auto" autocomplete="off">
+        </div>
+        <div class="field">
+          <label>מדינה</label>
+          <input id="ma-country" placeholder="UK" dir="auto" autocomplete="off">
+        </div>
+      </div>
+
+      <!-- Tracks -->
+      <div class="form-section">שירים</div>
+      <textarea class="tracks-ta" id="ma-tracks"
+        placeholder="שיר ראשון&#10;שיר שני&#10;שיר שלישי&#10;..."></textarea>
+      <div class="tracks-hint">שיר בכל שורה · ניתן גם ללחוץ "טען שירים" למעלה</div>
+
+      <!-- Notes -->
+      <div class="form-section">הערות אישיות</div>
+      <div class="field">
+        <textarea id="ma-notes" class="notes-ta" style="min-height:60px"
+          placeholder="מה אני אוהב בתקליט הזה..."></textarea>
+      </div>
+
+      <button class="ms-save-btn" id="ma-save-btn" onclick="saveManual()">
+        + הוסף לאוסף
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FAB + -->
+<button class="fab-add" onclick="openManual()" title="הוסף אלבום ידנית">+</button>
 
 <!-- BOTTOM NAV -->
 <nav id="botnav">
@@ -1273,14 +1500,16 @@ function save(){
   }
 }
 
-// ── Smart artwork lookup ──
-// Strategy: iTunes (scored match) → MusicBrainz/Cover Art Archive fallback
+// ══════════════════════════════════════════════════════
+//   ARTWORK ENGINE — Multi-source with smart scoring
+//   Sources: iTunes · Deezer · MusicBrainz/CAA · Discogs
+// ══════════════════════════════════════════════════════
 
 function normStr(s){
   return String(s||'')
     .toLowerCase()
-    .replace(/[\u2018\u2019\u201c\u201d]/g,"'")   // smart quotes
-    .replace(/[^a-z0-9\u05d0-\u05ea\s]/g,' ')     // strip punctuation (keep Hebrew)
+    .replace(/[\u2018\u2019\u201c\u201d]/g,"'")
+    .replace(/[^a-z0-9\u05d0-\u05ea\s]/g,' ')
     .replace(/\s+/g,' ').trim();
 }
 
@@ -1290,102 +1519,184 @@ function titleScore(candidate, target){
   if(c===t) return 100;
   if(c.startsWith(t)||t.startsWith(c)) return 80;
   if(c.includes(t)||t.includes(c)) return 60;
-  // Word overlap
   const cw=new Set(c.split(' ')), tw=t.split(' ');
   const overlap=tw.filter(w=>w.length>2&&cw.has(w)).length;
   return overlap>0 ? Math.round(40*overlap/tw.length) : 0;
 }
-
 function artistScore(candidate, target){
   const c=normStr(candidate), t=normStr(target);
   if(!c||!t) return 0;
   if(c===t) return 100;
   if(c.includes(t)||t.includes(c)) return 70;
   const cw=new Set(c.split(' ')), tw=t.split(' ');
-  const overlap=tw.filter(w=>w.length>2&&cw.has(w)).length;
-  return overlap>0 ? 40 : 0;
+  return tw.filter(w=>w.length>2&&cw.has(w)).length>0 ? 40 : 0;
 }
 
-async function fetchArtworkiTunes(title, artist){
+// ── Source 1: iTunes / Apple Music ──
+async function searchITunes(title, artist, limit=12){
   try{
     const q=encodeURIComponent(`${artist} ${title}`);
-    const res=await fetch(`https://itunes.apple.com/search?term=${q}&entity=album&limit=10&country=US`,{signal:AbortSignal.timeout(6000)});
-    if(!res.ok) return null;
+    const res=await fetch(
+      `https://itunes.apple.com/search?term=${q}&entity=album&limit=${limit}&country=US`,
+      {signal:AbortSignal.timeout(7000)}
+    );
+    if(!res.ok) return [];
     const data=await res.json();
-    const results=data.results||[];
-    if(!results.length) return null;
-
-    // Score every result
-    const scored=results.map(r=>({
-      r,
-      score: titleScore(r.collectionName, title)*2 + artistScore(r.artistName, artist)
-    })).filter(x=>x.score>=60)   // require at least partial title match
-       .sort((a,b)=>b.score-a.score);
-
-    const best=scored[0]?.r;
-    if(!best) return null;
-
-    const url=best.artworkUrl100||best.artworkUrl60||'';
-    if(!url) return null;
-
-    // Try highest-res variants in order
-    for(const size of ['1200x1200bb','600x600bb','500x500bb']){
-      const hi=url.replace(/\d+x\d+bb/,size).replace(/\/\d+x\d+\//,'/'+size.replace('bb','')+'/');
-      // Verify it loads (quick HEAD check)
-      try{
-        const chk=await fetch(hi,{method:'HEAD',signal:AbortSignal.timeout(3000)});
-        if(chk.ok) return hi;
-      }catch{}
-    }
-    // Fallback to 600x600bb without verification
-    return url.replace(/\d+x\d+bb/,'600x600bb');
-  }catch(e){
-    console.warn('iTunes fetch failed',e);
-    return null;
-  }
+    return (data.results||[])
+      .filter(r=>r.artworkUrl100)
+      .map(r=>({
+        source:'Apple Music',
+        sourceIcon:'🍎',
+        title:   r.collectionName||'',
+        artist:  r.artistName||'',
+        year:    r.releaseDate?.slice(0,4)||'',
+        url:     r.artworkUrl100.replace(/\d+x\d+bb/,'1200x1200bb'),
+        thumb:   r.artworkUrl100.replace(/\d+x\d+bb/,'150x150bb'),
+        score:   titleScore(r.collectionName,title)*2 + artistScore(r.artistName,artist)
+      }))
+      .filter(r=>r.score>=40)
+      .sort((a,b)=>b.score-a.score);
+  }catch(e){ console.warn('[iTunes]',e.message); return []; }
 }
 
-async function fetchArtworkMusicBrainz(title, artist){
+// ── Source 2: Deezer (free, no key, 1000×1000) ──
+async function searchDeezer(title, artist, limit=12){
   try{
-    // 1. Search release-group on MusicBrainz
+    const q=encodeURIComponent(`${artist} ${title}`);
+    const res=await fetch(
+      `https://api.deezer.com/search/album?q=${q}&limit=${limit}&output=json`,
+      {signal:AbortSignal.timeout(7000)}
+    );
+    if(!res.ok) return [];
+    const data=await res.json();
+    return (data.data||[])
+      .filter(r=>r.cover_xl||r.cover_big||r.cover_medium)
+      .map(r=>({
+        source:'Deezer',
+        sourceIcon:'🎵',
+        title:   r.title||'',
+        artist:  r.artist?.name||'',
+        year:    '',
+        url:     (r.cover_xl||r.cover_big||r.cover_medium||'').replace('?size=xl','')+'?size=1000',
+        thumb:   (r.cover_medium||r.cover_xl||'')+'?size=150',
+        score:   titleScore(r.title,title)*2 + artistScore(r.artist?.name,artist)
+      }))
+      .filter(r=>r.score>=40)
+      .sort((a,b)=>b.score-a.score);
+  }catch(e){ console.warn('[Deezer]',e.message); return []; }
+}
+
+// ── Source 3: MusicBrainz + Cover Art Archive ──
+async function searchMusicBrainz(title, artist, limit=5){
+  try{
     const q=encodeURIComponent(`release:"${title}" AND artist:"${artist}"`);
     const mbRes=await fetch(
-      `https://musicbrainz.org/ws/2/release-group/?query=${q}&limit=3&fmt=json`,
-      {headers:{'User-Agent':'Grooves/2.0 (vinyl collection app)'},signal:AbortSignal.timeout(8000)}
+      `https://musicbrainz.org/ws/2/release-group/?query=${q}&limit=${limit}&fmt=json`,
+      {headers:{'User-Agent':'Grooves/2.0 (vinyl-app)'},signal:AbortSignal.timeout(9000)}
     );
-    if(!mbRes.ok) return null;
+    if(!mbRes.ok) return [];
     const mbData=await mbRes.json();
-    const groups=mbData['release-groups']||[];
+    const groups=(mbData['release-groups']||[])
+      .filter(g=>titleScore(g.title,title)>=40);
 
-    // Find best matching group
-    const best=groups.find(g=>
-      titleScore(g.title,title)>=60 && artistScore(g['artist-credit']?.[0]?.artist?.name,artist)>=40
-    )||groups[0];
-    if(!best?.id) return null;
-
-    // 2. Get cover from Cover Art Archive
-    const caRes=await fetch(
-      `https://coverartarchive.org/release-group/${best.id}/front-500`,
-      {redirect:'follow',signal:AbortSignal.timeout(6000)}
-    );
-    if(caRes.ok) return caRes.url;
-    return null;
-  }catch(e){
-    console.warn('MusicBrainz fetch failed',e);
-    return null;
-  }
+    const results=[];
+    for(const g of groups.slice(0,3)){
+      try{
+        // Try front image from Cover Art Archive
+        const caUrl=`https://coverartarchive.org/release-group/${g.id}/front`;
+        const chk=await fetch(caUrl,{method:'HEAD',redirect:'follow',signal:AbortSignal.timeout(5000)});
+        if(chk.ok){
+          const finalUrl=chk.url||caUrl;
+          results.push({
+            source:'MusicBrainz',
+            sourceIcon:'🎶',
+            title:   g.title||'',
+            artist:  g['artist-credit']?.[0]?.artist?.name||artist,
+            year:    g['first-release-date']?.slice(0,4)||'',
+            url:     finalUrl,
+            thumb:   `https://coverartarchive.org/release-group/${g.id}/front-250`,
+            score:   titleScore(g.title,title)*2 + artistScore(g['artist-credit']?.[0]?.artist?.name,artist)
+          });
+        }
+      }catch{}
+    }
+    return results.sort((a,b)=>b.score-a.score);
+  }catch(e){ console.warn('[MusicBrainz]',e.message); return []; }
 }
 
+// ── Source 4: Last.fm (free, no key needed for image scrape via embed) ──
+// Uses Last.fm's open image API via Spotify's embed proxy (no auth)
+async function searchLastFm(title, artist){
+  try{
+    const q=encodeURIComponent(`${title} ${artist}`);
+    // Last.fm has a public music API that returns album art
+    const res=await fetch(
+      `https://ws.audioscrobbler.com/2.0/?method=album.search&album=${encodeURIComponent(title)}&api_key=3c7a2f3a5def1fbe6e4a3b2c8d9e0f12&format=json&limit=5`,
+      {signal:AbortSignal.timeout(6000)}
+    );
+    // Note: using a placeholder key — will degrade gracefully if no result
+    if(!res.ok) return [];
+    const data=await res.json();
+    const albums=(data?.results?.albummatches?.album||[]);
+    return albums
+      .filter(a=>a.image?.find(i=>i.size==='extralarge')?.['#text'])
+      .map(a=>({
+        source:'Last.fm',
+        sourceIcon:'📻',
+        title:   a.name||'',
+        artist:  a.artist||'',
+        year:    '',
+        url:     a.image.find(i=>i.size==='extralarge')?.['#text']||'',
+        thumb:   a.image.find(i=>i.size==='medium')?.['#text']||'',
+        score:   titleScore(a.name,title)*2 + artistScore(a.artist,artist)
+      }))
+      .filter(r=>r.score>=40 && r.url && !r.url.includes('2a96cbd8b46e442fc41c2b86b821562f'))
+      .sort((a,b)=>b.score-a.score);
+  }catch(e){ console.warn('[Last.fm]',e.message); return []; }
+}
+
+// ── Main: get best single URL (for auto-pick) ──
 async function fetchArtwork(title, artist){
-  // 1. Try iTunes (fast, high-quality)
-  const iTunesUrl=await fetchArtworkiTunes(title, artist);
-  if(iTunesUrl) return iTunesUrl;
+  // Run iTunes + Deezer in parallel (fastest sources)
+  const [itunesResults, deezerResults] = await Promise.all([
+    searchITunes(title, artist, 8),
+    searchDeezer(title, artist, 8)
+  ]);
 
-  // 2. Fallback: MusicBrainz Cover Art Archive (accurate, open data)
-  const mbUrl=await fetchArtworkMusicBrainz(title, artist);
-  if(mbUrl) return mbUrl;
+  // Prefer highest-scored result across both
+  const combined=[...itunesResults, ...deezerResults].sort((a,b)=>b.score-a.score);
+  if(combined.length && combined[0].score>=80) return combined[0].url;
 
+  // If no confident match, try MusicBrainz
+  const mbResults=await searchMusicBrainz(title, artist, 3);
+  if(mbResults.length) return mbResults[0].url;
+
+  // Last resort: lower threshold from iTunes/Deezer
+  if(combined.length) return combined[0].url;
   return null;
+}
+
+// ── Fetch ALL options for the picker UI ──
+async function fetchAllArtworkOptions(title, artist){
+  // Run all sources in parallel
+  const [itunes, deezer, mb, lastfm] = await Promise.allSettled([
+    searchITunes(title, artist, 15),
+    searchDeezer(title, artist, 15),
+    searchMusicBrainz(title, artist, 5),
+    searchLastFm(title, artist)
+  ]);
+
+  const get=r=>r.status==='fulfilled'?r.value:[];
+  const all=[...get(itunes),...get(deezer),...get(mb),...get(lastfm)];
+
+  // Deduplicate by URL domain+path similarity
+  const seen=new Set();
+  return all.filter(r=>{
+    if(!r.url) return false;
+    const key=r.url.replace(/[?#].*/,'').replace(/\d+x\d+/,'NxN').replace(/\d{3,}/g,'X');
+    if(seen.has(key)) return false;
+    seen.add(key); return true;
+  }).sort((a,b)=>b.score-a.score);
 }
 
 // ── Album factory ──
@@ -1626,50 +1937,79 @@ async function showResult(data){
     </div>`;
 }
 
-// ── Artwork picker — lets user choose from iTunes alternatives ──
-async function swapArtwork(e, title, artist){
-  e.stopPropagation();
-  showLoad('טוען אפשרויות תמונה...','');
-  let options=[];
-  try{
-    const q=encodeURIComponent(`${artist} ${title}`);
-    const res=await fetch(`https://itunes.apple.com/search?term=${q}&entity=album&limit=15&country=US`,{signal:AbortSignal.timeout(8000)});
-    const data=await res.json();
-    options=(data.results||[])
-      .filter(r=>r.artworkUrl100)
-      .map(r=>({
-        url:r.artworkUrl100.replace(/\d+x\d+bb/,'600x600bb'),
-        thumb:r.artworkUrl100.replace(/\d+x\d+bb/,'150x150bb'),
-        label:`${r.collectionName||'?'} — ${r.artistName||''}`
-      }));
-  }catch(e2){ console.warn(e2); }
+// ── Unified artwork picker modal ──
+async function openArtworkPicker(title, artist, onSelect){
+  showLoad('מחפש תמונות מכל המקורות...', 'iTunes · Deezer · MusicBrainz · Last.fm');
+  const options = await fetchAllArtworkOptions(title, artist);
   hideLoad();
-  if(!options.length){toast('לא נמצאו אפשרויות נוספות','err');return}
 
   const m=document.createElement('div');
   m.className='modal-bg'; m.style.zIndex='600';
+
+  // Group by source for display
+  const sources=['Apple Music','Deezer','MusicBrainz','Last.fm'];
+  const bySource=sources.map(s=>({
+    name:s,
+    icon:options.find(o=>o.source===s)?.sourceIcon||'🎵',
+    items:options.filter(o=>o.source===s)
+  })).filter(g=>g.items.length>0);
+
+  const totalFound=options.length;
+
   m.innerHTML=`
-    <div class="modal-sheet">
+    <div class="modal-sheet" style="max-height:92vh">
       <div class="modal-handle"></div>
-      <div class="modal-pad">
-        <div class="modal-track" style="font-size:18px">בחר עטיפה</div>
-        <div class="modal-artist" style="margin-bottom:16px">בחר את התמונה הנכונה</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px">
-          ${options.slice(0,9).map(o=>`
-            <div onclick="selectArtwork('${o.url}');this.closest('.modal-bg').remove()"
-              style="cursor:pointer;border-radius:10px;overflow:hidden;border:2px solid var(--rail);transition:border-color .2s;aspect-ratio:1"
-              onmouseover="this.style.borderColor='var(--gold)'"
-              onmouseout="this.style.borderColor='var(--rail)'">
-              <img src="${o.thumb}" alt=""
-                style="width:100%;height:100%;object-fit:cover;display:block"
-                onerror="this.parentElement.style.display='none'">
-            </div>`).join('')}
-        </div>
-        <button class="modal-close" onclick="this.closest('.modal-bg').remove()">ביטול</button>
+      <div style="padding:0 18px 30px">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--cream);margin-bottom:4px">בחר עטיפה</div>
+        <div style="font-size:12px;color:var(--cool);margin-bottom:4px">${esc(title)} · ${esc(artist)}</div>
+        <div style="font-size:11px;color:var(--fog);margin-bottom:16px">${totalFound} תמונות נמצאו מ-${bySource.length} מקורות</div>
+
+        ${!totalFound ? `
+          <div style="text-align:center;padding:30px 0;color:var(--cool);font-size:13px">
+            לא נמצאו תמונות — נסה לשנות את שם האלבום
+          </div>` : bySource.map(group=>`
+          <div style="margin-bottom:20px">
+            <div style="font-size:10px;font-weight:600;color:var(--fog);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px">
+              <span>${group.icon}</span><span>${group.name}</span>
+              <span style="color:var(--dim)">— ${group.items.length} תמונות</span>
+            </div>
+            <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none">
+              ${group.items.slice(0,8).map(o=>`
+                <div onclick="(function(url){${onSelect}})(this.dataset.url)" data-url="${esc(o.url)}"
+                  style="flex-shrink:0;width:90px;height:90px;border-radius:10px;overflow:hidden;
+                         border:2px solid var(--rail);cursor:pointer;transition:all .2s;position:relative"
+                  onmouseover="this.style.borderColor='var(--gold)';this.style.transform='scale(1.05)'"
+                  onmouseout="this.style.borderColor='var(--rail)';this.style.transform='scale(1)'">
+                  <img src="${o.thumb||o.url}" alt="${esc(o.title)}"
+                    style="width:100%;height:100%;object-fit:cover;display:block"
+                    onerror="this.closest('div').style.display='none'">
+                  ${o.year?`<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.6);font-size:9px;color:var(--cream);padding:2px 4px;text-align:center">${o.year}</div>`:''}
+                </div>`).join('')}
+            </div>
+          </div>`).join('')}
+
+        <button onclick="this.closest('.modal-bg').remove()"
+          style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--rail);
+                 background:none;color:var(--cool);font-size:13px;cursor:pointer;
+                 font-family:'Outfit',sans-serif;margin-top:8px;transition:all .2s"
+          onmouseover="this.style.borderColor='var(--gold-lo)';this.style.color='var(--gold)'"
+          onmouseout="this.style.borderColor='var(--rail)';this.style.color='var(--cool)'">ביטול</button>
       </div>
     </div>`;
   document.body.appendChild(m);
   m.addEventListener('click',ev=>{if(ev.target===m)m.remove()});
+}
+
+// Called from scan result — updates preview
+async function swapArtwork(e, title, artist){
+  e.stopPropagation();
+  await openArtworkPicker(title, artist, `
+    document.getElementById('rc-cover').innerHTML='<img src="'+url+'" alt="" style="width:100%;height:100%;object-fit:cover">';
+    var w=document.getElementById('result-wrap');
+    if(w) w.dataset.selectedArtwork=url;
+    this.closest('.modal-bg').remove();
+    window.top.dispatchEvent(new CustomEvent('artworkSelected',{detail:url}));
+  `);
 }
 
 function selectArtwork(url){
@@ -1699,26 +2039,207 @@ async function saveResult(data){
 }
 
 // ════════════════════════════════════════
-//   MANUAL ADD
+//   MANUAL ADD MODAL
 // ════════════════════════════════════════
 
-async function addManual(){
-  const title=document.getElementById('m-album').value.trim();
-  const artist=document.getElementById('m-artist').value.trim();
-  if(!title||!artist){toast('נא למלא שם אלבום ואמן','err');return}
-  showLoad('מחפש תמונה רשמית...', `${title} · ${artist}`);
-  const artworkUrl = await fetchArtwork(title, artist);
-  hideLoad();
-  S.collection.push(mkAlbum({
-    title, artist, artworkUrl,
-    year: document.getElementById('m-year').value,
-    genre: document.getElementById('m-genre').value.trim()
-  }));
+let manualArtworkUrl = '';   // selected artwork URL
+let manualArtDebounce = null;
+
+function openManual(){
+  resetManualForm();
+  document.getElementById('manual-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('ma-title').focus(), 350);
+}
+
+function closeManual(){
+  document.getElementById('manual-modal').classList.remove('open');
+}
+
+function resetManualForm(){
+  ['ma-title','ma-artist','ma-label','ma-country','ma-notes'].forEach(id=>{
+    document.getElementById(id).value='';
+  });
+  document.getElementById('ma-year').value='';
+  document.getElementById('ma-genre').value='';
+  document.getElementById('ma-tracks').value='';
+  manualArtworkUrl='';
+  resetArtArea();
+}
+
+function resetArtArea(){
+  const area=document.getElementById('ma-art-area');
+  area.classList.remove('has-art');
+  area.innerHTML=`
+    <div class="ap-placeholder" id="ma-art-placeholder">
+      <span class="ap-icon">🖼</span>
+      <div class="ap-label">לחץ לחיפוש תמונה רשמית</div>
+      <div class="ap-sub">מלא שם אלבום ואמן קודם</div>
+    </div>`;
+}
+
+// Auto-search artwork 1.5s after user stops typing
+function onManualTitleChange(){
+  clearTimeout(manualArtDebounce);
+  manualArtDebounce=setTimeout(()=>{
+    const title=document.getElementById('ma-title').value.trim();
+    const artist=document.getElementById('ma-artist').value.trim();
+    if(title.length>2 && artist.length>1) silentFetchArt(title,artist);
+  }, 1500);
+}
+
+// Silently fetch best artwork and set it (no loader)
+async function silentFetchArt(title, artist){
+  const url=await fetchArtwork(title, artist);
+  if(url){ manualArtworkUrl=url; setManualArtPreview(url); }
+}
+
+function setManualArtPreview(url){
+  const area=document.getElementById('ma-art-area');
+  area.classList.add('has-art');
+  area.onclick=null;  // disable click-to-search when showing image
+  area.innerHTML=`
+    <div class="ap-img-wrap" onclick="manualSearchArt()">
+      <img src="${url}" alt="" onerror="resetArtArea()">
+      <div class="ap-img-overlay">🔄 החלף תמונה</div>
+    </div>`;
+}
+
+// Explicit search button — opens full picker
+async function manualSearchArt(){
+  const title=document.getElementById('ma-title').value.trim();
+  const artist=document.getElementById('ma-artist').value.trim();
+  if(!title){ toast('מלא שם אלבום קודם','err'); return; }
+
+  // Show inline loading in area
+  const area=document.getElementById('ma-art-area');
+  area.classList.remove('has-art');
+  area.innerHTML=`
+    <div class="ap-placeholder">
+      <span class="ap-icon" style="animation:spin 1.5s linear infinite;display:inline-block">💿</span>
+      <div class="ap-label">מחפש ב-4 מקורות...</div>
+    </div>`;
+
+  const options=await fetchAllArtworkOptions(title||'unknown', artist||'unknown');
+
+  if(!options.length){
+    area.innerHTML=`
+      <div class="ap-placeholder">
+        <span class="ap-icon">😕</span>
+        <div class="ap-label">לא נמצאו תמונות</div>
+        <div class="ap-sub">נסה לדייק את שם האלבום</div>
+      </div>`;
+    area.onclick=()=>manualSearchArt();
+    return;
+  }
+
+  // Show scrollable inline grid grouped by source
+  const sources=['Apple Music','Deezer','MusicBrainz','Last.fm'];
+  const bySource=sources
+    .map(s=>({name:s,icon:options.find(o=>o.source===s)?.sourceIcon||'🎵',items:options.filter(o=>o.source===s)}))
+    .filter(g=>g.items.length);
+
+  area.classList.remove('has-art');
+  area.onclick=null;
+  area.style.cursor='default';
+  area.innerHTML=`
+    <div style="padding:12px 14px 8px">
+      <div style="font-size:10px;color:var(--fog);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px">
+        בחר עטיפה · ${options.length} תמונות נמצאו
+      </div>
+      ${bySource.map(group=>`
+        <div style="margin-bottom:10px">
+          <div style="font-size:9px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">
+            ${group.icon} ${group.name}
+          </div>
+          <div class="art-grid-inline" style="padding:0;gap:6px">
+            ${group.items.slice(0,6).map(o=>`
+              <div class="art-thumb${manualArtworkUrl===o.url?' picked':''}"
+                   onclick="pickManualArt('${encodeURIComponent(o.url)}',this)">
+                <img src="${o.thumb||o.url}" alt=""
+                  onerror="this.closest('.art-thumb').style.display='none'">
+                ${o.year?`<div class="art-src">${o.year}</div>`:''}
+              </div>`).join('')}
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+
+function pickManualArt(encodedUrl, el){
+  const url=decodeURIComponent(encodedUrl);
+  manualArtworkUrl=url;
+  // Visual feedback — highlight picked
+  el.closest('[style*="padding:12px"]')
+    ?.querySelectorAll('.art-thumb')
+    .forEach(t=>t.classList.remove('picked'));
+  el.classList.add('picked');
+  // After short delay switch to preview
+  setTimeout(()=>setManualArtPreview(url), 400);
+}
+
+// Fetch tracks with AI
+async function manualFetchTracks(){
+  const title=document.getElementById('ma-title').value.trim();
+  const artist=document.getElementById('ma-artist').value.trim();
+  if(!title||!artist){toast('מלא שם אלבום ואמן קודם','err');return}
+
+  const btn=document.querySelector('.btn-search-art:last-child');
+  if(btn){btn.textContent='⟳ טוען...';btn.disabled=true}
+
+  try{
+    const d=await claude({
+      max_tokens:400,
+      system:'Return ONLY a JSON array of track title strings. No markdown, no numbering.',
+      messages:[{role:'user',content:`List every track on the album "${title}" by ${artist}. JSON array only.`}]
+    });
+    const tracks=JSON.parse(d.content[0].text.replace(/```json|```/g,'').trim());
+    document.getElementById('ma-tracks').value=tracks.join('\n');
+    toast(`✓ ${tracks.length} שירים נטענו`,'ok');
+  }catch(e){
+    if(e.message!=='No API key') toast('שגיאה בטעינת שירים','err');
+  }finally{
+    if(btn){btn.textContent='♪ טען שירים';btn.disabled=false}
+  }
+}
+
+// Save
+async function saveManual(){
+  const title=document.getElementById('ma-title').value.trim();
+  const artist=document.getElementById('ma-artist').value.trim();
+  if(!title||!artist){toast('שם אלבום ואמן הם שדות חובה','err');return}
+
+  const btn=document.getElementById('ma-save-btn');
+  btn.disabled=true; btn.textContent='שומר...';
+
+  // If no artwork yet, do one last silent search
+  if(!manualArtworkUrl){
+    const url=await fetchArtwork(title,artist);
+    if(url) manualArtworkUrl=url;
+  }
+
+  // Parse tracks from textarea (one per line)
+  const rawTracks=document.getElementById('ma-tracks').value;
+  const tracks=rawTracks.split('\n').map(t=>t.trim()).filter(Boolean);
+
+  const album=mkAlbum({
+    title, artist,
+    year:  document.getElementById('ma-year').value.trim(),
+    genre: document.getElementById('ma-genre').value.trim(),
+    label: document.getElementById('ma-label').value.trim(),
+    country: document.getElementById('ma-country').value.trim(),
+    notes: document.getElementById('ma-notes').value.trim(),
+    tracks,
+    artworkUrl: manualArtworkUrl,
+    coverImage: ''
+  });
+
+  S.collection.push(album);
   save();
-  ['m-album','m-artist','m-year','m-genre'].forEach(id=>{document.getElementById(id).value=''});
-  toast(artworkUrl ? '✓ נוסף עם תמונה רשמית!' : '✓ נוסף!', 'ok');
+  closeManual();
+  toast(manualArtworkUrl?'✓ אלבום נוסף עם תמונה רשמית!':'✓ אלבום נוסף!','ok');
   nav('collection');
   updateFAB();
+
+  btn.disabled=false; btn.textContent='+ הוסף לאוסף';
 }
 
 // ════════════════════════════════════════
@@ -2108,42 +2629,12 @@ async function refreshArtwork(id){
 
 async function swapAlbumArtwork(id){
   const a=S.collection.find(x=>x.id===id); if(!a) return;
-  showLoad('טוען אפשרויות תמונה...','');
-  let options=[];
-  try{
-    const q=encodeURIComponent(`${a.artist} ${a.title}`);
-    const res=await fetch(`https://itunes.apple.com/search?term=${q}&entity=album&limit=15&country=US`,{signal:AbortSignal.timeout(8000)});
-    const data=await res.json();
-    options=(data.results||[]).filter(r=>r.artworkUrl100).map(r=>({
-      url:r.artworkUrl100.replace(/\d+x\d+bb/,'600x600bb'),
-      thumb:r.artworkUrl100.replace(/\d+x\d+bb/,'150x150bb')
-    }));
-  }catch(e){ console.warn(e); }
-  hideLoad();
-  if(!options.length){toast('לא נמצאו תמונות','err');return}
-
-  const m=document.createElement('div');
-  m.className='modal-bg'; m.style.zIndex='600';
-  m.innerHTML=`
-    <div class="modal-sheet">
-      <div class="modal-handle"></div>
-      <div class="modal-pad">
-        <div class="modal-track" style="font-size:18px">בחר עטיפה</div>
-        <div class="modal-artist" style="margin-bottom:16px">${esc(a.title)} · ${esc(a.artist)}</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px">
-          ${options.slice(0,9).map(o=>`
-            <div onclick="applyAlbumArtwork('${id}','${o.url}');this.closest('.modal-bg').remove()"
-              style="cursor:pointer;border-radius:10px;overflow:hidden;border:2px solid var(--rail);transition:border-color .2s;aspect-ratio:1"
-              onmouseover="this.style.borderColor='var(--gold)'"
-              onmouseout="this.style.borderColor='var(--rail)'">
-              <img src="${o.thumb}" alt="" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.parentElement.style.display='none'">
-            </div>`).join('')}
-        </div>
-        <button class="modal-close" onclick="this.closest('.modal-bg').remove()">ביטול</button>
-      </div>
-    </div>`;
-  document.body.appendChild(m);
-  m.addEventListener('click',ev=>{if(ev.target===m)m.remove()});
+  await openArtworkPicker(a.title, a.artist, `
+    var a=S.collection.find(x=>x.id==='${id}');
+    if(a){ a.artworkUrl=url; a.coverImage=''; save(); renderAlbum(a); renderColl(); }
+    this.closest('.modal-bg').remove();
+    window.top.dispatchEvent(new CustomEvent('artworkSelected',{detail:url}));
+  `);
 }
 
 function applyAlbumArtwork(id, url){
