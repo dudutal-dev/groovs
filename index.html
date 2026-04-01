@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no,maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="דר קלוד">
+<meta name="theme-color" content="#0a0f1e">
+<meta name="description" content="רופא משפחה דיגיטלי - ד'ר קלוד">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23111827'/><text y='.9em' font-size='72' x='50%' text-anchor='middle'>🩺</text></svg>">
+<title>ד"ר קלוד</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>if(typeof pdfjsLib!=='undefined')pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0a0f1e;--card:#111827;--card2:#1a2540;--card3:#1e2d4a;
+  --border:rgba(99,179,237,.14);--borderH:rgba(99,179,237,.32);
+  --sky:#60a5fa;--skyd:#3b82f6;--skyDeep:#1d4ed8;
+  --green:#34d399;--greenD:#059669;
+  --amber:#fbbf24;--amberD:#d97706;
+  --rose:#f87171;--roseD:#dc2626;
+  --purple:#c084fc;--gold:#e2b96a;
+  --text:#f1f5f9;--text2:#cbd5e1;--sub:#94a3b8;--muted:#475569;
+  --sbot:env(safe-area-inset-bottom,0px);--stom:env(safe-area-inset-top,0px);
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rubik',sans-serif;direction:rtl;font-size:16px;overflow:hidden;-webkit-font-smoothing:antialiased}
+#app{display:flex;flex-direction:column;height:100dvh;max-width:540px;margin:0 auto;background:var(--bg)}
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(70px + var(--sbot))}
+::-webkit-scrollbar{display:none}
+input,textarea,select{font-family:'Rubik',sans-serif;font-size:16px;-webkit-appearance:none;appearance:none}
+input[type=date]{color-scheme:dark}
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:1rem 1.1rem;position:relative;overflow:hidden}
+.card.sky{border-right:4px solid var(--sky)}.card.gold{border-right:4px solid var(--gold)}
+.card.green{border-right:4px solid var(--green)}.card.amber{border-right:4px solid var(--amber)}
+.card.rose{border-right:4px solid var(--rose)}.card.purple{border-right:4px solid var(--purple)}
+.pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:30px;font-size:12px;font-weight:600;gap:4px}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:13px;padding:13px 18px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;min-height:50px;border:1.5px solid transparent;transition:opacity .12s,transform .1s;width:100%;background:transparent;letter-spacing:.1px}
+.btn:active{opacity:.72;transform:scale(.98)}.btn:disabled{opacity:.38;cursor:not-allowed;transform:none}
+.p{background:linear-gradient(135deg,var(--skyd),var(--skyDeep));color:#fff;border-color:transparent;box-shadow:0 4px 16px rgba(59,130,246,.3)}
+.g{color:var(--sub);border-color:var(--border)}.s{background:rgba(52,211,153,.16);color:var(--green);border-color:rgba(52,211,153,.38)}
+.d{background:rgba(248,113,113,.14);color:var(--rose);border-color:rgba(248,113,113,.28)}.k{background:rgba(96,165,250,.16);color:var(--sky);border-color:rgba(96,165,250,.38)}
+.go{background:rgba(226,185,106,.14);color:var(--gold);border-color:rgba(226,185,106,.38)}
+/* FIELDS */
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld label{font-size:13px;color:var(--sub);font-weight:500}
+.fld input,.fld textarea,.fld select{width:100%;background:var(--card2);border:1.5px solid var(--border);border-radius:13px;padding:14px 15px;color:var(--text);font-size:15px;direction:rtl;outline:none;font-family:inherit;transition:border-color .15s}
+.fld input:focus,.fld textarea:focus,.fld select:focus{border-color:var(--sky)}
+.fld textarea{resize:vertical;line-height:1.6}
+/* ANIMATIONS */
+.fade{animation:fd .22s ease}@keyframes fd{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.pop{animation:pp .18s ease}@keyframes pp{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+.dots span{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--sky);animation:dp 1.4s ease-in-out infinite}
+.dots span:nth-child(2){animation-delay:.18s}.dots span:nth-child(3){animation-delay:.36s}
+@keyframes dp{0%,80%,100%{opacity:.2;transform:scale(.75)}40%{opacity:1;transform:scale(1)}}
+.pulse{animation:pls 2s infinite}@keyframes pls{0%,100%{opacity:1}50%{opacity:.45}}
+/* NAV */
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:540px;z-index:300;background:rgba(17,24,39,.95);border-top:1px solid var(--border);display:flex;padding-bottom:max(8px,var(--sbot));backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;border:none;cursor:pointer;padding:8px 0;min-height:58px;position:relative;font-family:inherit;transition:opacity .12s}
+nav button:active{opacity:.6}
+.ndot{position:absolute;top:0;left:50%;transform:translateX(-50%);width:24px;height:3px;background:var(--sky);border-radius:0 0 4px 4px}
+/* CHAT */
+.mw{display:flex;gap:10px;align-items:flex-start}
+.mw.u{flex-direction:row}.mw.a{flex-direction:row-reverse}
+.av{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.av.u{background:var(--card2)}.av.a{background:linear-gradient(135deg,#2563eb,#1e40af)}
+.bub{max-width:82%;padding:12px 14px;border:1px solid var(--border);font-size:15px;line-height:1.8;white-space:pre-wrap;word-break:break-word}
+.bub.u{background:var(--card2);border-radius:16px 16px 4px 16px}
+.bub.a{background:var(--card);border-radius:16px 16px 16px 4px;border-right:3px solid var(--sky)}
+.bub.em{color:var(--rose);border-color:rgba(248,113,113,.3)}
+.mt{font-size:11px;color:var(--muted);margin-top:5px;text-align:left}
+.chip{padding:8px 16px;border-radius:24px;border:1.5px solid var(--border);background:var(--card2);color:var(--sub);font-size:14px;cursor:pointer;font-family:inherit;transition:all .15s}
+.chip:active{background:var(--card3);border-color:var(--sky);color:var(--sky)}
+/* INPUT */
+.ibar{padding:.65rem 1rem .75rem;background:rgba(17,24,39,.97);border-top:1px solid var(--border);flex-shrink:0;backdrop-filter:blur(20px)}
+.iwrap{display:flex;gap:8px;align-items:flex-end;background:var(--card2);border-radius:16px;border:1.5px solid var(--border);padding:8px 8px 8px 14px;transition:border-color .15s}
+.iwrap:focus-within{border-color:rgba(96,165,250,.4)}
+.iwrap textarea{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:15px;line-height:1.6;resize:none;max-height:110px;overflow-y:auto;direction:rtl;padding:4px 0;font-family:inherit}
+.iico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;flex-shrink:0;border:1.5px solid transparent;background:transparent;transition:all .15s}
+.iico:active{transform:scale(.9)}
+.iico.at{background:rgba(96,165,250,.14);border-color:rgba(96,165,250,.28)}
+.iico.sn{background:linear-gradient(135deg,#2563eb,#1e40af);border-color:transparent;box-shadow:0 3px 12px rgba(59,130,246,.35)}
+.iico.sn:disabled{background:var(--card3);border-color:var(--border);box-shadow:none}
+.dis{font-size:11px;color:var(--muted);text-align:center;margin-top:5px}
+/* INNER TABS */
+.tb{display:flex;background:var(--card2);border-radius:14px;padding:4px;margin-bottom:14px;gap:3px}
+.tb button{flex:1;padding:10px 2px;border-radius:11px;border:none;font-family:inherit;cursor:pointer;font-size:12.5px;transition:all .18s;font-weight:400;color:var(--muted)}
+.tb button.act{background:var(--card);color:var(--sky);font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+/* TRACKER */
+.trd{display:flex;gap:4px}
+.trdb{flex:1;height:44px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:1.5px solid var(--border);background:var(--card2);font-family:inherit;transition:all .15s}
+.trdb:active{transform:scale(.9)}.trdb.tk{background:rgba(52,211,153,.2);border-color:var(--green)}
+/* TOAST */
+#toast{position:fixed;bottom:calc(80px + var(--sbot));left:50%;transform:translateX(-50%) translateY(20px);background:rgba(30,45,74,.95);border:1px solid var(--border);color:var(--text);padding:10px 20px;border-radius:30px;font-size:14px;font-weight:500;z-index:999;opacity:0;transition:all .3s;white-space:nowrap;backdrop-filter:blur(20px)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;display:flex;align-items:flex-end;padding:0;backdrop-filter:blur(8px)}
+.modal{background:var(--card);border-radius:24px 24px 0 0;width:100%;max-width:540px;margin:0 auto;padding:1.5rem 1.2rem calc(1.5rem + var(--sbot));max-height:85dvh;overflow-y:auto}
+.modal-handle{width:40px;height:4px;background:var(--border);border-radius:4px;margin:0 auto 1.2rem;display:block}
+/* SECTION HEADER */
+.sh{display:flex;align-items:center;gap:8px;margin-bottom:.9rem}
+.sh-bar{width:4px;height:20px;border-radius:4px}
+.sh h3{font-size:16px;font-weight:600;color:var(--text)}
+/* DOCUMENTS */
+.doc-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color .15s}
+.doc-thumb{width:100%;height:160px;background:var(--card2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;cursor:pointer}
+.doc-thumb canvas{width:100%;height:100%;object-fit:contain}
+.doc-thumb img{width:100%;height:100%;object-fit:cover;cursor:zoom-in}
+.doc-thumb .pdf-icon{font-size:48px;opacity:.5}
+.doc-category{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.doc-actions{display:flex;gap:6px;padding:.75rem}
+/* INSTALL BANNER *//* INSTALL BANNER */
+.install-banner{background:linear-gradient(135deg,rgba(59,130,246,.15),rgba(29,78,216,.1));border:1px solid rgba(96,165,250,.3);border-radius:16px;padding:1rem 1.1rem;margin-bottom:1.2rem;cursor:pointer;display:flex;align-items:center;gap:12px}
+</style>
+</head>
+<body>
+<div id="app"><div class="scroll" id="main"></div><nav id="nav"></nav></div>
+<div id="toast"></div>
+
+<script>
+// ── CONFIG ──
+const KEY="drc_v2",API="https://api.anthropic.com/v1/messages";
+const EMRG=["כאב חזה","קוצר נשימה","שבץ","עילפון","דימום חמור","אוטם לב"];
+const CHIPS=["כאב ראש","חום","שיעול","כאב גרון","כאב בטן","חולשה","סחרחורת","בחילה","פריחה","כאב גב","קוצר נשימה","כאב שרירים","נדודי שינה","כאב אוזניים"];
+const MODEL="claude-haiku-4-5-20251001";
+
+const SYS=`אתה ד"ר קלוד — רופא משפחה דיגיטלי בעל ניסיון של 25 שנה וידע קליני מקיף מספרות הרפואה המערבית: Harrison's Principles of Internal Medicine, DSM-5-TR, Nelson's Pediatrics, Fitzpatrick's Dermatology, Schwartz's Surgery, Goodman & Gilman's Pharmacology, Sabiston Surgery, Williams Obstetrics, UpToDate.
+
+כישורים:
+• אבחנה מבדלת מסודרת לפי תסמינים, גיל, מין ורקע רפואי
+• ניתוח תמונות רפואיות: עור, גרון, עין, פריחה, פצע, תוצאות בדיקות מעבדה והדמיה
+• הבנת פרמקולוגיה ואינטראקציות תרופתיות
+• רפואה פנימית, ילדים, נשים, נוירולוגיה, אורתופדיה, עור
+
+כלל עבודה:
+1. אסוף 3-5 שאלות ממוקדות לפני כל אבחנה
+2. שאל על גיל, מין, מחלות רקע בפגישה ראשונה
+3. הצג אבחנה מבדלת מהסבירה לפחות סבירה
+
+פורמט אבחנה קליני:
+━━━━━━━━━━━━━━━━━━━━━━
+🩺 סיכום קליני — ד"ר קלוד
+━━━━━━━━━━━━━━━━━━━━━━
+📌 תלונה עיקרית: [תיאור]
+🔬 הערכה קלינית:
+  ⭐ [אבחנה ראשית] — [הסבר בשפה פשוטה]
+  • [אבחנה 2] — [סיבה]
+  • [אבחנה 3] — [סיבה]
+💊 המלצות טיפול: [ביתי / תרופות / שינויים]
+📝 בדיקות מומלצות: [רשימה]
+🚦 דחיפות: 🟢 לא דחוף / 🟡 תוך 2-3 ימים / 🔴 דחוף
+━━━━━━━━━━━━━━━━━━━━━━
+⚠️ הערכה ראשונית בלבד — אינה מחליפה ביקור אצל רופא מוסמך
+
+כשמנתח תמונת בדיקה (מעבדה/הדמיה):
+📊 ניתוח תוצאות:
+  • [פרמטר]: [ערך] — [משמעות קלינית]
+📌 ממצא עיקרי: [הסבר]
+💡 המלצה: [פעולה מומלצת]
+
+לחירום: 🚨 זהו מצב חירום! התקשר מיד ל-101 (מד"א). אל תחכה!
+תמיד בעברית. חם ואמפתי.`;
+
+const SYS_SUM=`צור סיכום רפואי מקצועי ומקיף בעברית על סמך המידע שסופק:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 סיכום תיק רפואי — ד"ר קלוד
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 מטופל: [שם, גיל, מין, סוג דם, עישון]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏥 מחלות רקע פעילות:
+  [רשימה מסודרת עם פירוט]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💊 טיפול תרופתי נוכחי:
+  [תרופה — מינון — מטרה]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️ אלרגיות ורגישויות: [רשימה]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🧪 בדיקות אחרונות — ממצאים עיקריים:
+  [ניתוח תמונות בדיקות שהועלו + פירוש ערכים]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔍 נקודות תשומת לב קלינית:
+  [אינטראקציות תרופות, סיכונים, ממצאים חריגים]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📅 המלצות מעקב:
+  [בדיקות שחסרות, מומחים לפנות, תדירות ביקורות]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️ סיכום זה אינו מחליף הערכה רפואית מקצועית`;
+
+// ── STATE ──
+let S={
+  view:"home", consults:[], profile:{}, activeId:null,
+  hSel:null, hTab:"dx",
+  ci:"", cf:[], cp:[], cld:false,
+  ft:"profile", gl:false,
+  sk:localStorage.getItem("dr_apikey")||"",
+  ss:null, sld:false, sShow:false,
+  nt:{name:"",date:"",notes:""},
+  nm:{name:"",dose:"",freq:"",duration:""},
+  ntst:{name:"",date:"",notes:""},
+  nf:{date:"",note:""},
+  dx:{diagnosis:"",notes:""},
+  modal:null,
+};
+
+// ── PERSISTENCE ──
+function loadS(){try{const r=localStorage.getItem(KEY);if(r){const d=JSON.parse(r);S.consults=d.c||[];S.profile=d.p||{};S.activeId=d.a||null;}}catch{}}
+function saveS(){try{localStorage.setItem(KEY,JSON.stringify({c:S.consults,p:S.profile,a:S.activeId}));}catch{}}
+setInterval(saveS,12000);
+window.addEventListener("beforeunload",saveS);
+window.addEventListener("visibilitychange",()=>{if(document.hidden)saveS();});
+
+// ── UTILS ──
+const uid=()=>Math.random().toString(36).slice(2,10);
+const fD=d=>new Date(d).toLocaleDateString("he-IL",{day:"2-digit",month:"2-digit",year:"numeric"});
+const fT=d=>new Date(d).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});
+const d7=()=>{const a=[];for(let i=6;i>=0;i--){const x=new Date();x.setDate(x.getDate()-i);a.push(x.toISOString().slice(0,10));}return a;};
+const esc=s=>String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+
+function toast(msg,dur=2400){
+  const t=document.getElementById("toast");
+  t.textContent=msg;t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),dur);
+}
+
+function copyText(txt){
+  if(navigator.clipboard){navigator.clipboard.writeText(txt).then(()=>toast("✅ הועתק ללוח!")).catch(()=>legacyCopy(txt));}
+  else legacyCopy(txt);
+}
+function legacyCopy(txt){
+  const ta=document.createElement("textarea");ta.value=txt;ta.style.cssText="position:fixed;opacity:0";
+  document.body.appendChild(ta);ta.select();try{document.execCommand("copy");toast("✅ הועתק!");}catch{}document.body.removeChild(ta);
+}
+
+function shareOrCopy(title,text){
+  if(navigator.share){navigator.share({title,text}).catch(()=>copyText(text));}
+  else copyText(text);
+}
+
+// ── API ──
+async function ai(msgs,sys=SYS){
+  const key=localStorage.getItem("dr_apikey")||"";
+  if(!key)throw new Error("NO_KEY");
+  const am=msgs.map(m=>{
+    if(m.role==="user"&&m.files?.length){
+      const ct=[];
+      m.files.forEach(f=>{
+        if(f.type?.startsWith("image/"))
+          ct.push({type:"image",source:{type:"base64",media_type:f.type,data:f.data}});
+        else if(f.type==="application/pdf")
+          ct.push({type:"document",source:{type:"base64",media_type:"application/pdf",data:f.data}});
+      });
+      ct.push({type:"text",text:m.content||"קרא ונתח את המסמכים המצורפים בעברית"});
+      return{role:"user",content:ct};
+    }
+    return{role:m.role,content:m.content};
+  });
+  const r=await fetch(API,{
+    method:"POST",
+    headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+    body:JSON.stringify({model:MODEL,max_tokens:1500,system:sys,messages:am})
+  });
+  const raw=await r.text();
+  let d;try{d=JSON.parse(raw);}catch{throw new Error("תגובה לא תקינה מהשרת ("+r.status+")");}
+  if(!r.ok||d.error)throw new Error(d.error?.message||"שגיאת API "+r.status);
+  return d.content?.[0]?.text||"תשובה ריקה";
+}
+
+// ── NAVIGATION ──
+function go(v){
+  if(v==="consult"&&!S.consults.find(c=>c.id===S.activeId)){newC();return;}
+  S.view=v;R();
+}
+function newC(){
+  const id=uid();
+  S.consults.unshift({id,title:"ייעוץ רפואי",status:"active",createdAt:Date.now(),
+    messages:[],aiDiagnosis:null,doctorDiagnosis:null,medications:[],tests:[],followUps:[]});
+  S.activeId=id;S.view="consult";S.ci="";S.cf=[];S.cp=[];
+  saveS();R();
+}
+window.go=go;window.newC=newC;
+
+// ── RENDER ──
+function R(){
+  rNav();
+  const m=document.getElementById("main");
+  const v={home:rHome,consult:rConsult,file:rFile,history:rHist,settings:rSet};
+  m.innerHTML=(v[S.view]||rHome)();
+  if(S.view!=="consult")m.scrollTop=0;
+  else setTimeout(()=>document.getElementById("ce")?.scrollIntoView({block:"end"}),80);
+  if(S.modal)showModal();
+  bind();
+}
+
+function rNav(){
+  const tabs=[
+    {id:"home",e:"🏠",l:"ראשי"},
+    {id:"consult",e:"🩺",l:"ייעוץ"},
+    {id:"file",e:"📁",l:"תיק"},
+    {id:"history",e:"📋",l:"היסטוריה"},
+    {id:"settings",e:"⚙️",l:"הגדרות"},
+  ];
+  document.getElementById("nav").innerHTML=tabs.map(t=>`
+    <button onclick="go('${t.id}')" style="color:${S.view===t.id?"var(--sky)":"var(--muted)"}">
+      ${S.view===t.id?'<div class="ndot"></div>':""}
+      <span style="font-size:22px">${t.e}</span>
+      <span style="font-size:11px;font-weight:${S.view===t.id?600:400}">${t.l}</span>
+      ${t.id==="history"&&S.consults.length>0?`<span style="position:absolute;top:5px;right:16%;width:17px;height:17px;background:var(--sky);border-radius:50%;font-size:9px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center">${Math.min(S.consults.length,99)}</span>`:""}
+    </button>
+  `).join("");
+}
+
+// ── HOME ──
+function rHome(){
+  const ac=S.consults.find(c=>c.status==="active"||c.status==="diagnosed");
+  const meds=S.consults.reduce((s,c)=>s+(c.medications||[]).filter(m=>m.active).length,0);
+  const alerts=S.consults.reduce((s,c)=>
+    s+(c.tests||[]).filter(t=>t.status==="pending").length+
+    (c.followUps||[]).filter(f=>!f.done&&new Date(f.date)>=new Date()).length,0);
+  const hk=!!localStorage.getItem("dr_apikey");
+  const isInstalled=window.navigator.standalone||window.matchMedia("(display-mode:standalone)").matches;
+
+  return`<div class="fade" style="padding:1.8rem 1.1rem 1.2rem">
+    ${!hk?`<div class="card rose" style="margin-bottom:1.2rem;background:rgba(248,113,113,.07);cursor:pointer" onclick="go('settings')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:22px">🔑</span>
+        <div><p style="font-size:14px;color:var(--rose);font-weight:600">נדרש מפתח API</p>
+        <p style="font-size:12px;color:var(--sub)">לחץ להגדרה ← הגדרות ⚙️</p></div>
+      </div>
+    </div>`:""}
+    ${!isInstalled?`<div class="install-banner" onclick="showInstallHelp()">
+      <span style="font-size:26px">📲</span>
+      <div style="flex:1"><p style="font-size:14px;color:var(--sky);font-weight:600">הוסף למסך הבית</p>
+      <p style="font-size:12px;color:var(--sub)">לחץ לקבלת הוראות התקנה</p></div>
+      <span style="font-size:18px;color:var(--muted)">›</span>
+    </div>`:""}
+
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:1.8rem">
+      <div style="width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,#2563eb,#1e40af);display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 20px rgba(59,130,246,.45);flex-shrink:0">🩺</div>
+      <div>
+        <h1 style="font-size:26px;font-weight:700;color:var(--text);line-height:1.1">ד"ר קלוד</h1>
+        <p style="font-size:13px;color:var(--sub);margin-top:2px">רופא משפחה דיגיטלי · 24/7</p>
+      </div>
+    </div>
+
+    ${S.profile?.name?`<div class="card sky" style="margin-bottom:1.3rem;padding:1rem 1.2rem">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:44px;height:44px;border-radius:14px;background:rgba(96,165,250,.18);display:flex;align-items:center;justify-content:center;font-size:22px">👋</div>
+        <div>
+          <p style="font-size:17px;color:var(--text);font-weight:600">שלום, ${esc(S.profile.name)}</p>
+          <p style="font-size:13px;color:var(--sub)">${[S.profile.age?`גיל ${S.profile.age}`:"",S.profile.bloodType||""].filter(Boolean).join(" · ")||"לחץ לעריכת פרופיל"}</p>
+        </div>
+      </div>
+    </div>`:""}
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.3rem">
+      ${[["💬","ייעוצים",S.consults.length,"var(--sky)"],["💊","תרופות",meds,"var(--green)"],["🔔","תזכורות",alerts,"var(--amber)"]].map(([e,l,v,c])=>`
+      <div class="card" style="text-align:center;padding:.9rem .5rem;cursor:pointer" onclick="go(${l==="ייעוצים"?"'history'":l==="תרופות"?"'history'":"'history'"})">
+        <div style="font-size:24px;margin-bottom:3px">${e}</div>
+        <div style="font-size:28px;font-weight:700;color:${c};line-height:1">${v}</div>
+        <div style="font-size:12px;color:var(--sub);margin-top:3px">${l}</div>
+      </div>`).join("")}
+    </div>
+
+    ${ac?`<div class="card" style="margin-bottom:1.1rem;border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.06)">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <p style="font-size:11px;color:var(--amber);margin-bottom:3px;font-weight:600;letter-spacing:.3px">⚡ ייעוץ פעיל</p>
+          <p style="font-size:16px;color:var(--text);font-weight:600">${esc(ac.title||"ייעוץ רפואי")}</p>
+          <p style="font-size:12px;color:var(--sub)">${fD(ac.createdAt)}</p>
+        </div>
+        <button class="btn p" style="width:auto;padding:11px 20px;font-size:15px;min-height:44px" onclick="go('consult')">המשך ›</button>
+      </div>
+    </div>`:`<div class="card" style="margin-bottom:1.1rem;border-color:rgba(96,165,250,.28);cursor:pointer;background:rgba(96,165,250,.04)" onclick="newC()">
+      <div style="text-align:center;padding:1.4rem .5rem">
+        <div style="font-size:38px;margin-bottom:10px">🩺</div>
+        <h3 style="font-size:18px;color:var(--text);margin-bottom:6px">התחל ייעוץ חדש</h3>
+        <p style="font-size:14px;color:var(--sub);line-height:1.65">תאר תסמינים, שלח תמונה, וקבל הערכה קלינית</p>
+      </div>
+    </div>`}
+
+    <div class="card" style="cursor:pointer;border-color:rgba(226,185,106,.28);background:rgba(226,185,106,.05)" onclick="go('file')">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="width:46px;height:46px;border-radius:14px;background:rgba(226,185,106,.15);display:flex;align-items:center;justify-content:center;font-size:22px">📁</div>
+        <div style="flex:1">
+          <p style="font-size:16px;color:var(--text);font-weight:600">התיק הרפואי שלי</p>
+          <p style="font-size:13px;color:var(--sub)">${S.profile.name?"פרופיל, בדיקות, תרופות וסיכום AI":"הגדר פרופיל רפואי"}</p>
+        </div>
+        <span style="font-size:22px;color:var(--muted)">›</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+window.showInstallHelp=()=>{
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isAndroid=/Android/.test(navigator.userAgent);
+  let txt="";
+  if(isIOS)txt=`<p style="font-size:15px;color:var(--text);line-height:1.75">
+    1️⃣ לחץ על כפתור השיתוף <span style="font-size:18px">⬆️</span> בתחתית Safari<br>
+    2️⃣ גלול למטה ולחץ <strong style="color:var(--sky)">"הוסף למסך הבית"</strong><br>
+    3️⃣ לחץ <strong>הוסף</strong> — האפליקציה תופיע על המסך הראשי!<br><br>
+    <span style="font-size:13px;color:var(--sub)">⚠️ פתח קובץ זה ב-Safari (לא Chrome/Firefox)</span>
+  </p>`;
+  else if(isAndroid)txt=`<p style="font-size:15px;color:var(--text);line-height:1.75">1️⃣ פתח בתפריט Chrome (⋮)<br>2️⃣ לחץ <strong style="color:var(--sky)">"הוסף למסך הבית"</strong><br>3️⃣ לחץ הוסף — האפליקציה תופיע!</p>`;
+  else txt=`<p style="font-size:15px;color:var(--text);line-height:1.75">🍎 <strong>iOS Safari:</strong> לחץ ⬆️ ← "הוסף למסך הבית"<br>🤖 <strong>Android Chrome:</strong> לחץ ⋮ ← "הוסף למסך הבית"</p>`;
+  S.modal={title:"📲 הוסף למסך הבית",content:txt};R();
+};
+
+// ── CONSULT ──
+function rConsult(){
+  const c=S.consults.find(x=>x.id===S.activeId);
+  if(!c)return`<div class="fade" style="padding:3rem 1.5rem;text-align:center">
+    <div style="font-size:52px;margin-bottom:16px">🩺</div>
+    <h2 style="font-size:22px;color:var(--text);margin-bottom:10px">ייעוץ חדש</h2>
+    <p style="font-size:14px;color:var(--sub);margin-bottom:28px;line-height:1.6">תאר את התסמינים שלך וד"ר קלוד ידריך אותך</p>
+    <button class="btn p" style="max-width:220px;margin:0 auto" onclick="newC()">🩺 התחל ייעוץ</button>
+  </div>`;
+  const msgs=c.messages||[];
+  return`<div class="fade" style="display:flex;flex-direction:column;min-height:100%">
+    <div style="padding:.8rem 1.1rem;background:rgba(17,24,39,.95);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10;backdrop-filter:blur(20px)">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <p style="font-size:16px;font-weight:600;color:var(--text)">${esc(c.title||"ייעוץ רפואי")}</p>
+          <p style="font-size:11px;color:var(--sub)">${fD(c.createdAt)} · ${msgs.length} הודעות</p>
+        </div>
+        <div style="display:flex;gap:8px">
+          ${c.aiDiagnosis?`<button class="btn s" style="width:auto;padding:9px 14px;font-size:13px;min-height:40px" onclick="go('history')">📋 אבחנה</button>`:""}
+          <button class="btn g" style="width:auto;padding:9px 14px;font-size:13px;min-height:40px" onclick="newC()">+ חדש</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex:1;padding:1rem;display:flex;flex-direction:column;gap:13px">
+      ${msgs.length===0?`<div style="text-align:center;padding:1.8rem .5rem">
+        <div style="width:72px;height:72px;border-radius:24px;margin:0 auto 16px;background:linear-gradient(135deg,#2563eb,#1e40af);display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 6px 28px rgba(59,130,246,.45)">🩺</div>
+        <h3 style="font-size:21px;color:var(--text);margin-bottom:8px">שלום! אני ד"ר קלוד</h3>
+        <p style="font-size:15px;color:var(--sub);line-height:1.72;margin-bottom:22px">ספר לי מה מציק לך — אשאל כמה שאלות<br>ונגיע יחד להערכה קלינית.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center">${CHIPS.map(s=>`<button class="chip" onclick="setChip('${esc(s)}')">${esc(s)}</button>`).join("")}</div>
+        <p style="font-size:13px;color:var(--muted);margin-top:20px">📎 תוכל גם לשלוח תמונה לניתוח</p>
+      </div>`:""}
+
+      ${msgs.map(m=>`<div class="mw ${m.role==="user"?"u":"a"} pop">
+        <div class="av ${m.role==="user"?"u":"a"}">${m.role==="user"?"👤":"🩺"}</div>
+        <div class="bub ${m.role==="user"?"u":"a"} ${EMRG.some(k=>m.content.includes(k))?"em":""}">
+          ${(m.files||[]).filter(f=>f.type?.startsWith("image/")).map(f=>`<img src="data:${f.type};base64,${f.data}" style="max-width:100%;border-radius:10px;margin-bottom:8px;max-height:200px;object-fit:cover;display:block">`).join("")}
+          ${(m.files||[]).filter(f=>f.type==="application/pdf").map(f=>`<div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(96,165,250,.12);border-radius:10px;margin-bottom:8px;border:1px solid rgba(96,165,250,.3)"><span style="font-size:22px">📄</span><div><p style="font-size:13px;color:var(--sky);font-weight:500">${esc(f.name)}</p><p style="font-size:11px;color:var(--sub)">מסמך PDF</p></div></div>`).join("")}
+          ${esc(m.content).replace(/\n/g,"<br>")}
+          <div class="mt">${fT(m.ts)}</div>
+        </div>
+      </div>`).join("")}
+
+      ${S.cld?`<div class="mw a"><div class="av a">🩺</div>
+        <div class="bub a"><div class="dots" style="display:flex;gap:6px;align-items:center">
+          <span></span><span></span><span></span>
+          <span style="font-size:13px;color:var(--sub);margin-right:4px;display:inline-block">ד"ר קלוד חושב...</span>
+        </div></div>
+      </div>`:""}
+      <div id="ce"></div>
+    </div>
+
+    ${S.cp.length>0?`<div style="padding:0 1rem .5rem;display:flex;gap:8px;overflow-x:auto">
+      ${S.cp.map((p,i)=>`<div style="position:relative;flex-shrink:0">
+        ${p?`<img src="${p}" style="width:64px;height:64px;object-fit:cover;border-radius:12px;border:2px solid var(--sky)">`
+          :`<div style="width:64px;height:64px;border-radius:12px;border:2px solid var(--sky);background:var(--card2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span style="font-size:22px">📄</span><span style="font-size:8px;color:var(--sky);font-weight:600">PDF</span></div>`}
+        <button onclick="rmPrev(${i})" style="position:absolute;top:-7px;left:-7px;width:22px;height:22px;border-radius:50%;background:var(--rose);border:none;color:#fff;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1">✕</button>
+      </div>`).join("")}
+    </div>`:""}
+
+    <div class="ibar">
+      <div class="iwrap">
+        <textarea id="cta" placeholder="תאר את התסמינים שלך..." rows="1" oninput="aR(this)">${esc(S.ci)}</textarea>
+        <input type="file" id="cfl" accept="image/*,application/pdf,.pdf" multiple style="display:none" onchange="pickF(event)">
+        <button class="iico at" onclick="document.getElementById('cfl').click()" title="צרף תמונה">📎</button>
+        <button class="iico sn" id="csn" onclick="sendC()" ${S.cld?"disabled":""} title="שלח">➤</button>
+      </div>
+      <div class="dis">⚠️ הערכה ראשונית — אינה מחליפה ביקור אצל רופא מוסמך</div>
+    </div>
+  </div>`;
+}
+
+// ── FILE ──
+function rFile(){
+  const tests=S.profile.uploadedTests||[];
+  return`<div class="fade" style="padding:1.6rem 1.1rem 1.2rem">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.3rem">
+      <div style="width:46px;height:46px;border-radius:15px;background:rgba(226,185,106,.15);display:flex;align-items:center;justify-content:center;font-size:22px">📁</div>
+      <div><h2 style="font-size:22px;font-weight:700;color:var(--text)">התיק הרפואי שלי</h2><p style="font-size:13px;color:var(--sub)">מידע רפואי אישי</p></div>
+    </div>
+    <div class="tb">
+      ${[["profile","👤 פרופיל"],["docs","📄 מסמכים"],["tests","🧪 בדיקות"],["summary","📊 סיכום"]].map(([id,l])=>`
+      <button class="${S.ft===id?"act":""}" onclick="setFT('${id}')">${l}</button>`).join("")}
+    </div>
+    ${S.ft==="profile"?rFP():S.ft==="docs"?rDocs():S.ft==="tests"?rFT(tests):rFS(tests)}
+  </div>`;
+}
+
+// ── DOCUMENT CATEGORIES ──
+const DOC_CATS=[
+  {id:"discharge",l:"סיכום אשפוז",e:"🏥",c:"rgba(248,113,113,.2)",tc:"var(--rose)"},
+  {id:"lab",l:"תוצאות מעבדה",e:"🧪",c:"rgba(52,211,153,.2)",tc:"var(--green)"},
+  {id:"imaging",l:"הדמיה (CT/MRI/US)",e:"🔬",c:"rgba(96,165,250,.2)",tc:"var(--sky)"},
+  {id:"prescription",l:"מרשם תרופות",e:"💊",c:"rgba(192,132,252,.2)",tc:"var(--purple)"},
+  {id:"referral",l:"הפנייה לרופא",e:"📋",c:"rgba(251,191,36,.2)",tc:"var(--amber)"},
+  {id:"report",l:"דו"ח/חוות דעת",e:"📝",c:"rgba(226,185,106,.2)",tc:"var(--gold)"},
+  {id:"other",l:"אחר",e:"📁",c:"rgba(148,163,184,.15)",tc:"var(--sub)"},
+];
+
+function getCat(id){return DOC_CATS.find(c=>c.id===id)||DOC_CATS[DOC_CATS.length-1];}
+
+function rDocs(){
+  const docs=S.profile.medDocs||[];
+  return`<div style="display:flex;flex-direction:column;gap:14px">
+    <!-- Upload area -->
+    <div class="card">
+      <div class="sh"><div class="sh-bar" style="background:var(--sky)"></div><h3>העלאת מסמך רפואי</h3></div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="fld"><label>שם / תיאור *</label><input type="text" id="doc-name" placeholder="סיכום אשפוז, תוצאות בדיקה..." oninput="S._dn=this.value"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="fld"><label>תאריך המסמך</label><input type="date" id="doc-date" oninput="S._dd=this.value"></div>
+          <div class="fld"><label>קטגוריה</label><select id="doc-cat" onchange="S._dc=this.value" style="background:var(--card2);border:1.5px solid var(--border);border-radius:13px;padding:14px 15px;color:var(--text);font-size:15px;direction:rtl;outline:none;width:100%;font-family:inherit">
+            ${DOC_CATS.map(c=>`<option value="${c.id}">${c.e} ${c.l}</option>`).join("")}
+          </select></div>
+        </div>
+        <input type="file" id="doc-file" accept="image/*,application/pdf" style="display:none" onchange="uploadDoc(event)">
+        <button onclick="document.getElementById('doc-file').click()" style="width:100%;padding:20px;border-radius:16px;border:2px dashed rgba(96,165,250,.38);background:rgba(96,165,250,.06);cursor:pointer;text-align:center;color:var(--sky);font-size:15px;font-weight:500;font-family:inherit;line-height:1.7;transition:all .15s">
+          📄 לחץ להעלאת מסמך רפואי<br>
+          <span style="font-size:12px;color:var(--sub);font-weight:400">PDF · תמונה (JPG/PNG) · סריקה</span>
+        </button>
+      </div>
+    </div>
+
+    ${docs.length===0?`<div style="text-align:center;padding:2.5rem 1rem;color:var(--muted)">
+      <div style="font-size:44px;margin-bottom:12px">📄</div>
+      <p style="font-size:16px">אין מסמכים רפואיים</p>
+      <p style="font-size:13px;margin-top:6px;line-height:1.6">העלה סיכומי אשפוז, תוצאות, מרשמים, הפניות</p>
+    </div>`:`<div>
+      <!-- Group by category -->
+      ${DOC_CATS.map(cat=>{
+        const catDocs=docs.filter(d=>d.category===cat.id);
+        if(!catDocs.length)return"";
+        return`<div style="margin-bottom:16px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+            <span style="font-size:16px">${cat.e}</span>
+            <p style="font-size:14px;font-weight:600;color:var(--text)">${cat.l}</p>
+            <span class="pill" style="background:${cat.c};color:${cat.tc}">${catDocs.length}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            ${catDocs.map((doc,i)=>`<div class="doc-card">
+              <div class="doc-thumb" onclick="viewDoc(${docs.indexOf(doc)})">
+                ${doc.thumbDataUrl?`<img src="${doc.thumbDataUrl}" alt="${esc(doc.name)}">`
+                  :doc.type==="application/pdf"
+                    ?`<div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+                        <div class="pdf-icon">📄</div>
+                        <p style="font-size:13px;color:var(--sky);font-weight:500">PDF — לחץ לפתיחה</p>
+                        ${doc.pageCount?`<p style="font-size:11px;color:var(--muted)">${doc.pageCount} עמודים</p>`:""}
+                      </div>`
+                    :`<div class="pdf-icon">📄</div>`}
+                <div style="position:absolute;top:8px;right:8px">
+                  <span class="doc-category" style="background:${cat.c};color:${cat.tc};backdrop-filter:blur(10px)">${cat.e} ${cat.l}</span>
+                </div>
+              </div>
+              <div style="padding:.8rem 1rem">
+                <p style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(doc.name)}</p>
+                <div style="display:flex;gap:10px;font-size:12px;color:var(--sub);margin-bottom:10px;flex-wrap:wrap">
+                  ${doc.date?`<span>📅 ${fD(doc.date)}</span>`:""}
+                  <span>📁 ${(doc.size/1024).toFixed(0)}KB</span>
+                  <span>${doc.type==="application/pdf"?"PDF":"תמונה"}</span>
+                </div>
+                ${doc.aiSummary?`<div style="padding:8px 12px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);border-radius:10px;margin-bottom:10px">
+                  <p style="font-size:11px;color:var(--green);font-weight:600;margin-bottom:3px">🤖 סיכום AI</p>
+                  <p style="font-size:13px;color:var(--text);line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">${esc(doc.aiSummary)}</p>
+                </div>`:""}
+                <div class="doc-actions" style="padding:0;gap:6px;display:flex;flex-wrap:wrap">
+                  <button class="btn k" style="flex:1;min-height:40px;font-size:13px" onclick="viewDoc(${docs.indexOf(doc)})">👁 צפה</button>
+                  <button class="btn s" style="flex:1;min-height:40px;font-size:13px" onclick="${doc.aiSummary?"viewDocSummary("+docs.indexOf(doc)+")":"analyzeDoc("+docs.indexOf(doc)+")"}">
+                    ${doc.aiSummary?"📊 סיכום":"🤖 נתח AI"}
+                  </button>
+                  <button class="btn g" style="flex:1;min-height:40px;font-size:13px" onclick="sendDocToChat(${docs.indexOf(doc)})">💬 שאל</button>
+                  <button class="btn d" style="width:40px;min-height:40px;font-size:16px" onclick="deleteDoc(${docs.indexOf(doc)})">🗑</button>
+                </div>
+              </div>
+            </div>`).join("")}
+          </div>
+        </div>`;
+      }).join("")}
+    </div>`}
+  </div>`;
+}
+
+function rFP(){
+  const p=S.profile;
+  const fi=(k,l,t="text",ph="",opts=null)=>`<div class="fld"><label>${l}</label>${opts
+    ?`<select onchange="uP('${k}',this.value)" style="background:var(--card2);border:1.5px solid var(--border);border-radius:13px;padding:14px 15px;color:${(p[k]||"")?'var(--text)':'var(--sub)'};font-size:15px;direction:rtl;outline:none;width:100%;font-family:inherit">${opts.map(o=>`<option value="${o.v||o}" ${(p[k]||"")===(o.v||o)?"selected":""}>${o.l||o||"בחר..."}</option>`).join("")}</select>`
+    :`<input type="${t}" value="${esc(p[k]||"")}" placeholder="${ph}" oninput="uP('${k}',this.value)">`}</div>`;
+  const ta=(k,l,ph,r=2)=>`<div class="fld"><label>${l}</label><textarea rows="${r}" placeholder="${ph}" oninput="uP('${k}',this.value)">${esc(p[k]||"")}</textarea></div>`;
+  return`<div style="display:flex;flex-direction:column;gap:14px">
+    <div class="card sky">
+      <div class="sh"><div class="sh-bar" style="background:var(--sky)"></div><h3>פרטים אישיים</h3></div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        ${fi("name","שם מלא","text","ישראל ישראלי")}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          ${fi("age","גיל","number","45")}
+          ${fi("gender","מין","","",["",{v:"זכר",l:"זכר"},{v:"נקבה",l:"נקבה"},{v:"אחר",l:"אחר"}])}
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          ${fi("bloodType","סוג דם","","",["","A+","A-","B+","B-","AB+","AB-","O+","O-","לא ידוע"])}
+          ${fi("smoking","עישון","","",["",{v:"לא מעשן",l:"לא מעשן"},{v:"לשעבר",l:"לשעבר"},{v:"מעשן",l:"מעשן"}])}
+        </div>
+      </div>
+    </div>
+    <div class="card amber">
+      <div class="sh"><div class="sh-bar" style="background:var(--amber)"></div><h3>רקע רפואי</h3></div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        ${ta("conditions","מחלות רקע","סוכרת סוג 2, יתר לחץ דם...",3)}
+        ${ta("medications","תרופות קבועות","מטפורמין 500מג ×2/יום...",3)}
+        ${ta("allergies","אלרגיות ורגישויות","פניצילין, אספירין...",2)}
+      </div>
+    </div>
+    <button class="btn p" id="spb" onclick="svP()">💾 שמור פרופיל</button>
+  </div>`;
+}
+
+function rFT(tests){
+  const nt=S.nt;
+  return`<div style="display:flex;flex-direction:column;gap:14px">
+    <div class="card">
+      <div class="sh"><div class="sh-bar" style="background:var(--sky)"></div><h3>העלאת תוצאות בדיקות</h3></div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="fld"><label>שם / תיאור הבדיקה</label><input type="text" value="${esc(nt.name)}" placeholder="בדיקת דם מלאה, MRI, אקו לב..." oninput="S.nt.name=this.value"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="fld"><label>תאריך ביצוע</label><input type="date" value="${nt.date}" oninput="S.nt.date=this.value"></div>
+          <div class="fld"><label>מעבדה / הערות</label><input type="text" value="${esc(nt.notes)}" placeholder="מכבי, כלליות..." oninput="S.nt.notes=this.value"></div>
+        </div>
+        <input type="file" id="tfl" accept="image/*,application/pdf" style="display:none" onchange="addTF(event)">
+        <button onclick="document.getElementById('tfl').click()" style="width:100%;padding:20px;border-radius:16px;border:2px dashed rgba(96,165,250,.38);background:rgba(96,165,250,.06);cursor:pointer;text-align:center;color:var(--sky);font-size:15px;font-weight:500;font-family:inherit;line-height:1.65;transition:all .15s" onmouseover="this.style.background='rgba(96,165,250,.12)'" onmouseout="this.style.background='rgba(96,165,250,.06)'">
+          📤 לחץ להעלאת קובץ<br><span style="font-size:12px;color:var(--sub);font-weight:400">תמונה (JPG/PNG) · PDF</span>
+        </button>
+      </div>
+    </div>
+    ${tests.length===0?`<div style="text-align:center;padding:2.5rem 1rem;color:var(--muted)">
+      <div style="font-size:42px;margin-bottom:12px">🧪</div>
+      <p style="font-size:16px">אין בדיקות מועלות</p>
+      <p style="font-size:13px;margin-top:6px">העלה תמונות של תוצאות בדיקות לניתוח AI</p>
+    </div>`:`
+    <p style="font-size:14px;color:var(--sub);font-weight:500">${tests.length} בדיקות מועלות</p>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      ${tests.map((t,i)=>`<div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:${t.type?.startsWith("image/")?"10px":"0"}">
+          <div style="flex:1;min-width:0">
+            <p style="font-size:15px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(t.label||t.name)}</p>
+            <div style="display:flex;gap:10px;margin-top:3px;flex-wrap:wrap">
+              ${t.date?`<p style="font-size:12px;color:var(--sub)">📅 ${fD(t.date)}</p>`:""}
+              ${t.notes?`<p style="font-size:12px;color:var(--sub)">🏥 ${esc(t.notes)}</p>`:""}
+            </div>
+          </div>
+          <button class="btn d" style="width:auto;padding:6px 14px;font-size:13px;min-height:36px;margin-right:8px" onclick="rmT(${i})">מחק</button>
+        </div>
+        ${t.type?.startsWith("image/")
+          ?`<img src="data:${t.type};base64,${t.data}" style="width:100%;max-height:240px;object-fit:contain;border-radius:12px;background:#000;border:1px solid var(--border);cursor:zoom-in" onclick="zoomImg('data:${t.type};base64,${t.data}')">`
+          :`<div style="display:flex;align-items:center;gap:8px;padding:11px 15px;background:var(--card2);border-radius:12px;color:var(--sky);font-size:14px">📄 ${esc(t.name)}</div>`}
+      </div>`).join("")}
+    </div>
+    <button class="btn s" onclick="setFT('summary')">📊 נתח בדיקות עם AI ›</button>`}
+  </div>`;
+}
+
+function rFS(tests){
+  const sum=S.profile.aiSummary||"";
+  return`<div style="display:flex;flex-direction:column;gap:14px">
+    <div class="card gold">
+      <div class="sh"><div class="sh-bar" style="background:var(--gold)"></div><h3>סיכום תיק רפואי — AI</h3></div>
+      <p style="font-size:14px;color:var(--sub);margin-bottom:16px;line-height:1.65">ד"ר קלוד יסכם את פרופילך, מחלות, תרופות ובדיקות לסיכום קליני מקיף ומקצועי.</p>
+      <button class="btn go" id="gsb" onclick="genSum()" ${S.gl?"disabled":""}>
+        ${S.gl?"⏳ מייצר סיכום...":sum?"🔄 עדכן סיכום":"✨ צור סיכום מקצועי"}
+      </button>
+    </div>
+    ${S.gl?`<div class="card" style="text-align:center;padding:2.5rem">
+      <div class="dots" style="display:flex;justify-content:center;gap:6px;margin-bottom:14px"><span></span><span></span><span></span></div>
+      <p style="font-size:14px;color:var(--sub)">ד"ר קלוד מנתח את התיק הרפואי שלך...</p>
+      <p style="font-size:12px;color:var(--muted);margin-top:6px">עשוי לקחת 10-20 שניות</p>
+    </div>`:""}
+    ${sum&&!S.gl?`<div class="card gold">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div>
+          <p style="font-size:15px;font-weight:600;color:var(--gold)">📋 הסיכום שלי</p>
+          <p style="font-size:11px;color:var(--muted)">${fD(Date.now())}</p>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn g" style="width:auto;padding:8px 14px;font-size:14px;min-height:40px" onclick="shareOrCopy('הסיכום הרפואי שלי',document.getElementById('sum-txt').innerText)">📤 שתף</button>
+          <button class="btn g" style="width:auto;padding:8px 14px;font-size:14px;min-height:40px" onclick="copyText(document.getElementById('sum-txt').innerText)">📋 העתק</button>
+        </div>
+      </div>
+      <div id="sum-txt" style="font-size:14px;color:var(--text);line-height:1.9;white-space:pre-wrap">${esc(sum)}</div>
+    </div>`:""}
+    ${!sum&&!S.gl?`<div style="text-align:center;padding:2.5rem 1rem;color:var(--muted)">
+      <div style="font-size:42px;margin-bottom:12px">📊</div>
+      <p style="font-size:16px">לחץ "צור סיכום" לניתוח מקיף</p>
+      <p style="font-size:13px;margin-top:6px">כולל ניתוח בדיקות, אינטראקציות תרופות והמלצות מעקב</p>
+    </div>`:""}
+  </div>`;
+}
+
+// ── HISTORY ──
+function rHist(){
+  if(!S.hSel)return`<div class="fade" style="padding:1.8rem 1.1rem">
+    <h2 style="font-size:22px;font-weight:700;color:var(--text);margin-bottom:4px">📋 היסטוריה</h2>
+    <p style="font-size:14px;color:var(--sub);margin-bottom:16px">${S.consults.length} ייעוצים</p>
+    ${S.consults.length===0?`<div style="text-align:center;padding:3rem;color:var(--muted)"><div style="font-size:44px;margin-bottom:14px">📋</div><p style="font-size:17px">אין ייעוצים עדיין</p><p style="font-size:13px;margin-top:8px">פתח ייעוץ חדש בלשונית "ייעוץ"</p></div>`
+    :`<div style="display:flex;flex-direction:column;gap:10px">
+      ${S.consults.map(c=>`<div class="card" style="cursor:pointer" onclick="selH('${c.id}')">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;gap:8px;align-items:center;margin-bottom:5px">
+              <span class="pill" style="background:${c.status==="completed"?"rgba(52,211,153,.18)":c.status==="diagnosed"?"rgba(96,165,250,.18)":"rgba(251,191,36,.18)"};color:${c.status==="completed"?"var(--green)":c.status==="diagnosed"?"var(--sky)":"var(--amber)"}">
+                ${c.status==="completed"?"✅ הושלם":c.status==="diagnosed"?"🔬 אובחן":"💬 פעיל"}
+              </span>
+              <span style="font-size:12px;color:var(--muted)">${fD(c.createdAt)}</span>
+            </div>
+            <p style="font-size:16px;color:var(--text);font-weight:500;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(c.title||"ייעוץ רפואי")}</p>
+            <div style="display:flex;gap:12px;font-size:13px;color:var(--sub)">
+              <span>💬 ${c.messages.length}</span>
+              ${(c.medications||[]).length?`<span>💊 ${c.medications.length}</span>`:""}
+              ${(c.tests||[]).length?`<span>🧪 ${c.tests.length}</span>`:""}
+              ${(c.followUps||[]).filter(f=>!f.done&&new Date(f.date)>=new Date()).length?`<span style="color:var(--amber)">📅 ${(c.followUps||[]).filter(f=>!f.done&&new Date(f.date)>=new Date()).length}</span>`:""}
+            </div>
+          </div>
+          <span style="font-size:22px;color:var(--muted);margin-right:4px">›</span>
+        </div>
+      </div>`).join("")}
+    </div>`}
+  </div>`;
+
+  const sel=S.consults.find(c=>c.id===S.hSel);
+  if(!sel){S.hSel=null;return rHist();}
+  return`<div class="fade" style="padding:1.2rem 1.1rem">
+    <button onclick="S.hSel=null;R()" style="background:transparent;border:none;cursor:pointer;color:var(--sky);font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:6px;padding:0;font-family:inherit;min-height:44px;font-weight:500">‹ חזרה לרשימה</button>
+    <div class="card sky" style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <p style="font-size:16px;font-weight:600;color:var(--text)">${esc(sel.title||"ייעוץ")}</p>
+          <p style="font-size:12px;color:var(--sub)">${fD(sel.createdAt)} · ${sel.messages.length} הודעות</p>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn k" style="width:auto;padding:10px 16px;font-size:16px;min-height:44px" onclick="gTC('${sel.id}')" title="פתח שיחה">💬</button>
+          ${sel.aiDiagnosis?`<button class="btn g" style="width:auto;padding:10px 16px;font-size:12px;min-height:44px" onclick="shareOrCopy('אבחנת ד\'\'ר קלוד','${esc(sel.aiDiagnosis)}')">📤</button>`:""}
+          ${sel.status!=="completed"?`<button class="btn s" style="width:auto;padding:10px 16px;font-size:16px;min-height:44px" onclick="mD('${sel.id}')" title="סמן הושלם">✅</button>`:""}
+        </div>
+      </div>
+    </div>
+    <div class="tb">
+      ${[["dx","🔬 אבחנה"],["meds","💊 תרופות"],["tests","🧪 בדיקות"],["fup","📅 מעקב"]].map(([id,l])=>`
+      <button class="${S.hTab===id?"act":""}" onclick="setHT('${id}')">${l}</button>`).join("")}
+    </div>
+    ${S.hTab==="dx"?rHDx(sel):S.hTab==="meds"?rHM(sel):S.hTab==="tests"?rHT(sel):rHF(sel)}
+  </div>`;
+}
+
+function rHDx(sel){
+  const dx=S.dx;
+  return`<div style="display:flex;flex-direction:column;gap:14px">
+    ${sel.aiDiagnosis?`<div class="card sky">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <p style="font-size:13px;color:var(--sky);font-weight:600">🤖 הערכת ד"ר קלוד</p>
+        <button class="btn g" style="width:auto;padding:6px 12px;font-size:12px;min-height:34px" onclick="shareOrCopy('הערכת ד\'\'ר קלוד','${esc(sel.aiDiagnosis)}')">📤 שתף</button>
+      </div>
+      <div style="font-size:14px;color:var(--text);line-height:1.85;white-space:pre-wrap">${esc(sel.aiDiagnosis)}</div>
+    </div>`:`<div class="card" style="text-align:center;padding:2rem;color:var(--muted)">
+      <p style="font-size:14px">אין הערכת AI עדיין</p>
+      <p style="font-size:12px;margin-top:4px">פתח את השיחה וקבל הערכה קלינית</p>
+    </div>`}
+    <div class="card gold">
+      <p style="font-size:13px;color:var(--gold);font-weight:600;margin-bottom:12px">👨‍⚕️ אבחנת הרופא שלך</p>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="fld"><label>אבחנה *</label><textarea rows="2" placeholder="הזן את האבחנה שקיבלת..." oninput="S.dx.diagnosis=this.value">${esc(dx.diagnosis)}</textarea></div>
+        <div class="fld"><label>הערות הרופא</label><textarea rows="2" placeholder="הוראות, המלצות, מידע נוסף..." oninput="S.dx.notes=this.value">${esc(dx.notes)}</textarea></div>
+        <button class="btn p" onclick="svDX('${sel.id}')" ${!dx.diagnosis.trim()?"disabled":""}>💾 שמור אבחנה</button>
+        ${sel.doctorDiagnosis?`<div style="padding:12px 15px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.28);border-radius:13px">
+          <p style="font-size:12px;color:var(--green);font-weight:600;margin-bottom:4px">✅ נשמר</p>
+          <p style="font-size:14px;color:var(--text)">${esc(sel.doctorDiagnosis.diagnosis)}</p>
+          ${sel.doctorDiagnosis.notes?`<p style="font-size:13px;color:var(--sub);margin-top:4px">${esc(sel.doctorDiagnosis.notes)}</p>`:""}
+        </div>`:""}
+      </div>
+    </div>
+  </div>`;
+}
+
+function rHM(sel){
+  const nm=S.nm;const days=d7();
+  return`<div style="display:flex;flex-direction:column;gap:14px">
+    <div class="card">
+      <div class="sh"><div class="sh-bar" style="background:var(--sky)"></div><h3>הוסף תרופה</h3></div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="fld"><label>שם תרופה *</label><input type="text" value="${esc(nm.name)}" placeholder="אמוקסיציל, פנדול..." oninput="S.nm.name=this.value"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="fld"><label>מינון</label><input type="text" value="${esc(nm.dose)}" placeholder="500מג" oninput="S.nm.dose=this.value"></div>
+          <div class="fld"><label>תדירות</label><input type="text" value="${esc(nm.freq)}" placeholder="×2 ביום" oninput="S.nm.freq=this.value"></div>
+        </div>
+        <div class="fld"><label>משך טיפול</label><input type="text" value="${esc(nm.duration)}" placeholder="7 ימים" oninput="S.nm.duration=this.value"></div>
+        <button class="btn p" onclick="addM('${sel.id}')" ${!nm.name.trim()?"disabled":""}>💊 הוסף תרופה</button>
+      </div>
+    </div>
+    ${(sel.medications||[]).length===0?`<div style="text-align:center;padding:2rem;color:var(--muted);font-size:15px">אין תרופות רשומות</div>`
+    :(sel.medications||[]).map(m=>`<div class="card">
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+        <div>
+          <p style="font-size:16px;font-weight:600;color:var(--text)">${esc(m.name)}</p>
+          <p style="font-size:13px;color:var(--sub)">${[m.dose,m.freq,m.duration].filter(Boolean).join(" · ") || "ללא פרטים"}</p>
+        </div>
+        <span class="pill" style="background:${m.active?"rgba(52,211,153,.18)":"rgba(148,163,184,.12)"};color:${m.active?"var(--green)":"var(--sub)"}">
+          ${m.active?"● פעיל":"■ הסתיים"}
+        </span>
+      </div>
+      <p style="font-size:12px;color:var(--sub);margin-bottom:8px">לקיחה — 7 ימים אחרונים</p>
+      <div class="trd">
+        ${days.map(day=>`<button class="trdb ${(m.taken||{})[day]?"tk":""}" onclick="tMD('${sel.id}','${m.id}','${day}')">
+          <span style="font-size:9px;color:var(--sub)">${new Date(day).toLocaleDateString("he-IL",{weekday:"short"})}</span>
+          <span style="font-size:15px">${(m.taken||{})[day]?"✅":"○"}</span>
+        </button>`).join("")}
+      </div>
+      <div style="display:flex;gap:8px;margin-top:11px">
+        <button class="btn g" style="flex:1;min-height:46px" onclick="tMA('${sel.id}','${m.id}')">${m.active?"⏹ הפסק":"▶ הפעל"}</button>
+        <button class="btn d" style="flex:1;min-height:46px" onclick="delM('${sel.id}','${m.id}')">🗑 מחק</button>
+      </div>
+    </div>`).join("")}
+  </div>`;
+}
+
+function rHT(sel){
+  const nt=S.ntst;
+  return`<div style="display:flex;flex-direction:column;gap:14px">
+    <div class="card">
+      <div class="sh"><div class="sh-bar" style="background:var(--sky)"></div><h3>הוסף בדיקה</h3></div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="fld"><label>שם הבדיקה *</label><input type="text" value="${esc(nt.name)}" placeholder="בדיקת דם, MRI, אקו לב..." oninput="S.ntst.name=this.value"></div>
+        <div class="fld"><label>תאריך מתוכנן</label><input type="date" value="${nt.date}" oninput="S.ntst.date=this.value"></div>
+        <div class="fld"><label>הערות</label><input type="text" value="${esc(nt.notes)}" placeholder="צום נדרש, הפנייה..." oninput="S.ntst.notes=this.value"></div>
+        <button class="btn p" onclick="addTst('${sel.id}')" ${!nt.name.trim()?"disabled":""}>🧪 הוסף בדיקה</button>
+      </div>
+    </div>
+    ${(sel.tests||[]).length===0?`<div style="text-align:center;padding:2rem;color:var(--muted);font-size:15px">אין בדיקות רשומות</div>`
+    :(sel.tests||[]).map(t=>`<div class="card ${t.status==="done"?"green":"amber"}">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="flex:1;min-width:0">
+          <p style="font-size:15px;font-weight:500;color:var(--text)">${esc(t.name)}</p>
+          ${t.date?`<p style="font-size:12px;color:var(--sub)">📅 ${fD(t.date)}</p>`:""}
+          ${t.notes?`<p style="font-size:12px;color:var(--sub)">${esc(t.notes)}</p>`:""}
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-shrink:0">
+          <span class="pill" style="background:${t.status==="done"?"rgba(52,211,153,.18)":"rgba(251,191,36,.18)"};color:${t.status==="done"?"var(--green)":"var(--amber)"}">
+            ${t.status==="done"?"✅ בוצעה":"⏳ ממתינה"}
+          </span>
+          <button class="btn ${t.status==="done"?"g":"s"}" style="width:auto;padding:10px 14px;font-size:14px;min-height:44px" onclick="tTst('${sel.id}','${t.id}')">
+            ${t.status==="done"?"בטל":"✓ בוצע"}
+          </button>
+        </div>
+      </div>
+    </div>`).join("")}
+  </div>`;
+}
+
+function rHF(sel){
+  const nf=S.nf;
+  const sorted=[...(sel.followUps||[])].sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const today=new Date().toISOString().slice(0,10);
+  return`<div style="display:flex;flex-direction:column;gap:14px">
+    <div class="card">
+      <div class="sh"><div class="sh-bar" style="background:var(--sky)"></div><h3>תזמן ביקורת</h3></div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="fld"><label>תאריך *</label><input type="date" value="${nf.date}" min="${today}" oninput="S.nf.date=this.value"></div>
+        <div class="fld"><label>הערה</label><input type="text" value="${esc(nf.note)}" placeholder="ביקורת אצל ד'ר, בדיקת דם חוזרת..." oninput="S.nf.note=this.value"></div>
+        <button class="btn p" onclick="addF('${sel.id}')" ${!nf.date?"disabled":""}>📅 הוסף ביקורת</button>
+      </div>
+    </div>
+    ${sorted.length===0?`<div style="text-align:center;padding:2rem;color:var(--muted);font-size:15px">אין ביקורות מתוכננות</div>`
+    :sorted.map(f=>{
+      const isPast=f.date<today&&!f.done;
+      return`<div class="card ${f.done?"green":isPast?"rose":"purple"}">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <p style="font-size:16px;font-weight:500;color:${isPast&&!f.done?"var(--rose)":"var(--text)"}">
+              ${f.done?"✅ ":"📅 "}${fD(f.date)}
+              ${isPast&&!f.done?`<span style="font-size:12px;color:var(--rose)"> — עבר!</span>`:""}
+            </p>
+            ${f.note?`<p style="font-size:13px;color:var(--sub)">${esc(f.note)}</p>`:""}
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn ${f.done?"g":"s"}" style="width:auto;padding:10px 14px;font-size:14px;min-height:44px" onclick="tF('${sel.id}','${f.id}')">
+              ${f.done?"בטל":"✓ הגעתי"}
+            </button>
+            <button class="btn d" style="width:auto;padding:10px 14px;font-size:14px;min-height:44px" onclick="delF('${sel.id}','${f.id}')">✕</button>
+          </div>
+        </div>
+      </div>`;
+    }).join("")}
+  </div>`;
+}
+
+// ── SETTINGS ──
+function rSet(){
+  const hk=!!localStorage.getItem("dr_apikey");const st=S.ss;
+  return`<div class="fade" style="padding:1.8rem 1.1rem">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.4rem">
+      <div style="width:46px;height:46px;border-radius:15px;background:rgba(96,165,250,.12);display:flex;align-items:center;justify-content:center;font-size:22px">⚙️</div>
+      <div><h2 style="font-size:22px;font-weight:700;color:var(--text)">הגדרות</h2><p style="font-size:13px;color:var(--sub)">מפתח Anthropic API</p></div>
+    </div>
+
+    ${!hk?`<div class="card rose" style="margin-bottom:1.2rem;background:rgba(248,113,113,.07)">
+      <div style="display:flex;align-items:flex-start;gap:10px">
+        <span style="font-size:20px">⚠️</span>
+        <div><p style="font-size:14px;color:var(--rose);font-weight:600">נדרש מפתח API</p>
+        <p style="font-size:13px;color:var(--sub);line-height:1.6;margin-top:3px">ד"ר קלוד עובד עם Anthropic API. קבל מפתח חינמי ב-console.anthropic.com</p></div>
+      </div>
+    </div>`:""}
+
+    <div class="card" style="margin-bottom:1.2rem">
+      <div class="sh"><div class="sh-bar" style="background:var(--gold)"></div><h3>🔑 Anthropic API Key</h3></div>
+      <p style="font-size:13px;color:var(--sub);margin-bottom:14px">נשמר רק על המכשיר שלך — לא נשלח לשרת חיצוני.</p>
+      <div style="position:relative;margin-bottom:14px">
+        <input type="${S.sShow?"text":"password"}" id="aki"
+          value="${esc(S.sk)}"
+          placeholder="sk-ant-api03-..."
+          oninput="S.sk=this.value"
+          style="width:100%;background:var(--card2);border:2px solid ${hk?"var(--green)":"var(--border)"};border-radius:13px;padding:14px 50px 14px 16px;color:var(--text);font-size:14px;direction:ltr;outline:none;font-family:'Courier New',monospace;letter-spacing:.5px;transition:border-color .15s">
+        <button onclick="S.sShow=!S.sShow;R()" style="position:absolute;top:50%;left:14px;transform:translateY(-50%);background:transparent;border:none;cursor:pointer;font-size:18px;color:var(--muted);line-height:1">${S.sShow?"🙈":"👁️"}</button>
+        ${hk?`<div style="position:absolute;top:50%;right:14px;transform:translateY(-50%);font-size:16px">✅</div>`:""}
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:${st?"14px":"0"}">
+        <button class="btn p" style="flex:1" onclick="svKey()" ${!S.sk.trim()?"disabled":""}>💾 שמור</button>
+        <button class="btn k" style="flex:1" onclick="tstKey()" ${S.sld||(!S.sk.trim()&&!hk)?"disabled":""}>${S.sld?"⏳ בודק...":"🔍 בדוק חיבור"}</button>
+      </div>
+      ${st?`<div style="padding:13px 16px;background:${st.ok?"rgba(52,211,153,.1)":"rgba(248,113,113,.1)"};border:1px solid ${st.ok?"rgba(52,211,153,.3)":"rgba(248,113,113,.3)"};border-radius:13px;font-size:14px;color:var(--text);line-height:1.7;white-space:pre-wrap;word-break:break-all">${esc(st.msg)}</div>`:""}
+    </div>
+
+    <div class="card" style="margin-bottom:1.2rem">
+      <div class="sh"><div class="sh-bar" style="background:var(--sky)"></div><h3>📖 איך מקבלים מפתח?</h3></div>
+      ${[["1️⃣","פתח בדפדפן: console.anthropic.com"],["2️⃣","צור חשבון חינמי (או התחבר)"],["3️⃣","לחץ API Keys → Create Key"],["4️⃣","העתק את המפתח (מתחיל ב-sk-ant-)"],["5️⃣","הדבק כאן ולחץ שמור + בדוק"]].map(([n,t])=>`
+      <div style="display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:18px;flex-shrink:0">${n}</span>
+        <p style="font-size:14px;color:var(--sub);line-height:1.5;padding-top:2px">${t}</p>
+      </div>`).join("")}
+      <div style="margin-top:12px;padding:10px 14px;background:rgba(52,211,153,.08);border-radius:10px">
+        <p style="font-size:13px;color:var(--green)">💡 Anthropic נותנת $5 קרדיט חינמי לכל חשבון חדש — מספיק להמון שיחות עם ד"ר קלוד!</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.2rem">
+      <div class="sh"><div class="sh-bar" style="background:var(--purple)"></div><h3>📱 אודות ד"ר קלוד</h3></div>
+      ${[["🩺","מודל AI","Claude Haiku 4.5"],["📚","ספרות רפואית","Harrison's, DSM-5, Nelson's, Fitzpatrick's ועוד"],["💾","שמירת נתונים","מקומי על המכשיר בלבד"],["🔒","פרטיות","מידע לא נשלח לשרתים חיצוניים"],["🌐","שפות","עברית · English"],["⚕️","גרסה","ד\"ר קלוד v2.0"]].map(([e,l,v])=>`
+      <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:14px;color:var(--sub)">${e} ${l}</span>
+        <span style="font-size:14px;color:var(--text);font-weight:500;text-align:left;max-width:58%">${v}</span>
+      </div>`).join("")}
+    </div>
+
+    <div class="card amber" style="background:rgba(251,191,36,.07)">
+      <p style="font-size:13px;color:var(--amber);font-weight:600;margin-bottom:6px">⚠️ הבהרה חשובה</p>
+      <p style="font-size:13px;color:var(--sub);line-height:1.75">ד"ר קלוד מספק מידע רפואי ראשוני בלבד ואינו מחליף ביקור פיזי אצל רופא מוסמך. בכל מצב חירום — התקשר מיד ל-<strong style="color:var(--rose)">101 (מד"א)</strong>.</p>
+    </div>
+  </div>`;
+}
+
+// ── MODAL ──
+function showModal(){
+  if(!S.modal)return;
+  let el=document.getElementById("modal-overlay");
+  if(!el){el=document.createElement("div");el.className="modal-bg";el.id="modal-overlay";document.body.appendChild(el);}
+  el.innerHTML=`<div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <h3 style="font-size:18px;font-weight:700;color:var(--text);margin-bottom:16px">${S.modal.title||""}</h3>
+    <div>${S.modal.content||""}</div>
+    <button class="btn p" style="margin-top:20px" onclick="closeModal()">סגור</button>
+  </div>`;
+  el.onclick=closeModal;
+  el.style.display="flex";
+}
+window.closeModal=()=>{S.modal=null;const el=document.getElementById("modal-overlay");if(el)el.style.display="none";};
+window.zoomImg=src=>{S.modal={title:"",content:`<img src="${src}" style="width:100%;border-radius:12px;max-height:70dvh;object-fit:contain">`};R();};
+
+// ── BIND ──
+function bind(){
+  const ta=document.getElementById("cta");
+  if(ta)ta.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendC();}});
+}
+
+// ── ACTIONS ──
+// ── DOCUMENT FUNCTIONS ──
+
+// Render PDF first page to canvas thumbnail
+async function renderPdfThumb(b64data){
+  try{
+    const bin=atob(b64data);const arr=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);
+    const pdf=await pdfjsLib.getDocument({data:arr}).promise;
+    const page=await pdf.getPage(1);
+    const vp=page.getViewport({scale:1.2});
+    const canvas=document.createElement("canvas");
+    canvas.width=vp.width;canvas.height=vp.height;
+    const ctx=canvas.getContext("2d");
+    await page.render({canvasContext:ctx,viewport:vp}).promise;
+    return{thumbDataUrl:canvas.toDataURL("image/jpeg",0.7),pageCount:pdf.numPages};
+  }catch{return{thumbDataUrl:null,pageCount:null};}
+}
+
+// Upload document
+window.uploadDoc=async e=>{
+  const f=e.target.files?.[0];if(!f)return;
+  const name=(document.getElementById("doc-name")?.value||"").trim()||f.name;
+  const date=document.getElementById("doc-date")?.value||"";
+  const category=document.getElementById("doc-cat")?.value||"other";
+  const r=new FileReader();
+  r.onload=async ev=>{
+    const dataUrl=ev.target.result;
+    const b64=dataUrl.split(",")[1];
+    const doc={id:uid(),name,date,category,type:f.type,data:b64,size:f.size,uploadedAt:Date.now(),aiSummary:"",thumbDataUrl:null,pageCount:null};
+    // Render thumbnail
+    toast("⏳ מעבד מסמך...");
+    if(f.type==="application/pdf"&&typeof pdfjsLib!=="undefined"){
+      const {thumbDataUrl,pageCount}=await renderPdfThumb(b64);
+      doc.thumbDataUrl=thumbDataUrl;doc.pageCount=pageCount;
+    }else if(f.type.startsWith("image/")){
+      doc.thumbDataUrl=dataUrl;
+    }
+    if(!S.profile.medDocs)S.profile.medDocs=[];
+    S.profile.medDocs.unshift(doc);
+    // Auto-analyze
+    toast("🤖 מנתח עם AI...");
+    analyzeDocById(doc.id);
+    saveS();R();
+    document.getElementById("doc-name")?document.getElementById("doc-name").value="":null;
+    document.getElementById("doc-date")?document.getElementById("doc-date").value="":null;
+  };
+  r.readAsDataURL(f);e.target.value="";
+};
+
+// Analyze single document with AI
+async function analyzeDocById(docId){
+  const docs=S.profile.medDocs||[];
+  const doc=docs.find(d=>d.id===docId);if(!doc)return;
+  const key=localStorage.getItem("dr_apikey")||"";if(!key)return;
+  try{
+    const files=[];
+    if(doc.type==="application/pdf")files.push({type:"application/pdf",data:doc.data,name:doc.name});
+    else if(doc.type.startsWith("image/"))files.push({type:doc.type,data:doc.data,name:doc.name});
+    const sys=`אתה מומחה לקריאה ופירוש מסמכים רפואיים. קרא את המסמך הרפואי המצורף וחלץ את המידע הרלוונטי בעברית.
+
+פורמט הסיכום:
+━━━━━━━━━━━━━━━━━━━━━━
+📄 סיכום מסמך רפואי
+━━━━━━━━━━━━━━━━━━━━━━
+🏷️ סוג מסמך: [סיכום אשפוז / מרשם / תוצאות / הפנייה / אחר]
+📅 תאריך: [מהמסמך]
+👨‍⚕️ רופא / מוסד: [אם מופיע]
+━━━━━━━━━━━━━━━━━━━━━━
+📌 ממצאים עיקריים:
+  • [ממצא 1]
+  • [ממצא 2]
+━━━━━━━━━━━━━━━━━━━━━━
+💊 תרופות שהוזכרו: [אם יש]
+🧪 בדיקות שהוזכרו: [אם יש]
+⚠️ נקודות חשובות: [אזהרות, המשך טיפול]
+━━━━━━━━━━━━━━━━━━━━━━`;
+    const rep=await ai([{role:"user",content:"קרא ונתח את המסמך הרפואי הזה:",files}],sys);
+    doc.aiSummary=rep;saveS();R();toast("✅ ניתוח הושלם!");
+  }catch(err){doc.aiSummary="לא הצלחתי לנתח: "+err.message;saveS();R();}
+}
+
+window.analyzeDoc=idx=>{
+  const docs=S.profile.medDocs||[];const doc=docs[idx];if(!doc)return;
+  toast("🤖 מנתח מסמך...");
+  analyzeDocById(doc.id);
+};
+
+// View document full screen
+window.viewDoc=idx=>{
+  const docs=S.profile.medDocs||[];const doc=docs[idx];if(!doc)return;
+  const cat=getCat(doc.category);
+  let content="";
+  if(doc.type==="application/pdf"){
+    content=`<div style="text-align:center">
+      <canvas id="pdf-viewer-canvas" style="width:100%;border-radius:10px;max-height:60dvh;object-fit:contain"></canvas>
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap">
+        <button class="btn g" style="width:auto;padding:10px 16px;font-size:14px" id="pdf-prev" onclick="pdfPage(-1)" disabled>‹ הקודם</button>
+        <span id="pdf-page-info" style="padding:10px 14px;background:var(--card2);border-radius:10px;font-size:14px;color:var(--text)">עמ' 1</span>
+        <button class="btn g" style="width:auto;padding:10px 16px;font-size:14px" id="pdf-next" onclick="pdfPage(1)">הבא ›</button>
+      </div>
+    </div>`;
+  }else if(doc.thumbDataUrl){
+    content=`<img src="${doc.thumbDataUrl}" style="width:100%;border-radius:12px;max-height:65dvh;object-fit:contain">`;
+  }else{
+    content=`<div style="text-align:center;padding:3rem;color:var(--sub)"><div style="font-size:48px;margin-bottom:12px">📄</div><p>אין תצוגה מקדימה זמינה</p></div>`;
+  }
+  content+=`<div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn s" style="flex:1;min-height:44px" onclick="closeModal();analyzeDoc(${idx})">🤖 ${doc.aiSummary?"נתח מחדש":"נתח עם AI"}</button>
+    <button class="btn k" style="flex:1;min-height:44px" onclick="closeModal();sendDocToChat(${idx})">💬 שאל על המסמך</button>
+  </div>`;
+  S.modal={title:`${cat.e} ${esc(doc.name)}`,content};
+  S._pdfDoc=null;S._pdfPage=1;
+  R();
+  if(doc.type==="application/pdf")setTimeout(()=>loadPdfInModal(doc.data,1),200);
+};
+
+window.viewDocSummary=idx=>{
+  const docs=S.profile.medDocs||[];const doc=docs[idx];if(!doc||!doc.aiSummary)return;
+  const cat=getCat(doc.category);
+  S.modal={title:`📊 ${esc(doc.name)}`,content:`
+    <div style="font-size:14px;color:var(--text);line-height:1.85;white-space:pre-wrap;margin-bottom:14px">${esc(doc.aiSummary)}</div>
+    <div style="display:flex;gap:8px">
+      <button class="btn g" style="flex:1;min-height:44px" onclick="shareOrCopy('סיכום מסמך',document.querySelector('.modal div').innerText)">📤 שתף</button>
+      <button class="btn g" style="flex:1;min-height:44px" onclick="copyText(document.querySelector('.modal div').innerText)">📋 העתק</button>
+    </div>`};
+  R();
+};
+
+// Load PDF in modal viewer
+async function loadPdfInModal(b64,pageNum){
+  try{
+    if(!S._pdfDoc){
+      const bin=atob(b64);const arr=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);
+      S._pdfDoc=await pdfjsLib.getDocument({data:arr}).promise;
+    }
+    const pdf=S._pdfDoc;S._pdfPage=pageNum;
+    const page=await pdf.getPage(pageNum);
+    const vp=page.getViewport({scale:1.5});
+    const canvas=document.getElementById("pdf-viewer-canvas");if(!canvas)return;
+    canvas.width=vp.width;canvas.height=vp.height;
+    canvas.style.maxHeight="58dvh";canvas.style.width="100%";
+    await page.render({canvasContext:canvas.getContext("2d"),viewport:vp}).promise;
+    const info=document.getElementById("pdf-page-info");if(info)info.textContent=`עמ' ${pageNum} מתוך ${pdf.numPages}`;
+    const prev=document.getElementById("pdf-prev");if(prev)prev.disabled=(pageNum<=1);
+    const next=document.getElementById("pdf-next");if(next)next.disabled=(pageNum>=pdf.numPages);
+  }catch(e){console.error("PDF render:",e);}
+}
+
+window.pdfPage=async delta=>{
+  const docs=S.profile.medDocs||[];const doc=docs.find(d=>S.modal?.title?.includes(esc(d.name)));
+  if(!doc)return;
+  await loadPdfInModal(doc.data,S._pdfPage+delta);
+};
+
+// Send doc to chat for analysis
+window.sendDocToChat=async idx=>{
+  const docs=S.profile.medDocs||[];const doc=docs[idx];if(!doc)return;
+  S.view="consult";
+  if(!S.consults.find(c=>c.id===S.activeId))newC();
+  const c=S.consults.find(x=>x.id===S.activeId);if(!c)return;
+  const um={id:uid(),role:"user",content:`יש לי מסמך רפואי לניתוח: "${doc.name}". אנא קרא ונתח אותו.`,files:[{type:doc.type,data:doc.data,name:doc.name}],ts:Date.now()};
+  c.messages.push(um);S.cld=true;R();
+  setTimeout(()=>document.getElementById("ce")?.scrollIntoView({block:"end"}),100);
+  try{
+    const rep=await ai(c.messages);
+    c.messages.push({id:uid(),role:"assistant",content:rep,ts:Date.now()});
+    if(rep.includes("סיכום קליני")||rep.includes("ממצא"))c.status="diagnosed";
+  }catch(err){c.messages.push({id:uid(),role:"assistant",content:"⚠️ "+err.message,ts:Date.now()});}
+  S.cld=false;saveS();R();
+  setTimeout(()=>document.getElementById("ce")?.scrollIntoView({block:"end",behavior:"smooth"}),150);
+};
+
+window.deleteDoc=idx=>{
+  if(!confirm("למחוק מסמך זה לצמיתות?"))return;
+  S.profile.medDocs?.splice(idx,1);saveS();R();toast("🗑 נמחק");
+};
+
+window.setChip=s=>{S.ci=s;R();setTimeout(()=>{const ta=document.getElementById("cta");if(ta){ta.focus();ta.selectionStart=ta.selectionEnd=ta.value.length;}},60);};
+window.aR=ta=>{ta.style.height="auto";ta.style.height=Math.min(ta.scrollHeight,110)+"px";S.ci=ta.value;};
+window.pickF=e=>{
+  Array.from(e.target.files||[]).forEach(f=>{
+    const r=new FileReader();
+    r.onload=ev=>{
+      const b64=ev.target.result.split(",")[1];
+      S.cf.push({name:f.name,type:f.type,data:b64});
+      if(f.type.startsWith("image/"))S.cp.push(ev.target.result);
+      else S.cp.push(null); // placeholder for PDF
+      R();setTimeout(()=>document.getElementById("ce")?.scrollIntoView({block:"end"}),80);
+    };
+    r.readAsDataURL(f);
+  });e.target.value="";
+};
+window.rmPrev=i=>{S.cf.splice(i,1);S.cp.splice(i,1);R();toast("הוסר");};
+window.sendC=async()=>{
+  const c=S.consults.find(x=>x.id===S.activeId);
+  if(!c||S.cld)return;
+  const txt=S.ci.trim();
+  if(!txt&&!S.cf.length)return;
+  const um={id:uid(),role:"user",content:txt||"אנא נתח את הקבצים המצורפים",files:[...S.cf],ts:Date.now()};
+  c.messages.push(um);
+  if(c.messages.length===1)c.title=(txt.slice(0,40)||"קבצים לניתוח");
+  S.ci="";S.cf=[];S.cp=[];S.cld=true;R();
+  setTimeout(()=>document.getElementById("ce")?.scrollIntoView({block:"end",behavior:"smooth"}),100);
+  try{
+    const rep=await ai(c.messages);
+    c.messages.push({id:uid(),role:"assistant",content:rep,ts:Date.now()});
+    if(rep.includes("סיכום קליני")||rep.includes("אבחנה ראשית")||rep.includes("הערכה קלינית")){c.aiDiagnosis=rep;c.status="diagnosed";}
+  }catch(err){
+    const isNoKey=err.message==="NO_KEY";
+    c.messages.push({id:uid(),role:"assistant",content:isNoKey
+      ?"🔑 נדרש מפתח API לפעולה.\n\nעבור להגדרות ⚙️ → הזן מפתח מ-console.anthropic.com"
+      :"⚠️ שגיאה: "+err.message,ts:Date.now()});
+  }
+  S.cld=false;saveS();R();setTimeout(()=>document.getElementById("ce")?.scrollIntoView({block:"end",behavior:"smooth"}),150);
+};
+window.uP=(k,v)=>{S.profile[k]=v;};
+window.svP=()=>{const b=document.getElementById("spb");if(b){b.textContent="✅ נשמר!";b.disabled=true;setTimeout(()=>{b.textContent="💾 שמור פרופיל";b.disabled=false;},2000);}saveS();toast("✅ פרופיל נשמר");};
+window.setFT=t=>{S.ft=t;R();};
+window.addTF=e=>{
+  const f=e.target.files?.[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{const entry={id:uid(),name:f.name,type:f.type,data:ev.target.result.split(",")[1],uploadedAt:Date.now(),label:S.nt.name||f.name,date:S.nt.date,notes:S.nt.notes};if(!S.profile.uploadedTests)S.profile.uploadedTests=[];S.profile.uploadedTests.push(entry);S.nt={name:"",date:"",notes:""};saveS();R();toast("✅ בדיקה הועלתה");};
+  r.readAsDataURL(f);e.target.value="";
+};
+window.rmT=i=>{if(confirm("למחוק בדיקה זו?")){S.profile.uploadedTests?.splice(i,1);saveS();R();}};
+window.genSum=async()=>{
+  S.gl=true;const b=document.getElementById("gsb");if(b)b.disabled=true;R();
+  const p=S.profile;
+  const txt=`שם: ${p.name||"?"} | גיל: ${p.age||"?"} | מין: ${p.gender||"?"} | סוג דם: ${p.bloodType||"לא ידוע"} | עישון: ${p.smoking||"?"}
+מחלות רקע: ${p.conditions||"לא ידוע"}
+תרופות קבועות: ${p.medications||"לא ידוע"}
+אלרגיות: ${p.allergies||"לא ידוע"}
+בדיקות שהועלו: ${(p.uploadedTests||[]).map(t=>(t.label||t.name)+(t.date?" ("+fD(t.date)+")":"")).join(", ")||"אין"}`;
+  try{
+    const sum=await ai([{role:"user",content:txt,files:(p.uploadedTests||[]).filter(t=>t.type?.startsWith("image/"))}],SYS_SUM);
+    S.profile.aiSummary=sum;saveS();toast("✅ סיכום נוצר בהצלחה!");
+  }catch(e){S.profile.aiSummary="שגיאה: "+e.message;toast("❌ שגיאה: "+e.message,3000);}
+  S.gl=false;R();
+};
+window.selH=id=>{S.hSel=id;S.hTab="dx";S.dx={diagnosis:"",notes:""};R();};
+window.setHT=t=>{S.hTab=t;R();};
+window.gTC=id=>{S.activeId=id;S.view="consult";R();};
+window.mD=id=>{const c=S.consults.find(x=>x.id===id);if(c){c.status="completed";saveS();R();toast("✅ ייעוץ הושלם");}};
+window.svDX=id=>{const c=S.consults.find(x=>x.id===id);if(!c||!S.dx.diagnosis.trim())return;c.doctorDiagnosis={...S.dx,savedAt:Date.now()};c.status="diagnosed";saveS();R();toast("✅ אבחנה נשמרה");};
+window.addM=id=>{const c=S.consults.find(x=>x.id===id);if(!c||!S.nm.name?.trim())return;if(!c.medications)c.medications=[];c.medications.push({id:uid(),...S.nm,active:true,taken:{}});S.nm={name:"",dose:"",freq:"",duration:""};saveS();R();toast("✅ תרופה נוספה");};
+window.tMD=(cid,mid,day)=>{const c=S.consults.find(x=>x.id===cid);const m=c?.medications?.find(x=>x.id===mid);if(m){if(!m.taken)m.taken={};m.taken[day]=!m.taken[day];saveS();R();}};
+window.tMA=(cid,mid)=>{const c=S.consults.find(x=>x.id===cid);const m=c?.medications?.find(x=>x.id===mid);if(m){m.active=!m.active;saveS();R();}};
+window.delM=(cid,mid)=>{if(confirm("למחוק תרופה זו?")){const c=S.consults.find(x=>x.id===cid);if(c){c.medications=c.medications?.filter(x=>x.id!==mid);saveS();R();}}};
+window.addTst=id=>{const c=S.consults.find(x=>x.id===id);if(!c||!S.ntst.name?.trim())return;if(!c.tests)c.tests=[];c.tests.push({id:uid(),...S.ntst,status:"pending"});S.ntst={name:"",date:"",notes:""};saveS();R();toast("✅ בדיקה נוספה");};
+window.tTst=(cid,tid)=>{const c=S.consults.find(x=>x.id===cid);const t=c?.tests?.find(x=>x.id===tid);if(t){t.status=t.status==="done"?"pending":"done";saveS();R();}};
+window.addF=id=>{const c=S.consults.find(x=>x.id===id);if(!c||!S.nf.date)return;if(!c.followUps)c.followUps=[];c.followUps.push({id:uid(),...S.nf,done:false});S.nf={date:"",note:""};saveS();R();toast("✅ ביקורת נוספה");};
+window.tF=(cid,fid)=>{const c=S.consults.find(x=>x.id===cid);const f=c?.followUps?.find(x=>x.id===fid);if(f){f.done=!f.done;saveS();R();}};
+window.delF=(cid,fid)=>{const c=S.consults.find(x=>x.id===cid);if(c){c.followUps=c.followUps?.filter(x=>x.id!==fid);saveS();R();}};
+window.svKey=()=>{const k=S.sk.trim();if(!k)return;localStorage.setItem("dr_apikey",k);S.ss={ok:true,msg:"✅ מפתח נשמר בהצלחה!"};R();toast("✅ מפתח נשמר!");};
+window.tstKey=async()=>{
+  const key=(S.sk||"").trim()||localStorage.getItem("dr_apikey")||"";
+  if(!key){S.ss={ok:false,msg:"❌ הזן מפתח API תחילה"};R();return;}
+  S.sld=true;S.ss=null;R();
+  try{
+    const r=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:MODEL,max_tokens:30,messages:[{role:"user",content:"אמור שלום"}]})});
+    const raw=await r.text();
+    let d;try{d=JSON.parse(raw);}catch{S.ss={ok:false,msg:`❌ תגובה לא תקינה (${r.status}):\n${raw.slice(0,200)}`};S.sld=false;R();return;}
+    if(d.content?.[0]?.text){S.ss={ok:true,msg:"✅ חיבור תקין!\nד\"ר קלוד: "+d.content[0].text};localStorage.setItem("dr_apikey",key);toast("✅ חיבור תקין!");}
+    else S.ss={ok:false,msg:`❌ ${d.error?.message||JSON.stringify(d).slice(0,200)}`};
+  }catch(e){S.ss={ok:false,msg:`❌ שגיאת רשת: ${e.message}`};}
+  S.sld=false;R();
+};
+window.shareOrCopy=shareOrCopy;
+window.copyText=copyText;
+
+// ── INIT ──
+loadS();
+// Set default view to settings if no API key
+if(!localStorage.getItem("dr_apikey"))S.view="settings";
+R();
+</script>
+</body>
+</html>
