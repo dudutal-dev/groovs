@@ -1053,33 +1053,6 @@ body::after{
    NOW PLAYING BAR
    ════════════════════════════════════════ */
 
-#npbar{
-  position:fixed;bottom:62px;left:0;right:0;z-index:190;
-  display:none;align-items:center;gap:12px;padding:8px 16px;
-  background:rgba(14,12,10,0.96);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-top:1px solid rgba(200,153,74,.1);cursor:pointer;
-  animation:npslide .3s cubic-bezier(.2,.8,.3,1) both;
-}
-@keyframes npslide{from{transform:translateY(100%)}to{transform:translateY(0)}}
-
-.np-disc{
-  width:38px;height:38px;border-radius:50%;flex-shrink:0;
-  background:radial-gradient(circle at 50%,#0a0a0a 0%,#0a0a0a 14%,#1a1a1a 14%,#1a1a1a 28%,#0f0f0f 28%,#0f0f0f 44%,#1a1a1a 44%);
-  animation:spin 4s linear infinite;overflow:hidden;
-}
-.np-disc img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.np-meta{flex:1;min-width:0}
-.np-t{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.np-a{font-size:10px;color:var(--gold);margin-top:1px}
-.np-wave{display:flex;align-items:center;gap:2px}
-.np-wave span{display:block;width:3px;background:var(--gold);border-radius:1.5px;animation:wave .7s ease-in-out infinite}
-.np-wave span:nth-child(1){height:7px;animation-delay:0s}
-.np-wave span:nth-child(2){height:14px;animation-delay:.12s}
-.np-wave span:nth-child(3){height:9px;animation-delay:.24s}
-.np-wave span:nth-child(4){height:12px;animation-delay:.36s}
-@keyframes wave{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
-
 /* ════════════════════════════════════════
    LOADING
    ════════════════════════════════════════ */
@@ -1321,16 +1294,6 @@ body::after{
 
 <!-- TOAST -->
 <div id="toast"></div>
-
-<!-- NOW PLAYING -->
-<div id="npbar" onclick="openNP()">
-  <div class="np-disc" id="np-disc"></div>
-  <div class="np-meta">
-    <div class="np-t" id="np-t">—</div>
-    <div class="np-a" id="np-a">—</div>
-  </div>
-  <div class="np-wave"><span></span><span></span><span></span><span></span></div>
-</div>
 
 <!-- ═══════════════ MAIN ═══════════════ -->
 <main id="main">
@@ -1717,14 +1680,13 @@ async function claude(payload){
   }
   return res.json();
 }
-let S = { collection:[], log:[], view:'collection', prev:'collection', filterGenre:'all', search:'', npId:null };
+let S = { collection:[], view:'collection', prev:'collection', filterGenre:'all', search:'' };
 
 // ── Storage — robust, no base64 bloat ──
 function load(){
   try{
     const d=JSON.parse(localStorage.getItem(SK)||'{}');
     S.collection=d.c||[];
-    S.log=d.l||[];
     if(d.val) Object.assign(valState, d.val);
   }catch(e){ console.warn('Load failed',e); }
 }
@@ -1735,15 +1697,13 @@ function save(){
       ...a,
       coverImage: (a.coverImage && a.coverImage.length < 270000) ? a.coverImage : ''
     }));
-    const log=S.log.map(({albumId,title,artist,date})=>({albumId,title,artist,date}));
-    localStorage.setItem(SK, JSON.stringify({c:clean, l:log, val:{valuations:valState.valuations,evaluated:valState.evaluated,currency:valState.currency}}));
+    localStorage.setItem(SK, JSON.stringify({c:clean, val:{valuations:valState.valuations,evaluated:valState.evaluated,currency:valState.currency}}));
   }catch(e){
     console.warn('Save failed',e);
     try{
       const minimal=S.collection.map(({id,title,artist,year,genre,label,rating,notes,tracks,facts,addedAt,aiAnalysis,artistBio,artworkUrl,condition})=>
         ({id,title,artist,year,genre,label,rating,notes,tracks,facts,addedAt,aiAnalysis,artistBio,artworkUrl,condition}));
-      const log=S.log.map(({albumId,title,artist,date})=>({albumId,title,artist,date}));
-      localStorage.setItem(SK, JSON.stringify({c:minimal, l:log}));
+      localStorage.setItem(SK, JSON.stringify({c:minimal}));
     }catch(e2){ toast('⚠️ שגיאה בשמירה — אחסון מלא','err'); }
   }
 }
@@ -2517,7 +2477,7 @@ async function manualSearchArt(){
   }
 
   // Show scrollable inline grid grouped by source
-  const sources=['Apple Music','Deezer','MusicBrainz','Last.fm'];
+  const sources=['Wikipedia','Apple Music','Deezer','MusicBrainz','Last.fm'];
   const bySource=sources
     .map(s=>({name:s,icon:options.find(o=>o.source===s)?.sourceIcon||'🎵',items:options.filter(o=>o.source===s)}))
     .filter(g=>g.items.length);
@@ -2636,7 +2596,6 @@ function openAlbum(id){
   S.view_album_id=id;
   renderAlbum(a);
   nav('album');
-  logListen(a);
 }
 
 function renderAlbum(a){
@@ -2962,7 +2921,6 @@ function renderStats(){  // kept name for nav() call
 
   const recentAdded=[...col].sort((a,b)=>new Date(b.addedAt)-new Date(a.addedAt)).slice(0,12);
   const topRated=[...col].filter(a=>a.rating>0).sort((a,b)=>b.rating-a.rating||new Date(b.addedAt)-new Date(a.addedAt)).slice(0,5);
-  const recentLog=[...S.log].reverse().slice(0,8);
 
   const decades={};
   col.forEach(a=>{if(a.year){const d=Math.floor(+a.year/10)*10;decades[d]=(decades[d]||0)+1}});
@@ -2972,7 +2930,6 @@ function renderStats(){  // kept name for nav() call
   const genres={};
   col.forEach(a=>{if(a.genre) genres[a.genre]=(genres[a.genre]||0)+1});
   const genreList=Object.entries(genres).sort((a,b)=>b[1]-a[1]);
-
   const rated=col.filter(a=>a.rating>0);
   const avgR=rated.length?(rated.reduce((s,a)=>s+a.rating,0)/rated.length).toFixed(1):'—';
   const years=col.map(a=>+a.year).filter(Boolean);
@@ -3076,28 +3033,6 @@ function renderStats(){  // kept name for nav() call
         <div class="genre-pill" onclick="goToGenre('${esc(g)}')">
           <span class="gp-n">${n}</span>${esc(g)}
         </div>`).join('')}
-    </div>`:''}
-
-    <!-- Play History -->
-    ${recentLog.length?`
-    <div class="lib-sec" style="margin-top:8px">
-      <div class="lib-sec-title">האזנות אחרונות</div>
-    </div>
-    <div class="lib-card">
-      <div class="play-feed">
-        ${recentLog.map(l=>{
-          const album=col.find(a=>a.id===l.albumId);
-          const cover=album?getCover(album):'';
-          return `
-          <div class="play-item" onclick="${album?`openAlbum('${l.albumId}')`:''}" >
-            <div class="play-cov">${cover?`<img src="${cover}" alt="">`:' 💿'}</div>
-            <div class="play-meta">
-              <div class="play-title">${esc(l.title||'?')}</div>
-              <div class="play-artist">${esc(l.artist||'')}</div>
-            </div>
-            <div class="play-time">${fmtDate(l.date)}</div>
-          </div>`;}).join('')}
-      </div>
     </div>`:''}
 
     <div style="height:10px"></div>
@@ -3490,24 +3425,6 @@ function delAlbum(id){
   save();toast('נמחק','ok');nav('collection');
   updateFAB();
 }
-
-function logListen(a){
-  S.log.push({albumId:a.id,title:a.title,artist:a.artist,date:new Date().toISOString()});
-  if(S.log.length>200) S.log=S.log.slice(-200);
-  save();
-  showNP(a);
-}
-
-function showNP(a){
-  S.npId=a.id;
-  const bar=document.getElementById('npbar');bar.style.display='flex';
-  document.getElementById('np-t').textContent=a.title;
-  document.getElementById('np-a').textContent=a.artist;
-  const disc=document.getElementById('np-disc');
-  const cover=getCover(a);
-  disc.innerHTML=cover?`<img src="${cover}" alt="">`:'';
-}
-function openNP(){if(S.npId)openAlbum(S.npId)}
 
 function randomPick(){
   if(!S.collection.length){toast('הוסף אלבומים קודם','err');return}
